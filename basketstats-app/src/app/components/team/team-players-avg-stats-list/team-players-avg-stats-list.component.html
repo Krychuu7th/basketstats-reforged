@@ -1,0 +1,73 @@
+<div>
+
+  <div class="row">
+    <div class="col-3 pt-4 stats-info">*średnie statystyki graczy na mecz</div>
+    <div class="col-9">
+      <mat-paginator *ngIf="dataSource" [pageSizeOptions]="[7, dataSource.data.length]"></mat-paginator>
+    </div>
+  </div>
+
+  <div>
+    <div class="players-table">
+      <table mat-table *ngIf="dataSource" [dataSource]="dataSource" matSort matSortActive="ptsa" matSortDirection="desc" class="w-100">
+
+        <ng-container matColumnDef="player">
+          <th mat-header-cell *matHeaderCellDef>Zawodnik</th>
+          <td mat-cell *matCellDef="let row"> {{row.player.firstName}} {{row.player.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ptsa">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Punkty">PTS</th>
+          <td mat-cell *matCellDef="let row"> {{row.ptsa | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pm2a">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Rzuty 2-punktowe">2PM</th>
+          <td mat-cell *matCellDef="let row"> {{row.pm2a | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pm3a">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Rzuty 3-punktowe">3PM</th>
+          <td mat-cell *matCellDef="let row"> {{row.pm3a | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ftma">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Rzuty wolne">FTM</th>
+          <td mat-cell *matCellDef="let row"> {{row.ftma | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="offra">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Zbiórki w ataku">OREB</th>
+          <td mat-cell *matCellDef="let row"> {{row.offra | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="defra">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Zbiórki w obronie">DREB</th>
+          <td mat-cell *matCellDef="let row"> {{row.defra | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="asta">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Asysty">AST</th>
+          <td mat-cell *matCellDef="let row"> {{row.asta | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="blkma">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Bloki">BLK</th>
+          <td mat-cell *matCellDef="let row"> {{row.blkma | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pfa">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltipPosition="left" matTooltip="Faule">PF</th>
+          <td  mat-cell *matCellDef="let row"> {{row.pfa | number : '1.0-2'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center font-weight-bolder" colspan="10">Brak danych</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

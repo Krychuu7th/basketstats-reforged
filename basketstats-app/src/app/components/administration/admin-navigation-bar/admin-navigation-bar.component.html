@@ -1,0 +1,16 @@
+<div class="navigation-bar w-100 text-center">
+  <div class="h-100 navigation-bar-buttons">
+    <button mat-flat-button matTooltip="Lista użytkowników"
+            [ngClass]="{ active : activeViewType == AdminViewTypeEnum.USERS }" [routerLink]="['/admin', 'users']">
+      <mat-icon class="button-icon" inline="inline">people</mat-icon>
+    </button>
+    <button mat-flat-button matTooltip="Terminarz"
+            [ngClass]="{ active : activeViewType == AdminViewTypeEnum.MATCHES }" [routerLink]="['/admin', 'matches']">
+      <mat-icon class="button-icon" inline="inline">event_note</mat-icon>
+    </button>
+    <button mat-flat-button matTooltip="Ligi i Drużyny"
+            [ngClass]="{ active : activeViewType == AdminViewTypeEnum.TEAMS }" [routerLink]="['/admin', 'teams']">
+      <mat-icon class="button-icon" inline="inline">groups</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="list-header">Drużyny</div>
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div class="container">
+  <div class="tab-container">
+    <mat-tab-group *ngIf="leagueList">
+      <ng-container *ngFor="let league of leagueList; let last = last;">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="add-tab" (contextmenu)="onContextMenu($event, league)">
+              <span>{{league.name}}</span>
+            </div>
+          </ng-template>
+          <app-team-card-list [teamList]="getTeamsOfLeague(league.id)" [adminView]="true" [league]="league"
+            (emitLoadData)="loadData()"></app-team-card-list>
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="league">
+    <button mat-menu-item class="option-button" (click)="addLeague()">
+      <mat-icon class="option-button">add</mat-icon>Dodaj nową ligę
+    </button>
+    <button mat-menu-item class="option-button" (click)="editLeague(item)">
+      <mat-icon class="option-button">edit</mat-icon>Edytuj
+    </button>
+    <button mat-menu-item class="option-button" (click)="deleteLeague(item.name, item.id)">
+      <mat-icon class="option-button">delete</mat-icon>Usuń
+    </button>
+  </ng-template>
+</mat-menu>

@@ -1,0 +1,17 @@
+<div class="modal-header pb-0">
+  <h4 class="modal-title">Usuń użytkownika</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Czy na pewno chcesz usunąć <b>{{username}}</b>?</p>
+</div>
+<div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2" (click)="deleteUser(); activeModal.close('confirm');">
+      <span class="button-content"><b>Usuń!</b></span>
+    </button>
+</div>

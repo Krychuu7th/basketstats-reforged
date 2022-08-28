@@ -1,0 +1,91 @@
+<ng-container *ngIf="match && !team">
+  <div class="row match-row mt-2"
+       [ngClass]="{'hover-effect': schedule && match.matchStatus == MatchStatus.DONE }"
+       [routerLink]="match.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', match.id] : null">
+    <div class="left"
+         [ngClass]="{ 'won-match': match.teamAScore > match.teamBScore,
+            'lost-match': match.teamAScore < match.teamBScore,
+             'undetermined': match.matchStatus != MatchStatus.DONE || match.teamAScore == match.teamBScore}"></div>
+    <div class="col team-info" [routerLink]="['/teams', 'info', match.teamA.id]"
+         (click)="$event.stopPropagation();" matRipple>
+      <div class="col text-center">
+        <img *ngIf="match.teamA.logo else defaultLogo" class="card-img-top"
+             src="{{apiUrl}}/team/logo/{{match.teamA.id}}"
+              alt="{{ match.teamA.name }} logo">
+        <ng-template #defaultLogo>
+          <img class="card-img-top" src="/assets/images/teams/team.png"
+                alt="no team logo">
+        </ng-template>
+      </div>
+      <div class="w-100"></div>
+      <div class="col team-name">
+        {{ match.teamA.name }}
+      </div>
+    </div>
+
+    <div class="col-2 score">
+      <span *ngIf="match.matchStatus == MatchStatus.DONE">{{ match.teamAScore }}</span>
+    </div>
+    <div class="col vs-background-img text-center match-info">
+      <div class="match-date">{{ match.matchDate | date:'dd.MM.yyyy'}}</div>
+      <div class="match-place">{{ match.place }}</div>
+    </div>
+    <div class="col-2 score">
+      <span *ngIf="match.matchStatus == MatchStatus.DONE">{{ match.teamBScore }}</span>
+    </div>
+    <div class="col team-info" [routerLink]="['/teams', 'info', match.teamB.id]" (click)="$event.stopPropagation();">
+      <div class="col text-center">
+        <img *ngIf="match.teamB.logo else defaultLogo" class="card-img-top"
+             src="{{apiUrl}}/team/logo/{{match.teamB.id}}"
+              alt="{{ match.teamB.name }} logo">
+        <ng-template #defaultLogo>
+          <img class="card-img-top" src="/assets/images/teams/team.png"
+                alt="no team logo">
+        </ng-template>
+      </div>
+      <div class="w-100"></div>
+      <div class="col team-name">
+        {{match.teamB.name}}
+      </div>
+    </div>
+    <div class="right"
+         [ngClass]="{ 'won-match': match.teamAScore < match.teamBScore,
+            'lost-match': match.teamAScore > match.teamBScore,
+             'undetermined': match.matchStatus != MatchStatus.DONE || match.teamAScore == match.teamBScore}"></div>
+  </div>
+</ng-container>
+<ng-container *ngIf="match && team">
+  <div class="row match-row mt-2 team-matches" [routerLink]="match.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', match.id] : null"
+       [ngClass]="{'hover-effect': match.matchStatus == MatchStatus.DONE }"
+       matRipple>
+    <div class="left mt-auto mb-auto"
+         [ngClass]="{ 'won-match': teamScore > opponentsScore,
+            'lost-match': teamScore < opponentsScore,
+             'undetermined': match.matchStatus != MatchStatus.DONE || match.teamAScore == match.teamBScore}"></div>
+    <div class="col-2 score">
+      <ng-container *ngIf="match.matchStatus == MatchStatus.DONE">{{ teamScore }}</ng-container>
+    </div>
+    <div class="col vs-background-img text-center match-info">
+      <div class="match-date">{{ match.matchDate | date:'dd.MM.yyyy'}}</div>
+      <div class="match-place">{{ match.place }}</div>
+    </div>
+    <div class="col-2 score">
+      <span *ngIf="match.matchStatus == MatchStatus.DONE">{{ opponentsScore }}</span>
+    </div>
+    <div class="col team-info" [routerLink]="['/teams', 'info', opponents.id]" (click)="$event.stopPropagation();">
+      <div class="col text-center">
+        <img *ngIf="opponents.logo else defaultLogo"
+             src="{{apiUrl}}/team/logo/{{opponents.id}}"
+             alt="{{ opponents.name }} logo">
+        <ng-template #defaultLogo>
+          <img src="/assets/images/teams/team.png"
+               alt="no team logo">
+        </ng-template>
+      </div>
+      <div class="w-100"></div>
+      <div class="col team-name">
+        {{ opponents.name }}
+      </div>
+    </div>
+  </div>
+</ng-container>

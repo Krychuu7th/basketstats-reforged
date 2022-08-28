@@ -1,0 +1,55 @@
+.team-cards {
+  margin-right: 0;
+  margin-left: 0;
+  padding: 10px;
+  overflow-y: auto;
+  height: 73vh;
+}
+
+.team-cards-small {
+  margin-right: 0;
+  margin-left: 0;
+  padding: 10px;
+  overflow-y: auto;
+  height: 60vh;
+}
+
+.no-data {
+  padding-top: 20px;
+  font-size: 2rem;
+}
+
+.card-img-top {
+  background: #FAFAFA;
+}
+
+.card {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+  transition: transform 0.5s, -webkit-box-shadow 0.5s, -moz-box-shadow 0.5s, box-shadow 0.5s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  -webkit-box-shadow: 0px 5px 10px -2px rgb(106, 106, 106);
+  -moz-box-shadow: 0px 5px 10px -2px rgb(106, 106, 106);
+  box-shadow: 0px 5px 10px -2px rgb(106, 106, 106);
+}
+
+.card:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.card-title {
+  margin: 0 !important;
+}
+
+.card-title-small {
+  margin: 0 !important;
+  font-size: 18px;
+}
+
+mat-paginator {
+  font-size: 13px;
+}

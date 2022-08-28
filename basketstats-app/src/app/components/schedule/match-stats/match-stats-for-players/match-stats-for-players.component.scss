@@ -1,0 +1,10 @@
+mat-tab-group {
+  min-height: 800px;
+}
+
+.sticky-pdf-button {
+  position: fixed;
+  z-index: 100;
+  bottom: 20px;
+  left: calc(50% - 26px + 620px);
+}

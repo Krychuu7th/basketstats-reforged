@@ -1,0 +1,18 @@
+.modal-icon {
+  position: relative;
+}
+
+.icon {
+  height: 50px;
+  width: 50px;
+  font-size: 50px;
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
+}
+
+.left-separator {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-left: 1px solid #dfdcdb;
+}

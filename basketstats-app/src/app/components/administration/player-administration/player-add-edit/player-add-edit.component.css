@@ -1,0 +1,30 @@
+.show-password-box {
+  padding-top: 26px;
+}
+
+#showPassword {
+  border-color: #e4e9f2;
+  width: 37px !important;
+  height: 37px !important;
+}
+
+#form-group-firstName {
+  width: 214px;
+  padding: 0 5px;
+}
+
+#form-group-lastName {
+  width: 261px;
+  padding: 0 5px;
+}
+
+.change-password {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 515px) {
+  #form-group-lastName {
+    width: 246px;
+    padding: 0 5px;
+  }
+}

@@ -1,0 +1,81 @@
+<div class="row pt-4">
+  <div class="col-1">
+    <button mat-mini-fab color="primary" class="back-button mt-3" (click)="navigateBack()">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+  </div>
+  <div class="col-9 list-header">
+    <div>Przygotowanie meczu</div>
+  </div>
+  <div class="col-2 panel-info">
+    <div class="position-relative"><div>
+      <mat-icon class="green-label">label</mat-icon>
+      <span class="label-text ml-2">pierwsza piątka</span></div></div>
+    <div class="position-relative"><div>
+      <mat-icon class="orange-label">label</mat-icon>
+      <span class="label-text ml-2">rezerwa</span></div></div>
+  </div>
+</div>
+<mat-divider class="mt-2"></mat-divider>
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!isLoading" class="container">
+  <div class="row">
+    <div class="col-md-6 text-left">
+      <div class="team-logo row mb-3">
+        <div class="col-md-6 mt-4">{{match.teamA.name}}</div>
+        <div class="col-md-6 text-right">
+          <img *ngIf="match.teamA?.logo else defaultLogo" class="card-img-top"
+               src="{{apiUrl}}/team/logo/{{ match.teamA.id }}"
+               alt="{{match.teamA.name}} logo">
+          <ng-template #defaultLogo>
+            <img class="card-img-top" src="/assets/images/teams/team.png" alt="no team logo">
+          </ng-template>
+        </div>
+      </div>
+      <div class="players-container">
+        <div class="player-chooser mb-2" [ngClass]="{'active': teamASelectedPlayersHashSet[teamAPlayer.id],
+        'active-substitute': teamASelectedSubstitutePlayersHashSet[teamAPlayer.id]}"
+             *ngFor="let teamAPlayer of teamAPlayers" (click)="choosePlayerForTeamA(teamAPlayer)">
+          <div class="center-vertically row w-100">
+            <div class="col-md-8">{{teamAPlayer.firstName}} {{teamAPlayer.lastName}}</div>
+            <div class="col-md-4 text-right">#{{teamAPlayer.number}} | {{teamAPlayer.position}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-divider class="vertical-center-divider" [vertical]="true"></mat-divider>
+    <div class="col-md-6 text-right">
+      <div class="team-logo row mb-3">
+        <div class="col-md-6 text-left">
+          <img *ngIf="match.teamB?.logo else defaultLogo" class="card-img-top"
+                src="{{apiUrl}}/team/logo/{{ match.teamB.id }}"
+                alt="{{match.teamB.name}} logo">
+          <ng-template #defaultLogo>
+            <img class="card-img-top" src="/assets/images/teams/team.png" alt="no team logo">
+          </ng-template>
+        </div>
+        <div class="col-md-6 mt-4">{{match.teamB.name}}</div>
+      </div>
+      <div class="players-container">
+        <div class="player-chooser mb-2" [ngClass]="{'active': teamBSelectedPlayersHashSet[teamBPlayer.id],
+        'active-substitute': teamBSelectedSubstitutePlayersHashSet[teamBPlayer.id]}"
+             *ngFor="let teamBPlayer of teamBPlayers" (click)="choosePlayerForTeamB(teamBPlayer)">
+          <div class="center-vertically row w-100">
+            <div class="col-md-8 text-left">{{teamBPlayer.firstName}} {{teamBPlayer.lastName}}</div>
+            <div class="col-md-4 text-right">#{{teamBPlayer.number}} | {{teamBPlayer.position}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row navigation-buttons text-center">
+    <button (click)="navigateBack()" mat-flat-button class="btn btn-light button-cancel pl-3 pr-1 mr-3"
+    ><b>Anuluj</b>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button (click)="startMatch()" mat-flat-button class="btn btn-light button-confirm pl-3 pr-1"><b>Rozpocznij
+      mecz!</b>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

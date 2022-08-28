@@ -1,0 +1,160 @@
+<div class="modal-header pb-0">
+  <h4 class="modal-title">{{ isEdit ? "Edycja użytkownika" : "Dodaj nowego użytkownika"}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="label" for="username">Nazwa użytkownika</label>
+      <input type="text" class="form-control w-100" id="username" placeholder="Nazwa użytkownika" nbInput autofocus
+             formControlName="username"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.username.touched || form.username.dirty)
+             ? (form.username.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.username.invalid && form.username.touched ? true : null">
+      <div *ngIf="form.username.errors" class="invalid-feedback">
+        <div *ngIf="form.username.errors.required && submited">Nazwa użytkownika jest wymagana</div>
+        <div *ngIf="form.username.errors.minlength">Nazwa użytkownika musi składać się z minimum
+          {{ form.username.errors.minlength.requiredLength }}</div>
+        <div *ngIf="form.username.errors.maxlength">Nazwa użytkownika może składać się z maksimum
+          {{ form.username.errors.maxlength.requiredLength }}</div>
+        <div *ngIf="form.username.errors.pattern">Nazwa użytkownika nie może zawierać polskich znaków</div>
+        <div *ngIf="form.username.errors.usernameAlreadyUsed && form.username.dirty">Użytkownik o podanej nazwie już istnieje</div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="isEdit">
+      <div class="form-group col change-password">
+        <mat-checkbox (change)="toggleChangePassword()" name="changePassword" class="label">
+          Zmiana hasła
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="(!isEdit) || (isEdit && changePassword)">
+      <div class="form-group col">
+        <label class="label" for="password">Hasło</label>
+        <input [type]="getInputType()" class="form-control w-100" id="password" placeholder="Hasło" nbInput
+               formControlName="password"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.password.touched || form.password.dirty)
+               ? (form.password.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.password.invalid
+               && form.password.touched ? true : null">
+        <div *ngIf="form.password.errors" class="invalid-feedback">
+          <div *ngIf="form.password.errors.required && submited">Hasło jest wymagane</div>
+          <div *ngIf="form.password.errors.minlength">Hasło musi składać się z minimum
+            {{ form.password.errors.minlength.requiredLength }}</div>
+          <div *ngIf="form.password.errors.maxlength">Hasło może składać się z maksimum
+            {{ form.password.errors.maxlength.requiredLength }}</div>
+          <div *ngIf="form.password.errors.pattern">Hasło musi składać się z jednej dużej litery, jednej małej litery, cyfry oraz znaku specjalnego</div>
+        </div>
+      </div>
+      <div class="form-group col">
+        <label class="label" for="confirmPassword">Potwierdź</label>
+        <input [type]="getInputType()" class="form-control w-100" id="confirmPassword" placeholder="Potwierdź" nbInput
+               formControlName="passwordConfirm"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.passwordConfirm.touched || form.passwordConfirm.dirty)
+               ? (form.passwordConfirm.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.passwordConfirm.invalid
+               && form.passwordConfirm.touched ? true : null">
+        <div *ngIf="form.passwordConfirm.errors" class="invalid-feedback">
+          <div *ngIf="form.passwordConfirm.errors.required && submited">Potwierdzenie hasła jest wymagane</div>
+          <div *ngIf="form.passwordConfirm.errors.mustMatch && form.passwordConfirm.dirty">Hasła muszą być identyczne</div>
+        </div>
+      </div>
+      <div class="form-group col-auto show-password-box">
+        <button id="showPassword" type="button" [ngClass]="{'active': showPassword}" nbButton ghost
+                (click)="toggleShowPassword()">
+          <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                   pack="eva"
+                   [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+          </nb-icon>
+        </button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div id="form-group-firstName" class="form-group">
+        <label class="label" for="firstName">Imię</label>
+        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię" nbInput
+               formControlName="firstName"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.firstName.touched || form.firstName.dirty)
+               ? (form.firstName.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.firstName.invalid
+               && form.firstName.touched ? true : null">
+        <div *ngIf="form.firstName.errors" class="invalid-feedback">
+          <div *ngIf="form.firstName.errors.required && submited">Imię jest wymagane</div>
+          <div *ngIf="form.firstName.errors.maxlength">Imię może składać się z maksimum
+            {{ form.firstName.errors.maxlength.requiredLength }}</div>
+          <div *ngIf="form.firstName.errors.pattern">Imię może składać się tylko z liter</div>
+        </div>
+      </div>
+      <div id="form-group-lastName" class="form-group col-auto">
+        <label class="label" for="lastName">Nazwisko</label>
+        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko" nbInput
+               formControlName="lastName"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.lastName.touched || form.lastName.dirty)
+               ? (form.lastName.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.lastName.invalid
+               && form.lastName.touched ? true : null">
+        <div *ngIf="form.lastName.errors" class="invalid-feedback">
+          <div *ngIf="form.lastName.errors.required && submited">Nazwisko jest wymagane</div>
+          <div *ngIf="form.lastName.errors.maxlength">Nazwisko może składać się z maksimum
+            {{ form.lastName.errors.maxlength.requiredLength }}</div>
+          <div *ngIf="form.lastName.errors.pattern">Nazwisko może składać się tylko z liter</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="email">E-mail</label>
+      <input type="email" class="form-control w-100" id="email" placeholder="np. mail@domena.com" nbInput
+             formControlName="email"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.email.touched || form.email.dirty)
+             ? (form.email.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.email.invalid
+             && form.email.touched ? true : null">
+      <div *ngIf="form.email.errors" class="invalid-feedback">
+        <div *ngIf="form.email.errors.required && submited">E-mail jest wymagany</div>
+        <div *ngIf="form.email.errors.pattern">Podaj prawdziwy e-mail</div>
+        <div *ngIf="form.email.errors.maxlength">E-mail może składać się z maksimum
+          {{ form.email.errors.maxlength.requiredLength }}</div>
+        <div *ngIf="form.email.errors.emailAlreadyUsed && form.email.dirty">Podany adres e-mail jest już zajęty</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="label" for="roles">Rola</label>
+        <nb-select multiple id="roles" placeholder="Wybierz role" formControlName="roles"
+                   [status]="(form.roles.touched || form.roles.dirty)
+                   ? (form.roles.invalid  ? 'danger' : 'success') : 'basic'"
+                   [attr.aria-invalid]="form.roles.invalid
+                   && form.roles.touched ? true : null">
+          <nb-option *ngFor="let role of roles" [value]="role" >{{ userRoles[role.name] }}</nb-option>
+        </nb-select>
+        <div *ngIf="form.roles.errors" class="invalid-feedback">
+          <div *ngIf="form.roles.errors.required && submited">Musisz wybrać rolę</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span *ngIf="!isEdit" class="button-content"><b>Dodaj!</b></span>
+      <span *ngIf="isEdit" class="button-content"><b>Zapisz!</b></span>
+    </button>
+  </div>
+</form>

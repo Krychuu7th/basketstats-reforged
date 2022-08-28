@@ -1,0 +1,23 @@
+.captain-img {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.captain-cell {
+  width: 40px;
+}
+
+.captain-button {
+  cursor: default !important;
+  background: inherit !important;
+}
+
+.players-table {
+  overflow-y: auto;
+  max-height: 45vh;
+}
+
+.stats-info {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+}

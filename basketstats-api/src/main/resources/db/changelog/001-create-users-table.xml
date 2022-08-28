@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="001-create-users-table" author="krysiakm">
+        <createTable tableName="users">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="password" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_name" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="email" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="create_date" type="timestamp without time zone">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <createSequence schemaName="dbo" sequenceName="users_id_seq"
+                        startValue="1" incrementBy="1"/>
+
+        <addDefaultValue tableName="users" columnName="enabled" columnDataType="boolean" defaultValueBoolean="true" />
+    </changeSet>
+
+    <changeSet id="001-add-unique-contraints" author="krysiakm">
+        <preConditions>
+            <tableExists tableName="users"/>
+        </preConditions>
+
+        <addUniqueConstraint tableName="users" columnNames="username"/>
+        <addUniqueConstraint tableName="users" columnNames="email"/>
+    </changeSet>
+</databaseChangeLog>

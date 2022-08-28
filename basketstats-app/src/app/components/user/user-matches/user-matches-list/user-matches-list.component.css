@@ -1,0 +1,41 @@
+.pointer {
+  cursor: pointer;
+}
+
+.team-win {
+  color: #00d68f;
+  font-weight: bold;
+}
+
+.team-lose {
+  color: #ff3d71;
+  font-weight: bold;
+}
+
+.matches-table {
+  height: 60vh;
+  overflow-y: auto;
+}
+
+.team-logo {
+  border-radius: 5px;
+}
+
+.team-name {
+  font-size: 1rem;
+}
+
+.user-username {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.button-confirm {
+  background-image: linear-gradient(to bottom, #FAFAFA 50%, #FF7043 50%);
+  border: 1px solid #FF7043;
+}
+
+.button-confirm.continue {
+  background-image: linear-gradient(to bottom, #FAFAFA 50%, #00d68f 50%);
+  border: 1px solid #00d68f;
+}

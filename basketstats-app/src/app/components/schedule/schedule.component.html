@@ -1,0 +1,12 @@
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div class="container">
+  <div class="cards-container">
+    <mat-tab-group *ngIf="leagueList">
+      <ng-container *ngFor="let league of leagueList">
+        <mat-tab [label]="league.name" class="h-100">
+          <app-match-schedule-list [matchList]="getMatchesOfLeague(league.id)"></app-match-schedule-list>
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+.matches-table {
+  height: 60vh;
+  overflow-y: auto;
+}
+
+.team-logo {
+  border-radius: 5px;
+}
+
+.team-name {
+  font-size: 1rem;
+}
+
+.user-username {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.option-button {
+  color: rgba(0, 0, 0, 0.80);
+}
+
+.option-button:disabled {
+  color: rgba(0, 0, 0, 0.20) !important;
+}
+
+.option-button-icon-disabled {
+  color: rgba(0, 0, 0, 0.20) !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.team-win {
+  color: #00d68f;
+  font-weight: bold;
+}
+
+.team-lose {
+  color: #ff3d71;
+  font-weight: bold;
+}
+

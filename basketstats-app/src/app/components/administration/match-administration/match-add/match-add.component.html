@@ -1,0 +1,106 @@
+<div class="modal-header pb-0">
+  <h4 class="modal-title">Dodaj nowy mecz</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="label" for="teamA">Drużyna A</label>
+      <nb-select id="teamA" placeholder="Wybierz drużynę..."
+                 formControlName="teamA"
+                 fullWidth
+                 (selectedChange)="setTeamBList($event)"
+                 [status]="(form.teamA.touched || form.teamA.dirty)
+               ? (form.teamA.invalid  ? 'danger' : 'success') : 'basic'"
+                 [attr.aria-invalid]="form.teamA.invalid
+               && form.teamA.touched ? true : null">
+        <nb-option *ngFor="let team of teamAList" [value]="team">{{ team.name }}</nb-option>
+      </nb-select>
+      <div *ngIf="form.teamA.errors" class="invalid-feedback">
+        <div *ngIf="form.teamA.errors.required && submited">Musisz wybrać drużynę</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="teamB">Drużyna B</label>
+      <nb-select id="teamB" placeholder="Wybierz drużynę..."
+                 formControlName="teamB"
+                 fullWidth
+                 (selectedChange)="setTeamAList($event)"
+                 [status]="(form.teamB.touched || form.teamB.dirty)
+               ? (form.teamB.invalid  ? 'danger' : 'success') : 'basic'"
+                 [attr.aria-invalid]="form.teamB.invalid
+               && form.teamB.touched ? true : null">
+        <nb-option *ngFor="let team of teamBList" [value]="team">{{ team.name }}</nb-option>
+      </nb-select>
+      <div *ngIf="form.teamB.errors" class="invalid-feedback">
+        <div *ngIf="form.teamB.errors.required && submited">Musisz wybrać drużynę</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="matchDate">Data spotkania</label>
+      <nb-form-field>
+        <nb-icon nbPrefix icon="calendar-outline" pack="eva"></nb-icon>
+        <input nbInput placeholder="Wybierz datę..." id="matchDate" [nbDatepicker]="dateTimePicker"
+               formControlName="matchDate"
+               fullWidth
+               fieldSize="large"
+               autocomplete="off"
+               [status]="(form.matchDate.touched || form.matchDate.dirty)
+               ? (form.matchDate.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.matchDate.invalid
+               && form.matchDate.touched ? true : null">
+      </nb-form-field>
+      <nb-date-timepicker
+        #dateTimePicker
+        singleColumn
+        [step]="10"
+        [applyButtonText]="'OK'"
+        [currentTimeButtonText]="'Teraz'">
+      </nb-date-timepicker>
+      <div *ngIf="form.matchDate.errors" class="invalid-feedback">
+        <div *ngIf="form.matchDate.errors.required && submited">Musisz wybrać datę spotkania</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="place">Miejsce spotkania</label>
+      <input type="text" class="form-control w-100" id="place" placeholder="Podaj adres spotkania..." nbInput
+             formControlName="place"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.place.touched || form.place.dirty)
+               ? (form.place.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.place.invalid
+               && form.place.touched ? true : null">
+      <div *ngIf="form.place.errors" class="invalid-feedback">
+        <div *ngIf="form.place.errors.required && submited">Musisz podać adres spotkania</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="user">Przydziel statystyka</label>
+      <nb-select id="user" placeholder="Wybierz statystyka..."
+                 formControlName="user"
+                 fullWidth
+                 [status]="(form.user.touched || form.user.dirty)
+               ? (form.user.invalid  ? 'danger' : 'success') : 'basic'"
+                 [attr.aria-invalid]="form.user.invalid
+               && form.user.touched ? true : null">
+        <nb-option>Anuluj wybór</nb-option>
+        <nb-option *ngFor="let user of userList" [value]="user">{{ user.firstName }} {{ user.lastName }}
+          <span class="ml-2 user-username">({{ user.username }})</span>
+        </nb-option>
+      </nb-select>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span class="button-content"><b>Dodaj!</b></span>
+    </button>
+  </div>
+</form>

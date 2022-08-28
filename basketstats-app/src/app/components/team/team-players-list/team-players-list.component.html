@@ -1,0 +1,82 @@
+<div>
+  <div class="row mt-1 mb-2">
+    <div [ngClass]="(accessChecker.isGranted('view', 'admin_panel') | async)? 'col-6': 'col-7'">
+      <mat-form-field class="w-100">
+        <mat-label>Szukaj...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Np. Jan, Kowalski, SF, 3" #input>
+      </mat-form-field>
+    </div>
+
+    <div class="col-5">
+      <mat-paginator [pageSizeOptions]="[7, dataSource.data.length]"></mat-paginator>
+    </div>
+    <div *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" class="col-1 pr-4">
+      <button class="float-right" mat-fab color="primary" matTooltip="Nowy zawodnik" (click)="addPlayer()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <div class="players-table">
+      <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> #</th>
+          <td mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.number}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię</th>
+          <td mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.firstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwisko</th>
+          <td mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="position">
+          <th class="position-cell" mat-header-cell *matHeaderCellDef mat-sort-header> Pozycja</th>
+          <td class="position-cell" mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+            {{row.position}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="captain">
+          <th class="captain-cell" mat-header-cell *matHeaderCellDef></th>
+          <td class="captain-cell" mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+            <ng-container *ngIf="row.captain">
+<!--              <button mat-flat-button matTooltip="Kapitan" matTooltipPosition="above" class="captain-button">-->
+<!--                <img class="captain-img" src="/assets/images/c.png" alt="captain">-->
+<!--              </button>-->
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center font-weight-bolder" colspan="5">Brak danych</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="row">
+    <button mat-menu-item class="option-button"
+            (click)="editPlayer(item)">
+      <mat-icon class="option-button">create</mat-icon>Edytuj
+    </button>
+    <button mat-menu-item class="option-button"
+            [disabled]="false" (click)="deletePlayer(item, item.id)">
+      <mat-icon class="option-button" [ngClass]="{'option-button-icon-disabled': false}">delete</mat-icon>Usuń
+    </button>
+  </ng-template>
+</mat-menu>

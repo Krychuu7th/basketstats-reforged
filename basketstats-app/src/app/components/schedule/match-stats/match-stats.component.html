@@ -1,0 +1,36 @@
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!isLoading" class="container">
+  <div class="cards-container">
+    <div class="row w-100 pl-3">
+      <button mat-mini-fab color="primary" class="back-button" (click)="navigateBack()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <div class="list-header">Podsumowanie meczu</div>
+    </div>
+    <div class="match-stats-container">
+      <app-match-info-row [match]="match"></app-match-info-row>
+
+      <div *ngIf="matchSummaryChartDataSets" class="chart-container mt-3 text-right">
+        <div>
+          <section class="toogle-section">
+            <mat-icon>bar_chart</mat-icon>
+            <mat-slide-toggle class="chart-toogle" [checked]="false" (toggleChange)="changeChartType()">
+            </mat-slide-toggle>
+            <mat-icon>insights</mat-icon>
+          </section>
+        </div>
+        <canvas *ngIf="matchSummaryChartDataSets" baseChart height="140"
+                [datasets]="matchSummaryChartDataSets"
+                [labels]="chartProperty.matchSummaryStatsChartLabel"
+                [chartType]="matchSummaryChartType"
+                [colors]="matchSummaryChartColor"
+                [options]="chartProperty.matchSummaryStatsRadarChartOptions">
+        </canvas>
+      </div>
+      <app-match-stats-for-players [match]="match" [matchQuartersStats]="matchQuartersStats"
+                                   [matchPlayersSummaryStats]="matchPlayersSummaryStats">
+
+      </app-match-stats-for-players>
+    </div>
+  </div>
+</div>

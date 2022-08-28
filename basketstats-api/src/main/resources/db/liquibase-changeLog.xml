@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <include file="db/changelog/001-create-users-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/002-create-roles-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/003-create-leagues-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/004-create-teams-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/005-create-jwt-blacklist-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/006-create-players-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/007-create-matches-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/008-create-players-stats-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/009-create-matches-quarters-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/010-create-players-quarters-stats-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/011-add-upload-columns-to-teams-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/012-add-user-foreign-key-to-matches-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/013-change-finished-to-match-status-in-matches-table.xml" relativeToChangelogFile="false"/>
+
+</databaseChangeLog>

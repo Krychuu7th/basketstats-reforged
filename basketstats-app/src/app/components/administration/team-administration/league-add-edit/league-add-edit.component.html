@@ -1,0 +1,40 @@
+<div class="modal-header pb-0">
+  <h4 *ngIf="!isEdit" class="modal-title">Dodaj nową ligę</h4>
+  <h4 *ngIf="isEdit" class="modal-title">Edytuj ligę</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="label" for="name">Nazwa</label>
+      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa ligi" nbInput autofocus
+             formControlName="name"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.name.touched || form.name.dirty)
+             ? (form.name.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.name.invalid && form.name.touched ? true : null">
+      <div *ngIf="form.name.errors" class="invalid-feedback">
+        <div *ngIf="form.name.errors.required && submited">Nazwa jest wymagana</div>
+        <div *ngIf="form.name.errors.minlength">Nazwa musi składać się z minimum
+          {{ form.name.errors.minlength.requiredLength }}</div>
+        <div *ngIf="form.name.errors.maxlength">Nazwa może składać się z maksimum
+          {{ form.name.errors.maxlength.requiredLength }}</div>
+        <div *ngIf="form.name.errors.pattern">Nazwa zawiera błędne znaki</div>
+        <div *ngIf="form.name.errors.nameAlreadyUsed && form.name.dirty">Liga o podanej nazwie już istnieje</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span *ngIf="!isEdit" class="button-content"><b>Dodaj!</b></span>
+      <span *ngIf="isEdit" class="button-content"><b>Zapisz!</b></span>
+    </button>
+  </div>
+</form>

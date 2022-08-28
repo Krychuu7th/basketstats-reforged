@@ -1,0 +1,154 @@
+.first-fluid {
+  position: relative;
+  left: 0;
+  height: 100%;
+  z-index: 1;
+  background: url("/../assets/images/ball_on_line.jpg") no-repeat;
+}
+
+.first-fluid-container {
+  color: white;
+}
+
+#second-fluid {
+  margin-top: -50px;
+  position: relative;
+  z-index: 2;
+  height: 400px;
+  background: rgb(222,222,222);
+  background: linear-gradient(180deg,
+  rgb(243, 243, 243) 0%, rgb(255, 255, 255) 20%,
+  rgb(241, 241, 241) 70%, rgb(255, 255, 255) 100%);
+  border-radius: 50px;
+}
+
+.second-fluid-card {
+  box-shadow: none;
+  background: inherit;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#second-fluid p {
+  color: #000000;
+  font-size: 1.5rem;
+  line-height: 1.25rem;
+}
+
+
+.second-fluid-card {
+  box-shadow: none;
+  background: inherit;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#second-fluid p {
+  color: #000000;
+  font-size: 1.5rem;
+  line-height: 1.25rem;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+#card-box {
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.card {
+  border: none;
+}
+
+.card-body {
+  height: 400px;
+  text-align: center;
+}
+
+.outer-box {
+  display: table;
+  max-width: 33%;
+  height: 100%;
+  padding: 0;
+}
+
+.middle-box {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#first-card {
+  background: url("/../assets/images/graph.png") no-repeat center;
+}
+
+#second-card {
+  background: url("/../assets/images/report.png") no-repeat center;
+}
+
+#third-card {
+  background: url("/../assets/images/player.png") no-repeat center;
+}
+
+.third-fluid {
+  position: relative;
+  left: 0;
+  height: 100%;
+  z-index: 1;
+  background: url("/../assets/images/ball_on_line2.jpg") no-repeat;
+  margin-top: -50px;
+  background-position-y: 53%;
+}
+
+.third-fluid-container {
+  color: white;
+}
+
+.content-fluid  {
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%) translateY(-25px);
+  transform: translateY(-50%) translateY(-25px);
+}
+
+.content-fluid p {
+  color: white;
+}
+
+.content-fluid.text-right  {
+  position: absolute;
+  width: 58%;
+  text-align: right;
+  -ms-transform: translateY(-50%) translateY(25px);
+  transform: translateY(-50%) translateY(25px);
+}
+
+button {
+  color: black;
+  padding-top: 4px;
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, #FAFAFA 50%, #FF7043 50%);
+  -webkit-transition: background-position 0.5s;
+  -moz-transition: background-position 0.5s;
+  transition: background-position 0.5s;
+}
+
+button:hover {
+  background-position: 0 -190%;
+}
+
+.button-content {
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 1.5rem;
+  line-height: 130%;
+}
+
+

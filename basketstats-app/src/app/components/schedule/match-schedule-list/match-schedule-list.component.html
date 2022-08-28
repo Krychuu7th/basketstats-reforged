@@ -1,0 +1,23 @@
+<mat-paginator *ngIf="team" [length]="matchList?.length"
+               [pageSize]="10"
+               [pageSizeOptions]="[6, 12, 24, 48]"
+               (page)="getPaginatorData($event)">
+</mat-paginator>
+
+<mat-paginator *ngIf="!team" [length]="matchList?.length"
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 20, 50]"
+               (page)="getPaginatorData($event)">
+</mat-paginator>
+
+<div *ngIf=" matchList && matchList.length > 0" class="row container match-list">
+  <div *ngFor="let match of matchList | slice: lowIndex : highIndex"
+       [ngClass]="{ 'col-6': team, 'col-12': !team }">
+    <app-match-info-row [match]="match" [team]="team" [schedule]="true"></app-match-info-row>
+  </div>
+</div>
+<div *ngIf=" !matchList || matchList.length == 0" class="container match-list">
+  <div class="col-12 text-center font-weight-bolder no-data">
+      Brak danych
+  </div>
+</div>

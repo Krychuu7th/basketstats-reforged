@@ -1,0 +1,14 @@
+<div class="list-header mb-2">Terminarz przypisanych meczy</div>
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div class="container">
+  <div class="tab-container">
+    <mat-tab-group *ngIf="leagueList">
+      <ng-container *ngFor="let league of leagueList; let last = last;">
+        <mat-tab label="{{ league.name }}">
+          <app-user-matches-list [league]="league" [user]="user">
+          </app-user-matches-list>
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>

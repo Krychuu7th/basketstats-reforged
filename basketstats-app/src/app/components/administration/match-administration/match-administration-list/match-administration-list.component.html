@@ -1,0 +1,115 @@
+<div>
+  <div class="row">
+    <div class="col-11">
+      <mat-paginator [pageSizeOptions]="[8, 20, 50]" [pageSize]="8" [length]="matchList?.length"
+      [disabled]="!matchList" (page)="pageChange($event)"></mat-paginator>
+    </div>
+    <div class="col-1 pr-4 pt-1">
+      <button class="float-right" mat-fab color="primary" matTooltip="Nowy mecz" (click)="addMatch()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="matches-table mt-2">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)"
+           matSortActive="matchDate" matSortDirection="asc"
+           matSortDisableClear
+           class="w-100">
+
+      <ng-container matColumnDef="teamA">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Drużyna A</th>
+        <td mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          <img *ngIf="row.teamA.logo" class="team-logo mr-1" src="{{apiUrl}}/team/logo/{{row.teamA.id}}"
+        alt="{{row.teamA.name}}" height="30">
+          <img *ngIf="!row.teamA.logo" class="team-logo mr-1" src="assets/images/teams/team.png"
+               alt="{{row.teamA.name}}" height="30">
+          <span *ngIf="row.matchStatus == MatchStatus.DONE" class="team-name" [ngClass]="row.teamAScore > row.teamBScore ? 'team-win' : 'team-lose'">
+            {{row.teamA.name}}</span>
+          <span *ngIf="row.matchStatus != MatchStatus.DONE" class="team-name">
+            {{row.teamA.name}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="teamB">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Drużyna B</th>
+        <td mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          <img *ngIf="row.teamB.logo" class="team-logo mr-1" src="{{apiUrl}}/team/logo/{{row.teamB.id}}"
+               alt="{{row.teamB.name}}" height="30">
+          <img *ngIf="!row.teamB.logo" class="team-logo mr-1" src="assets/images/teams/team.png"
+               alt="{{row.teamB.name}}" height="30">
+          <span *ngIf="row.matchStatus == MatchStatus.DONE" class="team-name" [ngClass]="row.teamBScore > row.teamAScore ? 'team-win' : 'team-lose'">
+            {{row.teamA.name}}</span>
+          <span *ngIf="row.matchStatus != MatchStatus.DONE" class="team-name">
+            {{row.teamB.name}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="matchDate">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Data spotkania</th>
+        <td class="pl-4" mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          {{row.matchDate | date:'dd.MM.yyyy, H:mm'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="place">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Miejsce spotkania</th>
+        <td class="pl-1" mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          {{row.place}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="finished">
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Zakończone</th>
+        <td class="text-center" mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          <mat-checkbox [checked]="row.matchStatus == MatchStatus.DONE" [disabled]="true"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th class="text-center" mat-header-cell *matHeaderCellDef> Statystyk</th>
+        <td class="mt-2 text-center" mat-cell *matCellDef="let row" (contextmenu)="row.matchStatus == MatchStatus.PLANNED ? onContextMenu($event, row) : null"
+            [routerLink]="row.matchStatus == MatchStatus.DONE ? ['/schedule', 'match', row.id] : null" [ngClass]="{'pointer': row.matchStatus == MatchStatus.DONE}">
+          <mat-form-field appearance="legacy">
+            <mat-label>Przydziel statystyka</mat-label>
+            <mat-select [disabled]="row.matchStatus == MatchStatus.DONE" [value]="row.user?.id"
+                        (selectionChange)="$event.source.close(); linkUser(row, $event)">
+              <mat-option *ngFor="let user of userList" [value]="user.id">
+                {{user.firstName}} {{user.lastName}} <span class="user-username">({{user.username}})</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center font-weight-bolder" colspan="7">Brak danych</td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="row">
+    <button mat-menu-item class="option-button"
+            (click)="editMatch(item)">
+      <mat-icon class="option-button">create</mat-icon>Edytuj dane spotkania
+    </button>
+    <button mat-menu-item class="option-button"
+            (click)="deleteMatch(item)">
+      <mat-icon class="option-button" [ngClass]="{'option-button-icon-disabled': item.matchStatus == MatchStatus.DONE}">delete</mat-icon>Usuń
+    </button>
+  </ng-template>
+</mat-menu>
+

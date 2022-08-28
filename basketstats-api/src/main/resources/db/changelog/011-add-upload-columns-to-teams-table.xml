@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="011-add-upload-columns-to-teams-table" author="krysiakm">
+        <preConditions>
+            <tableExists tableName="teams"/>
+        </preConditions>
+        <addColumn schemaName= "dbo"
+                   tableName="teams" >
+            <column name="data"
+                    type="blob"/>
+            <column afterColumn="data"
+                    name="type"
+                    type="varchar(100)" >
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

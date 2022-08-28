@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="010-create-players-quarters-stats-table" author="krysiakm">
+        <preConditions>
+            <tableExists tableName="players_stats"/>
+            <tableExists tableName="matches_quarters"/>
+        </preConditions>
+
+        <createTable tableName="matches_stats">
+            <column name="match_quarter_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_player_quarters_stats_quarter_id" references="matches_quarters(id)" />
+            </column>
+
+            <column name="player_stats_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_player_quarters_stats_player_stats_id" references="players_stats(id)" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,42 @@
+.cards-container {
+  padding-top: 50px;
+  width: 100%;
+}
+
+.container {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.match-stats-container {
+  height: 82vh;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+canvas {
+  margin-top: -30px;
+}
+
+.chart-toogle {
+  margin: 10px;
+}
+
+.toogle-section {
+  position: relative;
+  top: 0;
+  left: 20px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 30px;
+  width: 200px;
+}
+
+.list-header {
+  margin-left: 15px;
+  margin-top: 15px;
+  font-size: 2rem;
+}

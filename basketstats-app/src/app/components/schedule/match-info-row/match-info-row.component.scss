@@ -1,0 +1,126 @@
+.match-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 73vh;
+}
+
+.match-row {
+  height: 200px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 30%, rgba(55, 71, 79, 0.2) 49%, rgba(255, 255, 255, 0.1) 70%);
+}
+
+.match-row.hover-effect {
+  height: 200px;
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.match-row.hover-effect:hover {
+  transform: scale(0.98);
+}
+
+.vs-background-img {
+  background-image: url("/../assets/images/vs.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100px;
+}
+
+.team-name {
+  font-size: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+}
+
+.match-info {
+  position: relative;
+  padding: 5px;
+  font-size: 1.4rem;
+}
+
+.match-place {
+  font-size: 1rem;
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.team-info {
+  margin: auto;
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.team-info:hover {
+  transform: scale(1.1);
+}
+
+.left {
+  height: 100%;
+}
+
+.right {
+  height: 100%;
+}
+
+.left.won-match {
+  border-left: solid 10px #00d68f;
+}
+
+.right.won-match {
+  border-right: solid 10px #00d68f;
+}
+
+.left.lost-match {
+  border-left: solid 10px #ff3d71;
+}
+
+.right.lost-match {
+  border-right: solid 10px #ff3d71;
+}
+
+.left.undetermined {
+  border-left: solid 10px rgba(164, 168, 179, 0.75);
+}
+
+.right.undetermined {
+  border-right: solid 10px rgba(164, 168, 179, 0.75);
+}
+
+.score {
+  text-align: center;
+  margin: auto;
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+img {
+  max-height: 150px;
+  max-width: 175px;
+  border-radius: 70px;
+}
+
+/*TEAM MATCHES*/
+
+.team-matches.match-row {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 10%, rgba(55, 71, 79, 0.2) 30%, rgba(255, 255, 255, 0) 55%);
+}
+
+.team-matches .vs-background-img {
+  background-size: auto 70px;
+}
+
+.team-matches .match-info {
+  font-size: 1.1rem;
+}
+
+.team-matches .match-place {
+  font-size: 0.9rem;
+}
+
+.team-matches .score {
+  font-size: 3.6rem;
+  padding-top: 9px;
+}

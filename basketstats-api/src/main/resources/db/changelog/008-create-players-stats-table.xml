@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="008-create-players-stats-table" author="krysiakm">
+        <preConditions>
+            <tableExists tableName="players"/>
+        </preConditions>
+
+        <createTable tableName="players_stats">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="player_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_player_stats_player_id" references="players(id)" />
+            </column>
+
+            <column name="pts" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pm2" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pa2" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pm3" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pa3" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ftm" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="fta" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ast" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="blkm" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="blkg" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="offr" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="defr" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="to" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="stl" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pf" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="fd" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="eff" type="int">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <createSequence schemaName="dbo" sequenceName="players_stats_id_seq"
+                        startValue="1" incrementBy="1"/>
+
+        <addDefaultValue tableName="players_stats" columnName="pts" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="pm2" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="pa2" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="pm3" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="pa3" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="ftm" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="fta" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="ast" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="blkm" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="blkg" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="offr" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="defr" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="to" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="stl" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="pf" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="fd" columnDataType="int" defaultValueBoolean="0" />
+        <addDefaultValue tableName="players_stats" columnName="eff" columnDataType="int" defaultValueBoolean="0" />
+
+    </changeSet>
+</databaseChangeLog>

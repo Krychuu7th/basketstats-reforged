@@ -1,0 +1,84 @@
+<div class="modal-header pb-0">
+  <h4 *ngIf="!isEdit" class="modal-title">Dodaj nową drużynę</h4>
+  <h4 *ngIf="isEdit" class="modal-title">Edytuj drużynę</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="label" for="name">Nazwa</label>
+      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa drużyny" nbInput autofocus
+             formControlName="name"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.name.touched || form.name.dirty)
+             ? (form.name.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.name.invalid && form.name.touched ? true : null">
+      <div *ngIf="form.name.errors" class="invalid-feedback">
+        <div *ngIf="form.name.errors.required && submited">Nazwa jest wymagana</div>
+        <div *ngIf="form.name.errors.minlength">Nazwa musi składać się z minimum
+          {{ form.name.errors.minlength.requiredLength }}</div>
+        <div *ngIf="form.name.errors.maxlength">Nazwa może składać się z maksimum
+          {{ form.name.errors.maxlength.requiredLength }}</div>
+        <div *ngIf="form.name.errors.pattern">Nazwa zawiera błędne znaki</div>
+        <div *ngIf="form.name.errors.nameAlreadyUsed && form.name.dirty">Drużyna o podanej nazwie już istnieje</div>
+      </div>
+    </div>
+    <div *ngIf="!isEdit" class="form-group">
+      <label class="label" for="league">Liga</label>
+      <input type="text" class="form-control w-100" id="league" nbInput autofocus
+             value="{{league.name}}"
+             fullWidth
+             disabled
+             readonly
+             fieldSize="large">
+    </div>
+    <div *ngIf="isEdit" class="form-group">
+      <label class="label" for="leagueSelect">Liga</label>
+      <nb-select id="leagueSelect" placeholder="Wybierz ligę..."
+                 formControlName="league"
+                 [(selected)]="team?.league.name"
+                 fullWidth
+                 [status]="(form.league.touched || form.league.dirty)
+               ? (form.league.invalid  ? 'danger' : 'success') : 'basic'"
+                 [attr.aria-invalid]="form.league.invalid
+               && form.league.touched ? true : null">
+        <nb-option *ngFor="let leagueDef of leagueList" [value]="leagueDef.name">{{ leagueDef.name }}</nb-option>
+      </nb-select>
+      <div *ngIf="form.league.errors" class="invalid-feedback">
+        <div *ngIf="form.league.errors.required && submited">Musisz wybrać ligę</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="label" for="logo">Logo</label>
+      <nb-form-field>
+        <nb-icon nbPrefix icon="image-outline" pack="eva"></nb-icon>
+        <input type="file" class="form-control w-100 input-file" id="logo" placeholder="Logo" nbInput
+               formControlName="logo"
+               fullWidth
+               fieldSize="large"
+               accept="image/png, image/jpeg, image/gif"
+               (change)="onFileSelected($event)"
+               [status]="(form.logo.touched || form.logo.dirty)
+             ? (form.logo.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.logo.invalid && form.logo.touched ? true : null">
+      </nb-form-field>
+      <div *ngIf="form.logo.errors" class="invalid-feedback">
+        <div *ngIf="form.logo.errors.fileSizeError">Maksymalny rozmiar pliku to 4MB</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span *ngIf="!isEdit" class="button-content"><b>Dodaj!</b></span>
+      <span *ngIf="isEdit" class="button-content"><b>Zapisz!</b></span>
+    </button>
+  </div>
+</form>

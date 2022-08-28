@@ -1,0 +1,385 @@
+<mat-progress-bar *ngIf="!match" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="match" class="match-in-progress-container">
+  <div class="row teams-row">
+    <div class="col-5 text-right position-relative">
+      <div class="team-name-left">{{ match?.teamA.name }}</div>
+      <img *ngIf="match?.teamA.logo else defaultLogo" class="card-img-top img-left"
+           src="{{apiUrl}}/team/logo/{{match.teamA.id}}"
+           alt="{{ match.teamA.name }} logo" width="80">
+      <ng-template #defaultLogo>
+        <img class="card-img-top img-left" src="/assets/images/teams/team.png"
+             alt="no team logo" width="80">
+      </ng-template>
+    </div>
+    <div class="col-2 vs-background-img text-center match-info">
+    </div>
+    <div class="col-5">
+      <img *ngIf="match?.teamB.logo else defaultLogo" class="card-img-top img-right"
+           src="{{apiUrl}}/team/logo/{{match.teamB.id}}"
+           alt="{{ match.teamB.name }} logo" width="80">
+      <ng-template #defaultLogo>
+        <img class="card-img-top img-right" src="/assets/images/teams/team.png"
+             alt="no team logo" width="80">
+      </ng-template>
+      <div class="team-name-right">{{ match?.teamB.name }}</div>
+    </div>
+  </div>
+  <div class="row score-row">
+    <div class="col-4 teamA-fouls">
+      <div class="row foul-counter-row-left">
+        <div class="foul-counter" [ngClass]="{'active': teamAFouls >= 1}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamAFouls >= 2}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamAFouls >= 3}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamAFouls >= 4}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamAFouls >= 5}"></div>
+      </div>
+    </div>
+    <div class="col-4 text-center position-relative">
+      <div class="score">{{match?.teamAScore}} : {{match?.teamBScore}}</div>
+      <div class="quarter"><b>{{quarter}} Q</b></div>
+    </div>
+    <div class="col-4 teamB-fouls">
+      <div class="row foul-counter-row-right">
+        <div class="foul-counter" [ngClass]="{'active': teamBFouls >= 1}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamBFouls >= 2}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamBFouls >= 3}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamBFouls >= 4}"></div>
+        <div class="foul-counter" [ngClass]="{'active': teamBFouls >= 5}"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row court-panel">
+    <div class="teamA-on-court col-2">
+      <div *ngFor="let teamAPlayer of teamAPlayersOnCourt" class="w-100 player-on-court-row"
+           (click)="teamAPointsToAdd ? addPointsToTeamAPlayer(teamAPlayer.id) : null"
+           [ngClass]="{'add-points' : teamAPointsToAdd, 'fouled-out': getFoulsOfTeamAPlayer(teamAPlayer.id) >= 5 }">
+        <div class="w-100 h-35"><b>#{{teamAPlayer.number}}</b> |
+          {{ (getFullName(teamAPlayer.firstName, teamAPlayer.lastName).length > 13) ?
+            (getFullName(teamAPlayer.firstName, teamAPlayer.lastName) | slice:0:13) + '...' :
+            (getFullName(teamAPlayer.firstName, teamAPlayer.lastName)) }}
+        </div>
+        <ng-template  let-fouls [ngTemplateOutletContext]="{ $implicit: getFoulsOfTeamAPlayer(teamAPlayer.id) }"
+                     [ngTemplateOutlet]="foulTemplate" #foulTemplate>
+          <div class="w-100 row h-35 foul-counter-row-for-player-left">
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 1}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 2}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 3}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 4}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 5}"></div>
+          </div>
+        </ng-template>
+        <div class="w-100 h-30 text-center">
+          <mat-icon class="sub-button" (click)="!teamAPointsToAdd ? openTeamASubSelect($event, teamAPlayer) : null"
+          >compare_arrows</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="court col ">
+      <div class="points-navig-info">
+        <b class="point-option"
+           [ngClass]="{'active' : teamAPointsToAdd?.scored == true || teamBPointsToAdd?.scored == true}">
+          TRAFIONY</b> -
+        <img class="left-click" src="/assets/images/left-click-mouse.png"
+                                                    alt="left-click-mouse">
+        <img class="right-click" src="/assets/images/left-click-mouse.png"
+             alt="left-click-mouse">
+         -
+        <b class="point-option"
+           [ngClass]="{'active' : teamAPointsToAdd?.scored == false || teamBPointsToAdd?.scored == false}">
+          NIETRAFIONY
+        </b>
+      </div>
+      <div class="left-outer-field" (click)="choosePointsToAddToTeamA(shootType.PA3, true)"
+           (contextmenu)="choosePointsToAddToTeamA(shootType.PA3, false); $event.preventDefault()" >
+      </div>
+      <div class="left-inner-field" (click)="choosePointsToAddToTeamA(shootType.PA2, true)"
+           (contextmenu)="choosePointsToAddToTeamA(shootType.PA2, false); $event.preventDefault()">
+      </div>
+      <div class="left-free-throw-field" (click)="choosePointsToAddToTeamA(shootType.FTA, true)"
+           (contextmenu)="choosePointsToAddToTeamA(shootType.FTA, false); $event.preventDefault()">
+      </div>
+      <div class="right-outer-field" (click)="choosePointsToAddToTeamB(shootType.PA3, true)"
+           (contextmenu)="choosePointsToAddToTeamB(shootType.PA3, false); $event.preventDefault()">
+      </div>
+      <div class="right-inner-field" (click)="choosePointsToAddToTeamB(shootType.PA2, true)"
+           (contextmenu)="choosePointsToAddToTeamB(shootType.PA2, false); $event.preventDefault()">
+      </div>
+      <div class="right-free-throw-field" (click)="choosePointsToAddToTeamB(shootType.FTA, true)"
+           (contextmenu)="choosePointsToAddToTeamB(shootType.FTA, false); $event.preventDefault()">
+      </div>
+    </div>
+    <div class="teamB-on-court col-2">
+      <div *ngFor="let teamBPlayer of teamBPlayersOnCourt" class="w-100 player-on-court-row"
+           (click)="teamBPointsToAdd ? addPointsToTeamBPlayer(teamBPlayer.id) : null"
+           [ngClass]="{'add-points' : teamBPointsToAdd, 'fouled-out': getFoulsOfTeamBPlayer(teamBPlayer.id) >= 5 }">
+        <div class="w-100 h-35"><b>#{{teamBPlayer.number}}</b> |
+          {{ (getFullName(teamBPlayer.firstName, teamBPlayer.lastName).length > 13) ?
+            (getFullName(teamBPlayer.firstName, teamBPlayer.lastName) | slice:0:13) + '...' :
+            (getFullName(teamBPlayer.firstName, teamBPlayer.lastName)) }}
+        </div>
+        <ng-template let-fouls [ngTemplateOutletContext]="{ $implicit: getFoulsOfTeamBPlayer(teamBPlayer.id) }"
+                     [ngTemplateOutlet]="foulTemplate" #foulTemplate>
+          <div class="w-100 row h-35 foul-counter-row-for-player-right">
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 1}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 2}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 3}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 4}"></div>
+            <div class="foul-counter-for-player" [ngClass]="{'active': fouls >= 5}"></div>
+          </div>
+        </ng-template>
+        <div class="w-100 h-30 text-center">
+          <mat-icon class="sub-button" (click)=" !teamBPointsToAdd ? openTeamBSubSelect($event, teamBPlayer) : null"
+          >compare_arrows</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row players-stats-buttons-panel">
+    <div class="col-6">
+      <div class="players-on-court-buttons-left">
+        <div *ngFor="let teamAPlayer of teamAPlayersOnCourt" class="w-100 player-in-match-row text-center">
+          <div class="w-100 h-5"><b>#{{teamAPlayer.number}}</b> |
+            {{ (getFullName(teamAPlayer.firstName, teamAPlayer.lastName)) }}
+          </div>
+          <div class="btn-group btn-group-sm stats-button-group" role="group" aria-label="stat buttons">
+            <button type="button" class="btn stat-button" (click)="addAssistToTeamAPlayer(teamAPlayer.id)">A</button>
+            <button type="button" class="btn stat-button" (click)="addOffRebToTeamAPlayer(teamAPlayer.id)">ZA</button>
+            <button type="button" class="btn stat-button" (click)="addDefRebToTeamAPlayer(teamAPlayer.id)">ZO</button>
+            <button type="button" class="btn stat-button" (click)="addFoulToTeamAPlayer(teamAPlayer.id)">F</button>
+            <button type="button" class="btn stat-button" (click)="addFoulDrawnToTeamAPlayer(teamAPlayer.id)">FW</button>
+            <button type="button" class="btn stat-button" (click)="addTurnoverToTeamAPlayer(teamAPlayer.id)">S</button>
+            <button type="button" class="btn stat-button" (click)="addStealToTeamAPlayer(teamAPlayer.id)">P</button>
+            <button type="button" class="btn stat-button" (click)="addBlockToTeamAPlayer(teamAPlayer.id)">B</button>
+            <button type="button" class="btn stat-button" (click)="addBlockGotToTeamAPlayer(teamAPlayer.id)">BO</button>
+          </div>
+        </div>
+      </div>
+      <div class="players-subs-left">
+        <div *ngFor="let teamAPlayer of teamAPlayersSubs" class="w-100 player-in-match-row text-center"
+             [ngClass]="{ 'fouled-out': getFoulsOfTeamAPlayer(teamAPlayer.id) >= 5 }">
+          <div class="w-100 h-5"><b>#{{teamAPlayer.number}}</b> |
+            {{ (getFullName(teamAPlayer.firstName, teamAPlayer.lastName)) }}
+          </div>
+          <div class="btn-group btn-group-sm stats-button-group" role="group" aria-label="stat buttons">
+            <button type="button" class="btn stat-button" disabled (click)="addAssistToTeamAPlayer(teamAPlayer.id)">A</button>
+            <button type="button" class="btn stat-button" disabled (click)="addOffRebToTeamAPlayer(teamAPlayer.id)">ZA</button>
+            <button type="button" class="btn stat-button" disabled (click)="addDefRebToTeamAPlayer(teamAPlayer.id)">ZO</button>
+            <button type="button" class="btn stat-button" disabled (click)="addFoulToTeamAPlayer(teamAPlayer.id)">F</button>
+            <button type="button" class="btn stat-button" disabled (click)="addFoulDrawnToTeamAPlayer(teamAPlayer.id)">FW</button>
+            <button type="button" class="btn stat-button" disabled (click)="addTurnoverToTeamAPlayer(teamAPlayer.id)">S</button>
+            <button type="button" class="btn stat-button" disabled (click)="addStealToTeamAPlayer(teamAPlayer.id)">P</button>
+            <button type="button" class="btn stat-button" disabled (click)="addBlockToTeamAPlayer(teamAPlayer.id)">B</button>
+            <button type="button" class="btn stat-button" disabled (click)="addBlockGotToTeamAPlayer(teamAPlayer.id)">BO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="players-on-court-buttons-right">
+        <div *ngFor="let teamBPlayer of teamBPlayersOnCourt" class="w-100 player-in-match-row text-center">
+          <div class="w-100 h-5"><b>#{{teamBPlayer.number}}</b> |
+            {{ (getFullName(teamBPlayer.firstName, teamBPlayer.lastName)) }}
+          </div>
+          <div class="btn-group btn-group-sm stats-button-group" role="group" aria-label="stat buttons">
+            <button type="button" class="btn stat-button" (click)="addAssistToTeamBPlayer(teamBPlayer.id)">A</button>
+            <button type="button" class="btn stat-button" (click)="addOffRebToTeamBPlayer(teamBPlayer.id)">ZA</button>
+            <button type="button" class="btn stat-button" (click)="addDefRebToTeamBPlayer(teamBPlayer.id)">ZO</button>
+            <button type="button" class="btn stat-button" (click)="addFoulToTeamBPlayer(teamBPlayer.id)">F</button>
+            <button type="button" class="btn stat-button" (click)="addFoulDrawnToTeamBPlayer(teamBPlayer.id)">FW</button>
+            <button type="button" class="btn stat-button" (click)="addTurnoverToTeamBPlayer(teamBPlayer.id)">S</button>
+            <button type="button" class="btn stat-button" (click)="addStealToTeamBPlayer(teamBPlayer.id)">P</button>
+            <button type="button" class="btn stat-button" (click)="addBlockToTeamBPlayer(teamBPlayer.id)">B</button>
+            <button type="button" class="btn stat-button" (click)="addBlockGotToTeamBPlayer(teamBPlayer.id)">BO</button>
+          </div>
+        </div>
+      </div>
+      <div class="players-subs-right">
+        <div *ngFor="let teamBPlayer of teamBPlayersSubs" class="w-100 player-in-match-row text-center"
+             [ngClass]="{ 'fouled-out': getFoulsOfTeamBPlayer(teamBPlayer.id) >= 5 }">
+          <div class="w-100 h-5"><b>#{{teamBPlayer.number}}</b> |
+            {{ (getFullName(teamBPlayer.firstName, teamBPlayer.lastName)) }}
+          </div>
+          <div class="btn-group btn-group-sm stats-button-group" role="group" aria-label="stat buttons">
+            <button type="button" class="btn stat-button" disabled (click)="addAssistToTeamBPlayer(teamBPlayer.id)">A</button>
+            <button type="button" class="btn stat-button" disabled (click)="addOffRebToTeamBPlayer(teamBPlayer.id)">ZA</button>
+            <button type="button" class="btn stat-button" disabled (click)="addDefRebToTeamBPlayer(teamBPlayer.id)">ZO</button>
+            <button type="button" class="btn stat-button" disabled (click)="addFoulToTeamBPlayer(teamBPlayer.id)">F</button>
+            <button type="button" class="btn stat-button" disabled (click)="addFoulDrawnToTeamBPlayer(teamBPlayer.id)">FW</button>
+            <button type="button" class="btn stat-button" disabled (click)="addTurnoverToTeamBPlayer(teamBPlayer.id)">S</button>
+            <button type="button" class="btn stat-button" disabled (click)="addStealToTeamBPlayer(teamBPlayer.id)">P</button>
+            <button type="button" class="btn stat-button" disabled (click)="addBlockToTeamBPlayer(teamBPlayer.id)">B</button>
+            <button type="button" class="btn stat-button" disabled (click)="addBlockGotToTeamBPlayer(teamBPlayer.id)">BO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-table-panel row">
+    <div class="col-6 p-0 pr-2 teamA-stats">
+      <table class="table table-striped team-stats-table">
+        <thead class="team-stats-thead">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">PTS</th>
+          <th scope="col">AST</th>
+          <th scope="col">ZA</th>
+          <th scope="col">ZO</th>
+          <th scope="col">F</th>
+          <th scope="col">S</th>
+          <th scope="col">P</th>
+          <th scope="col">B</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let teamAStat of teamAStats">
+          <td class="text-left table-player-name">
+            <b>{{teamAStat.player.number}}</b> |
+            <span [ngClass]="{ 'player-on-court' : teamAPlayersOnCourtHashSet[teamAStat.player.id] }">
+              {{getFullName(teamAStat.player.firstName, teamAStat.player.lastName)}}
+            </span>
+          </td>
+          <td>{{teamAStat.pts}}</td>
+          <td>{{teamAStat.ast}}</td>
+          <td>{{teamAStat.offr}}</td>
+          <td>{{teamAStat.defr}}</td>
+          <td>{{teamAStat.pf}}</td>
+          <td>{{teamAStat.tov}}</td>
+          <td>{{teamAStat.stl}}</td>
+          <td>{{teamAStat.blkm}}</td>
+        </tr>
+        </tbody>
+        <tfoot *ngIf="teamAStats.length > 10" class="team-stats-tfoot">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">PTS</th>
+          <th scope="col">AST</th>
+          <th scope="col">ZA</th>
+          <th scope="col">ZO</th>
+          <th scope="col">F</th>
+          <th scope="col">S</th>
+          <th scope="col">P</th>
+          <th scope="col">B</th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="col-6 p-0 pl-2 teamB-stats">
+      <table class="table table-striped team-stats-table">
+        <thead class="team-stats-thead">
+        <tr>
+          <th scope="col">B</th>
+          <th scope="col">P</th>
+          <th scope="col">S</th>
+          <th scope="col">F</th>
+          <th scope="col">ZO</th>
+          <th scope="col">ZA</th>
+          <th scope="col">AST</th>
+          <th scope="col">PTS</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let teamBStat of teamBStats">
+          <td>{{teamBStat.blkm}}</td>
+          <td>{{teamBStat.stl}}</td>
+          <td>{{teamBStat.tov}}</td>
+          <td>{{teamBStat.pf}}</td>
+          <td>{{teamBStat.defr}}</td>
+          <td>{{teamBStat.offr}}</td>
+          <td>{{teamBStat.ast}}</td>
+          <td>{{teamBStat.pts}}</td>
+          <td class="text-right table-player-name">
+            <span [ngClass]="{ 'player-on-court' : teamBPlayersOnCourtHashSet[teamBStat.player.id] }">
+              {{getFullName(teamBStat.player.firstName, teamBStat.player.lastName)}}
+            </span>
+            | <b>{{teamBStat.player.number}}</b>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot *ngIf="teamAStats.length > 10" class="team-stats-tfoot">
+        <tr>
+          <th scope="col">B</th>
+          <th scope="col">P</th>
+          <th scope="col">S</th>
+          <th scope="col">F</th>
+          <th scope="col">ZO</th>
+          <th scope="col">ZA</th>
+          <th scope="col">AST</th>
+          <th scope="col">PTS</th>
+          <th scope="col"></th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="last-stats-card">
+    <nb-card>
+      <nb-card-header class="last-stats-card-header">
+        Ostatnie...
+      </nb-card-header>
+      <nb-list class="last-stats-list">
+        <nb-list-item *ngFor="let stat of lastAddedStats.reverse()" class="last-stats-list-item">
+          <div class="w-100 h-100 text-left" *ngIf="stat.teamId == match.teamA.id">
+            <b>#{{ stat.playerNumber }} |  </b><span class="ml-2 mr-2">{{ stat.statType }}</span>
+            <span [ngClass]="stat.quantity > 0 ? 'scored-shoot' : 'missed-shoot'"
+                  *ngIf="(
+                    stat.statType == statType.PA3
+                    || stat.statType == statType.PA2
+                    || stat.statType == statType.FTA)">
+              {{ stat.quantity > 0 ? 'T' : 'N' }}
+            </span>
+          </div>
+          <div class="w-100 h-100 text-right" *ngIf="stat.teamId == match.teamB.id">
+            <span [ngClass]="stat.quantity > 0 ? 'scored-shoot' : 'missed-shoot'"
+                  *ngIf="(
+                    stat.statType == statType.PA3
+                    || stat.statType == statType.PA2
+                    || stat.statType == statType.FTA)">
+              {{ stat.quantity > 0 ? 'T' : 'N' }}
+            </span>
+            <span class="ml-2 mr-2">{{ stat.statType }}</span><b> | #{{ stat.playerNumber }}</b>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+  <div class="save-loader">
+    <mat-spinner *ngIf="showSaveLoader"></mat-spinner>
+  </div>
+  <div class="sticky-match-buttons row">
+    <div>
+      <button class="undo-button" [disabled]="lastAddedStats.length == 0" (click)="undoLastStat()"
+              mat-fab color="primary" matTooltip="Cofnij ostatnią statystykę">
+        <mat-icon>undo</mat-icon>
+      </button>
+    </div>
+    <div class="finish-button-div">
+      <button class="finish-button" mat-fab color="primary"
+              [matTooltip]=" canMatchBeFinished() ? 'Zakończ mecz!' : 'Przejdź do kolejnej kwarty'"
+              (click)="finishQuarter()">
+        <mat-icon>{{canMatchBeFinished() ? 'done_all' : 'done'}}</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <div class="p-3">
+      <p class="sub-menu-title">Wybierz zmiennika...</p>
+      <div class="sub-menu text-center">
+        <button *ngFor="let teamSub of item.subs" mat-menu-item
+                (click)="item.player.team.id == match.teamA.id ?
+                  makeSubstituteForTeamA(item.player, teamSub) :
+                  makeSubstituteForTeamB(item.player, teamSub)">
+          <b>#{{ teamSub.number }}</b> | {{ teamSub.lastName }} {{ teamSub.firstName }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</mat-menu>

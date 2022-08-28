@@ -1,0 +1,73 @@
+.team-info-container {
+  padding-top: 50px;
+  width: 100%;
+}
+
+.container {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.logo-container {
+  text-align: right;
+  margin: auto;
+}
+
+.team-info {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.team-name {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  line-height: 40px;
+}
+
+.league-name {
+  padding-left: 4px;
+  font-size: 1.5rem;
+}
+
+.card-img-top {
+  max-width: 220px;
+  max-height: 220px;
+  border-radius: 140px;
+}
+
+:host ::ng-deep .match-list {
+  height: 50vh !important;
+}
+
+.team-score {
+  position: relative;
+  font-size: 4rem;
+  height: 220px;
+}
+
+.wins {
+  font-size: 3rem;
+  color: #00D68F;
+}
+
+.loses {
+  font-size: 3rem;
+  color: #FF3D71;
+}
+
+lib-ring-chart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+canvas {
+  z-index: 10;
+  position: absolute;
+}
+
+.team-score-info {
+  text-align: center;
+  padding-top: 75px;
+}

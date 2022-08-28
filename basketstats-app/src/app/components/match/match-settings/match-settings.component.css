@@ -1,0 +1,119 @@
+.list-header {
+  margin-top: 30px;
+  font-size: 2rem;
+}
+
+.team-logo {
+  font-size: 40px;
+  line-height: 35px;
+  font-weight: bold;
+  min-height: 160px;
+}
+
+.card-img-top {
+  max-width: 150px;
+  border-radius: 40px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.vertical-center-divider {
+  height: 65vh;
+  position: absolute;
+  left: 50%;
+}
+
+.players-container {
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 10px;
+}
+
+.player-chooser {
+  cursor: pointer;
+  position: relative;
+  height: 40px;
+  font-size: 1.5rem;
+  border: solid 1px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  padding: 0 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: background-color 0.5s, color 0.5s;
+  margin-right: 10px;
+}
+
+.player-chooser:hover {
+  background-color: rgba(255, 112, 67, 0.5);
+}
+
+.player-chooser.active {
+  color: white;
+  background-color: #00d68f;
+  border: solid 2px rgba(0, 0, 0, 0.18);
+}
+
+.player-chooser.active:hover {
+  background-color: rgba(0, 214, 143, 0.5);
+}
+
+.player-chooser.active-substitute {
+  color: white;
+  background-color: #ff7043;
+  border: solid 2px rgba(0, 0, 0, 0.18);
+}
+
+.player-chooser.active-substitute:hover {
+  background-color: rgba(255, 112, 67, 0.5);
+}
+
+.center-vertically {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.info-icon {
+  margin-left: 14px;
+  font-size: 1.8rem;
+  line-height: 0.5;
+}
+
+.panel-info {
+  font-size: 12px;
+  max-height: 50px;
+}
+
+.orange-label {
+  color: #ff7043;
+}
+
+.green-label {
+  color: #00d68f;
+}
+
+.label-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+}
+
+.position-relative {
+  margin: 0 !important;
+}
+
+.navigation-buttons {
+  margin-top: 40px;
+}
+
+.button-cancel {
+  position: relative;
+  left: calc(50% - 100px);
+}
+
+.button-confirm {
+  position: relative;
+  left: calc(50% - 90px);
+}

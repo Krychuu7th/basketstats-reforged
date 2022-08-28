@@ -1,0 +1,88 @@
+.content {
+  position: relative;
+  height: 100%;
+}
+
+.sidebar-icon {
+  /*color: black;*/
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.sidebar-button {
+  padding: 0 !important;
+  z-index: 2;
+}
+
+.login-button {
+  padding: 0 !important;
+  z-index: 2;
+}
+
+.center-div {
+  position: absolute;
+  left: 0;
+  top: -20px;
+}
+
+.logo {
+  background: #37474F;
+  border-radius: 64px;
+  -webkit-box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
+  -moz-box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
+  box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
+  transition: transform 0.5s, -webkit-box-shadow 0.5s, -moz-box-shadow 0.5s, box-shadow 0.5s;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+  -webkit-box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
+  box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
+}
+
+button {
+  font-size: 1.1rem;
+  font-weight: bold;
+  height: 45%;
+  border-radius: 0;
+  margin-left: 15px;
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, #FAFAFA 50%, #FF7043 50%);
+  -webkit-transition: background-position 0.5s;
+  -moz-transition: background-position 0.5s;
+  transition: background-position 0.5s;
+}
+
+button:hover {
+  background-position: 0 -190%;
+}
+
+button.active {
+  background-position: 0 -190%;
+}
+
+.menu-item {
+  margin-left: 0;
+}
+
+.dropdown-icon {
+  transition: transform 0.5s, -ms-transform 0.5s;
+}
+
+.dropdown-icon.active {
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.profile-icon {
+  font-size: 200%;
+  margin-right: 10px;
+  line-height: 0.6;
+}
+
+.profile-icon-admin {
+  font-size: 160%;
+  margin-right: 10px;
+  line-height: 0.8;
+}

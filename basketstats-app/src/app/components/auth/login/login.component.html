@@ -1,0 +1,79 @@
+<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<div class="container">
+  <h1 id="title" class="title">Logowanie</h1>
+
+  <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
+
+    <div class="form-control-group">
+      <label class="label" for="input-username">Nazwa użytkownika:</label>
+      <input nbInput
+             fullWidth
+             [(ngModel)]="user.username"
+             #username="ngModel"
+             name="username"
+             id="input-username"
+             pattern="^(?=[a-zA-Z0-9._]{5,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
+             placeholder="Nazwa użytkownika"
+             fieldSize="large"
+             autofocus
+             [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
+             [required]="true"
+             [attr.aria-invalid]="username.invalid && username.touched ? true : null">
+      <ng-container *ngIf="username.invalid && username.touched">
+        <p class="caption status-danger" *ngIf="username.errors?.required">
+          Nazwa użytkownika wymagana!
+        </p>
+        <p class="caption status-danger" *ngIf="username.errors?.pattern">
+          Podaj prawdziwą nazwę użytkownika
+        </p>
+      </ng-container>
+    </div>
+
+    <div class="form-control-group">
+    <span class="label-with-link">
+      <label class="label" for="input-password">Hasło:</label>
+<!--      <a class="forgot-password caption-2" routerLink="../request-password">Nie pamiętam hasła</a>-->
+    </span>
+      <nb-form-field>
+        <input nbInput
+                fullWidth
+                [(ngModel)]="user.password"
+                #password="ngModel"
+                name="password"
+                type="password"
+                id="input-password"
+                placeholder="Hasło"
+                fieldSize="large"
+                [type]="getInputType()"
+                [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+                [required]="getConfigValue('forms.validation.password.required')"
+                [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+
+        <button id="showPassword" [ngClass]="{'active': showPassword}" nbSuffix nbButton ghost type="button" (click)="toggleShowPassword()">
+          <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                   pack="eva"
+                   [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+          </nb-icon>
+        </button>
+      </nb-form-field>
+      <ng-container *ngIf="password.invalid && password.touched ">
+        <p class="caption status-danger" *ngIf="password.errors?.required">
+          Hasło wymagane!
+        </p>
+      </ng-container>
+    </div>
+
+    <div class="form-control-group accept-group">
+      <mat-checkbox [(ngModel)]="user.rememberMe" name="remember-me" class="label">
+        Zapamiętaj mnie
+      </mat-checkbox>
+    </div>
+
+    <button mat-flat-button class="login-button"
+            size="large"
+            [disabled]="submitted || !form.valid"
+            [class.btn-pulse]="submitted">
+      Zaloguj
+    </button>
+  </form>
+</div>

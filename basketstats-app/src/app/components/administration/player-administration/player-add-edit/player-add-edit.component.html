@@ -1,0 +1,86 @@
+<div class="modal-header pb-0">
+  <h4 class="modal-title">Dodaj nowego zawodnika</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-row">
+      <div id="form-group-firstName" class="form-group">
+        <label class="label" for="firstName">Imię</label>
+        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię" nbInput
+               formControlName="firstName"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.firstName.touched || form.firstName.dirty)
+               ? (form.firstName.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.firstName.invalid
+               && form.firstName.touched ? true : null">
+        <div *ngIf="form.firstName.errors" class="invalid-feedback">
+          <div *ngIf="form.firstName.errors.required && submited">Imię jest wymagane</div>
+          <div *ngIf="form.firstName.errors.maxlength">Imię może składać się z maksimum
+            {{ form.firstName.errors.maxlength.requiredLength }}</div>
+          <div *ngIf="form.firstName.errors.pattern">Imię może składać się tylko z liter</div>
+        </div>
+      </div>
+      <div id="form-group-lastName" class="form-group col-auto">
+        <label class="label" for="lastName">Nazwisko</label>
+        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko" nbInput
+               formControlName="lastName"
+               fullWidth
+               fieldSize="large"
+               [status]="(form.lastName.touched || form.lastName.dirty)
+               ? (form.lastName.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.lastName.invalid
+               && form.lastName.touched ? true : null">
+        <div *ngIf="form.lastName.errors" class="invalid-feedback">
+          <div *ngIf="form.lastName.errors.required && submited">Nazwisko jest wymagane</div>
+          <div *ngIf="form.lastName.errors.maxlength">Nazwisko może składać się z maksimum
+            {{ form.lastName.errors.maxlength.requiredLength }}</div>
+          <div *ngIf="form.lastName.errors.pattern">Nazwisko może składać się tylko z liter</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="number">Numer</label>
+      <input type="number" class="form-control w-100" id="number" placeholder="Numer" nbInput
+              formControlName="number"
+              fullWidth
+              fieldSize="large"
+              [status]="(form.number.touched || form.number.dirty)
+               ? (form.number.invalid  ? 'danger' : 'success') : 'basic'"
+              [attr.aria-invalid]="form.number.invalid
+               && form.number.touched ? true : null">
+      <div *ngIf="form.number.errors" class="invalid-feedback">
+        <div *ngIf="form.number.errors.required && submited">Musisz wybrać pozycję</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="position">Pozycja</label>
+      <nb-select id="position" placeholder="Wybierz pozycję..."
+                 formControlName="position"
+                 fullWidth
+                 [status]="(form.position?.touched || form.position?.dirty)
+               ? (form.position.invalid  ? 'danger' : 'success') : 'basic'"
+                 [attr.aria-invalid]="form.position.invalid
+               && form.position.touched ? true : null">
+        <nb-option *ngFor="let position of positions" [value]="position">{{ position }}</nb-option>
+      </nb-select>
+      <div *ngIf="form.position.errors" class="invalid-feedback">
+        <div *ngIf="form.position.errors.required && submited">Musisz wybrać pozycję</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span *ngIf="!isEdit" class="button-content"><b>Dodaj!</b></span>
+      <span *ngIf="isEdit" class="button-content"><b>Zapisz!</b></span>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="013-change-finished-to-match-status-in-matches-table" author="krysiakm">
+        <preConditions>
+            <columnExists tableName="matches" columnName="finished"/>
+        </preConditions>
+        <dropColumn columnName="id"
+                    schemaName="dbo"
+                    tableName="matches">
+            <column name="finished"/>
+        </dropColumn>
+        <addColumn schemaName= "dbo"
+                   tableName="matches" >
+            <column afterColumn="user_id"
+                    name="match_status"
+                    type="varchar(50)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,39 @@
+<mat-tab-group *ngIf="matchQuartersStats && match" mat-stretch-tabs>
+  <mat-tab label="Podsumowanie">
+    <app-match-stats-summary-for-players [matchPlayersSummaryStats]="matchPlayersSummaryStats"  [teamA]="match.teamA" [teamB]="match.teamB">
+
+    </app-match-stats-summary-for-players>
+  </mat-tab>
+
+  <mat-tab label="I Kwarta">
+    <app-quarter-stats-for-players [matchQuarterStats]="matchQuartersStats[0]" [teamA]="match.teamA" [teamB]="match.teamB">
+
+    </app-quarter-stats-for-players>
+  </mat-tab>
+
+  <mat-tab label="II Kwarta">
+    <app-quarter-stats-for-players [matchQuarterStats]="matchQuartersStats[1]" [teamA]="match.teamA" [teamB]="match.teamB">
+
+    </app-quarter-stats-for-players>
+  </mat-tab>
+
+  <mat-tab label="III Kwarta">
+    <app-quarter-stats-for-players [matchQuarterStats]="matchQuartersStats[2]" [teamA]="match.teamA" [teamB]="match.teamB">
+
+    </app-quarter-stats-for-players>
+  </mat-tab>
+
+  <mat-tab label="IV Kwarta">
+    <app-quarter-stats-for-players [matchQuarterStats]="matchQuartersStats[3]" [teamA]="match.teamA" [teamB]="match.teamB">
+
+    </app-quarter-stats-for-players>
+  </mat-tab>
+</mat-tab-group>
+<div class="sticky-pdf-button row">
+  <div>
+    <button *ngIf="matchPlayersSummaryStats" class="undo-button" (click)="generatePDF()"
+            mat-fab color="primary" matTooltip="Pobierz podsumowanie meczu">
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+  </div>
+</div>

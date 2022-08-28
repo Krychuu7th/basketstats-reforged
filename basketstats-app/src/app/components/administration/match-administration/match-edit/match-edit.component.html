@@ -1,0 +1,58 @@
+<div class="modal-header pb-0">
+  <h4 class="modal-title">Edytuj dane meczu</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submited = true; submit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="label" for="matchDate">Data spotkania</label>
+      <nb-form-field>
+        <nb-icon nbPrefix icon="calendar-outline" pack="eva"></nb-icon>
+        <input nbInput placeholder="Wybierz datę..." id="matchDate" [nbDatepicker]="dateTimePicker"
+               formControlName="matchDate"
+               fullWidth
+               fieldSize="large"
+               autocomplete="off"
+               [status]="(form.matchDate.touched || form.matchDate.dirty)
+               ? (form.matchDate.invalid  ? 'danger' : 'success') : 'basic'"
+               [attr.aria-invalid]="form.matchDate.invalid
+               && form.matchDate.touched ? true : null">
+      </nb-form-field>
+      <nb-date-timepicker
+        #dateTimePicker
+        singleColumn
+        [step]="10"
+        [applyButtonText]="'OK'"
+        [currentTimeButtonText]="'Teraz'">
+      </nb-date-timepicker>
+      <div *ngIf="form.matchDate.errors" class="invalid-feedback">
+        <div *ngIf="form.matchDate.errors.required && submited">Musisz wybrać datę spotkania</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="label" for="place">Miejsce spotkania</label>
+      <input type="text" class="form-control w-100" id="place" placeholder="Podaj adres spotkania..." nbInput
+             formControlName="place"
+             fullWidth
+             fieldSize="large"
+             [status]="(form.place.touched || form.place.dirty)
+               ? (form.place.invalid  ? 'danger' : 'success') : 'basic'"
+             [attr.aria-invalid]="form.place.invalid
+               && form.place.touched ? true : null">
+      <div *ngIf="form.place.errors" class="invalid-feedback">
+        <div *ngIf="form.place.errors.required && submited">Musisz podać adres spotkania</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-flat-button class="btn btn-light btn-lg button-cancel" (click)="activeModal.close('cancel');">
+      <span class="button-content"><b>Anuluj</b></span>
+    </button>
+    <button mat-flat-button class="btn btn-light btn-lg button-confirm ml-2"
+            type="submit">
+      <span class="button-content"><b>Zapisz!</b></span>
+    </button>
+  </div>
+</form>
