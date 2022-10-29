@@ -1,0 +1,59 @@
+<ng-container *ngIf="authService.isLoading$ | async; else loggedInUser">
+  <div class="authentication-loader">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-template #loggedInUser>
+  <ng-container
+    *ngIf="authService.isAuthenticated$ | async; else loggedOutUser"
+  >
+    <button
+      mat-flat-button
+      (onMenuOpen)="this.menuOpened = true"
+      (onMenuClose)="this.menuOpened = false"
+      [matMenuTriggerFor]="menu"
+      [ngClass]="{
+        active:
+          this.menuOpened ||
+          activeViewType == ViewTypeEnum.USER_PANEL ||
+          activeViewType == ViewTypeEnum.MATCH
+      }"
+      aria-label="Example icon-button with a menu"
+    >
+      <ng-container *ngIf="authService.user$ | async as user">
+        <img class="user-avatar" [src]="user.picture" alt="user avatar">
+        {{ user.name | uppercase }}
+        <mat-icon class="dropdown-icon" [ngClass]="{ active: this.menuOpened }"
+          >keyboard_arrow_down</mat-icon
+        >
+      </ng-container>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <!-- *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" -->
+      <button mat-menu-item class="menu-item" [routerLink]="['admin', 'users']">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Panel administracyjny</span>
+      </button>
+      <button mat-menu-item class="menu-item" [routerLink]="['user']">
+        <mat-icon>account_box</mat-icon>
+        <span>Panel statystyka</span>
+      </button>
+
+      <button mat-menu-item class="menu-item" (click)="authService.logout()">
+        <mat-icon>arrow_forward</mat-icon>
+        <span>Wyloguj</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+</ng-template>
+
+<ng-template #loggedOutUser>
+  <button
+    mat-flat-button
+    routerLinkActive="active"
+    (click)="authService.loginWithRedirect()"
+  >
+    ZALOGUJ
+  </button>
+</ng-template>

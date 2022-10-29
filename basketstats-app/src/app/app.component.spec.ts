@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'basketstats-angular-frontend'`, () => {
+  it(`should have as title 'basketstats-app'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('basketstats-angular-frontend');
+    expect(app.title).toEqual('basketstats-app');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('basketstats-angular-frontend app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('basketstats-app app is running!');
   });
 });

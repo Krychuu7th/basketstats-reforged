@@ -1,11 +1,10 @@
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import {
-  NavigationEnd, Router, RouterEvent, RoutesRecognized
+  NavigationEnd, Router, RouterEvent
 } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { ViewType } from "../../../enums/view-type.enum";
 import { User } from "../../../models/user";
 import { UserService } from "../../administration/user-list/user.service";
 
@@ -22,9 +21,6 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
   username: string;
   user: User;
   userFullname: string;
-  activeViewType: ViewType;
-  ViewTypeEnum = ViewType;
-  menuOpened = false;
   isLoggedIn = false;
 
   isXSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XSmall)
@@ -43,21 +39,12 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
       ).subscribe(() => {
       this.isAuthenticated();
       });
-    this.getViewType();
   }
 
   isAuthenticated() {
     // this.authService.isAuthenticated().subscribe((result => {
     //   this.isLoggedIn = result;
     // }));
-  }
-
-  getViewType() {
-    this.router.events.subscribe((data) => {
-      if (data instanceof RoutesRecognized) {
-        this.activeViewType = data.state.root.firstChild.data.viewType;
-      }
-    });
   }
 
   ngOnDestroy() {
