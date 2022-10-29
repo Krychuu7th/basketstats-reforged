@@ -1,33 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {NbSidebarService} from "@nebular/theme";
-import {Observable} from "rxjs";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {map} from "rxjs/operators";
-import {NbAuthService} from "@nebular/auth";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Component, OnInit } from '@angular/core';
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   isXSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XSmall)
     .pipe(
       map(result => result.matches)
     );
 
-  constructor(private nbSidebarService: NbSidebarService,
-              private breakpointObserver: BreakpointObserver,
-              private nbAuthService: NbAuthService
+  constructor(
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   toogleSidebar() {
-    this.nbSidebarService.toggle(false);
+    // this.nbSidebarService.toggle(false);
   }
 
   ngOnInit(): void {
-    this.nbAuthService.isAuthenticatedOrRefresh().subscribe( res => {
-    });
+    // this.nbAuthService.isAuthenticatedOrRefresh().subscribe(res => {
+    // });
   }
 }

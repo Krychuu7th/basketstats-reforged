@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TeamDeleteConfirmComponent } from './team-delete-confirm.component';
 
@@ -6,7 +6,7 @@ describe('TeamDeleteConfirmComponent', () => {
   let component: TeamDeleteConfirmComponent;
   let fixture: ComponentFixture<TeamDeleteConfirmComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TeamDeleteConfirmComponent ]
     })

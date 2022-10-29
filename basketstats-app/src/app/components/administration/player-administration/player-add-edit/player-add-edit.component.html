@@ -9,12 +9,10 @@
     <div class="form-row">
       <div id="form-group-firstName" class="form-group">
         <label class="label" for="firstName">Imię</label>
-        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię" nbInput
+        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię"
                formControlName="firstName"
                fullWidth
                fieldSize="large"
-               [status]="(form.firstName.touched || form.firstName.dirty)
-               ? (form.firstName.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.firstName.invalid
                && form.firstName.touched ? true : null">
         <div *ngIf="form.firstName.errors" class="invalid-feedback">
@@ -26,12 +24,10 @@
       </div>
       <div id="form-group-lastName" class="form-group col-auto">
         <label class="label" for="lastName">Nazwisko</label>
-        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko" nbInput
+        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko"
                formControlName="lastName"
                fullWidth
                fieldSize="large"
-               [status]="(form.lastName.touched || form.lastName.dirty)
-               ? (form.lastName.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.lastName.invalid
                && form.lastName.touched ? true : null">
         <div *ngIf="form.lastName.errors" class="invalid-feedback">
@@ -44,12 +40,10 @@
     </div>
     <div class="form-group">
       <label class="label" for="number">Numer</label>
-      <input type="number" class="form-control w-100" id="number" placeholder="Numer" nbInput
+      <input type="number" class="form-control w-100" id="number" placeholder="Numer"
               formControlName="number"
               fullWidth
               fieldSize="large"
-              [status]="(form.number.touched || form.number.dirty)
-               ? (form.number.invalid  ? 'danger' : 'success') : 'basic'"
               [attr.aria-invalid]="form.number.invalid
                && form.number.touched ? true : null">
       <div *ngIf="form.number.errors" class="invalid-feedback">
@@ -58,7 +52,7 @@
     </div>
     <div class="form-group">
       <label class="label" for="position">Pozycja</label>
-      <nb-select id="position" placeholder="Wybierz pozycję..."
+      <!-- <nb-select id="position" placeholder="Wybierz pozycję..."
                  formControlName="position"
                  fullWidth
                  [status]="(form.position?.touched || form.position?.dirty)
@@ -66,7 +60,7 @@
                  [attr.aria-invalid]="form.position.invalid
                && form.position.touched ? true : null">
         <nb-option *ngFor="let position of positions" [value]="position">{{ position }}</nb-option>
-      </nb-select>
+      </nb-select> -->
       <div *ngIf="form.position.errors" class="invalid-feedback">
         <div *ngIf="form.position.errors.required && submited">Musisz wybrać pozycję</div>
       </div>

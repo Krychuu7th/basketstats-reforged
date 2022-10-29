@@ -1,16 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {UserService} from "../user-list/user.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {RoleService} from "../../auth/role.service";
-import {Role} from "../../../models/role";
-import {MustMatch} from "../../../helpers/must-match.validator";
-import {User} from "../../../models/user";
-import {KeyValuePipe} from "@angular/common";
-import {UsernameNotUsed} from "../../../helpers/username-not-used.validator";
-import {EmailNotUsed} from "../../../helpers/email-not-used.validator";
-import {UserRoles} from "../../../enums/user-roles";
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { UserRoles } from "../../../enums/user-roles";
+import { EmailNotUsed } from "../../../helpers/email-not-used.validator";
+import { MustMatch } from "../../../helpers/must-match.validator";
+import { UsernameNotUsed } from "../../../helpers/username-not-used.validator";
+import { Role } from "../../../models/role";
+import { User } from "../../../models/user";
+import { RoleService } from "../../auth/role.service";
+import { UserService } from "../user-list/user.service";
 
 @Component({
   selector: 'app-user-add-edit',
@@ -27,7 +25,7 @@ export class UserAddEditComponent implements OnInit {
   changePassword = false;
   @Input()
   user: User;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   selectedRoles: Role[] = [];
   roles: Role[];
@@ -37,9 +35,9 @@ export class UserAddEditComponent implements OnInit {
   constructor(
     private userService: UserService,
     private roleService: RoleService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +57,7 @@ export class UserAddEditComponent implements OnInit {
       this.changePassword = true;
     }
     this.formGroup = this.formBuilder.group({
-      username: new FormControl(this.user ? this.user.username : null,
+      username: new UntypedFormControl(this.user ? this.user.username : null,
         [
           Validators.required,
           Validators.minLength(2),
@@ -67,32 +65,32 @@ export class UserAddEditComponent implements OnInit {
           Validators.pattern('^[A-Za-z0-9_-]*$')
         ]
       ),
-      password: new FormControl( '',
+      password: new UntypedFormControl( '',
       ),
-      passwordConfirm: new FormControl( '',
+      passwordConfirm: new UntypedFormControl( '',
       ),
-      firstName: new FormControl(this.user ? this.user.firstName : null,
+      firstName: new UntypedFormControl(this.user ? this.user.firstName : null,
         [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\-]*')
         ]
       ),
-      lastName: new FormControl(this.user ? this.user.lastName : null,
+      lastName: new UntypedFormControl(this.user ? this.user.lastName : null,
         [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\-]*')
         ]
       ),
-      email: new FormControl(this.user ? this.user.email : null,
+      email: new UntypedFormControl(this.user ? this.user.email : null,
         [
           Validators.required,
           Validators.maxLength(100),
           Validators.pattern('(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\\])')
         ]
       ),
-      roles: new FormControl(null,
+      roles: new UntypedFormControl(null,
         [
           Validators.required
         ]
@@ -161,7 +159,7 @@ export class UserAddEditComponent implements OnInit {
     }
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -261,8 +259,8 @@ export class UserAddEditComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
   userHasRole(roleId: number){

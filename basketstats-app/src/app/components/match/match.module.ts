@@ -1,24 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatTabsModule} from "@angular/material/tabs";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatTableModule} from "@angular/material/table";
-import {MatSortModule} from "@angular/material/sort";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {FormsModule} from "@angular/forms";
-import {MatchRoutingModule} from "./match-routing.module";
-import { MatchSettingsComponent } from './match-settings/match-settings.component';
-import {MatDividerModule} from "@angular/material/divider";
+import { NgModule } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { ReversePipe } from "../../helpers/pipes/reverse.pipe";
 import { MatchInProgressComponent } from './match-in-progress/match-in-progress.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatMenuModule} from "@angular/material/menu";
-import {NbCardModule, NbListModule, NbSelectModule} from "@nebular/theme";
-import {ContextMenuModule} from "ngx-contextmenu";
-import {ReversePipe} from "../../helpers/pipes/reverse.pipe";
+import { MatchRoutingModule } from "./match-routing.module";
+import { MatchSettingsComponent } from './match-settings/match-settings.component';
 
 @NgModule({
   declarations: [
@@ -42,10 +40,10 @@ import {ReversePipe} from "../../helpers/pipes/reverse.pipe";
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    NbSelectModule,
-    ContextMenuModule.forRoot(),
-    NbCardModule,
-    NbListModule
+    // NbSelectModule,
+    // ContextMenuModule.forRoot(),
+    // NbCardModule,
+    // NbListModule
   ]
 })
 export class MatchModule { }

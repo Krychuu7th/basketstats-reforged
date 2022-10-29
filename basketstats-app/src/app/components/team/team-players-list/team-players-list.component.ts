@@ -1,17 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {Player} from "../../../models/player";
-import {Team} from "../../../models/team";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {NbAccessChecker} from "@nebular/security";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {UserAddEditComponent} from "../../administration/user-add-edit/user-add-edit.component";
-import {User} from "../../../models/user";
-import {UserDeleteConfirmComponent} from "../../administration/user-delete-confirm/user-delete-confirm.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PlayerDeleteConfirmComponent} from "../../administration/player-administration/player-delete-confirm/player-delete-confirm.component";
-import {PlayerAddEditComponent} from "../../administration/player-administration/player-add-edit/player-add-edit.component";
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Player } from "../../../models/player";
+import { Team } from "../../../models/team";
+import { PlayerAddEditComponent } from "../../administration/player-administration/player-add-edit/player-add-edit.component";
+import { PlayerDeleteConfirmComponent } from "../../administration/player-administration/player-delete-confirm/player-delete-confirm.component";
 
 @Component({
   selector: 'app-team-players-list',
@@ -41,7 +37,6 @@ export class TeamPlayersListComponent implements OnChanges {
   @Output() emitLoadData = new EventEmitter<void>();
 
   constructor(
-    public accessChecker: NbAccessChecker,
     private modalService: NgbModal
   ) { }
 

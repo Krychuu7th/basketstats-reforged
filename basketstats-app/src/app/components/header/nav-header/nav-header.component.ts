@@ -1,18 +1,13 @@
-import {Component, Output, EventEmitter, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {Observable, Subject} from "rxjs";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {filter, first, map, takeUntil} from "rxjs/operators";
-import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import {
-  Router,
-  NavigationEnd,
-  ActivatedRoute,
-  RouterEvent, RoutesRecognized
+  NavigationEnd, Router, RouterEvent, RoutesRecognized
 } from "@angular/router";
-import {NbAccessChecker} from "@nebular/security";
-import {User} from "../../../models/user";
-import {UserService} from "../../administration/user-list/user.service";
-import {ViewType} from "../../../enums/view-type.enum";
+import { Observable, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
+import { ViewType } from "../../../enums/view-type.enum";
+import { User } from "../../../models/user";
+import { UserService } from "../../administration/user-list/user.service";
 
 @Component({
   selector: 'app-nav-header',
@@ -38,8 +33,6 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private authService: NbAuthService,
-              public accessChecker: NbAccessChecker,
               public userService: UserService,
               public router: Router) {
   }
@@ -49,28 +42,14 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
         filter((event: RouterEvent) => event instanceof NavigationEnd)
       ).subscribe(() => {
       this.isAuthenticated();
-
-      this.authService.onTokenChange().pipe(first())
-        .subscribe((token: NbAuthJWTToken) => {
-          if(token.isValid()){
-            this.username = token.getPayload().sub;
-
-            this.userService.getUserByUsername(this.username)
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((user: User) => {
-                this.user = user;
-                this.userFullname = this.user.firstName;
-              });
-          }
-        });
       });
     this.getViewType();
   }
 
   isAuthenticated() {
-    this.authService.isAuthenticated().subscribe((result => {
-      this.isLoggedIn = result;
-    }));
+    // this.authService.isAuthenticated().subscribe((result => {
+    //   this.isLoggedIn = result;
+    // }));
   }
 
   getViewType() {

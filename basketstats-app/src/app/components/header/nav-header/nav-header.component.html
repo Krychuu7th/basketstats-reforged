@@ -1,17 +1,18 @@
 <div class="container">
   <ng-container *ngIf="(isXSmall$ | async) === false else xSmallBlock">
-    <div fxLayout="row">
-      <div fxLayoutAlign="start center" style="margin-top: 40px">
+    <div class="navbar-container">
+      <div class="logo-container">
         <a routerLink="">
           <img class="logo" src="../../../../assets/images/basketstats.png" alt="Basketstats logo" height="128">
         </a>
       </div>
-      <div fxLayoutAlign="end center" class="w-100">
+      <div>
         <button mat-flat-button [ngClass]="{ active: activeViewType == ViewTypeEnum.SCHEDULE }"
                 [routerLink]="['schedule/']">TERMINARZ</button>
         <button mat-flat-button [ngClass]="{ active: activeViewType == ViewTypeEnum.TEAMS }"
                 [routerLink]="['teams/']">DRUŻYNY</button>
-        <button mat-flat-button *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticated"
+        <!-- *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticated" -->
+        <button mat-flat-button 
                 [ngClass]="{ active: activeViewType == ViewTypeEnum.AUTH }"
                 [routerLink]="['auth/login']">ZALOGUJ
         </button>
@@ -19,13 +20,16 @@
           <button mat-flat-button (onMenuOpen)="this.menuOpened = true" (onMenuClose)="this.menuOpened = false" [matMenuTriggerFor]="menu"
                   [ngClass]="{ active: this.menuOpened || activeViewType == ViewTypeEnum.USER_PANEL || activeViewType == ViewTypeEnum.MATCH }"
                   aria-label="Example icon-button with a menu">
-            <mat-icon *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" class="profile-icon-admin">verified_user</mat-icon>
-            <mat-icon *ngIf="!(accessChecker.isGranted('view', 'admin_panel') | async)" class="profile-icon">person_outline</mat-icon>
+            <!-- *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" -->
+            <mat-icon class="profile-icon-admin">verified_user</mat-icon>
+            <!-- *ngIf="!(accessChecker.isGranted('view', 'admin_panel') | async)" -->
+            <mat-icon  class="profile-icon">person_outline</mat-icon>
             {{ user?.firstName | uppercase }}
             <mat-icon class="dropdown-icon" [ngClass]="{ active: this.menuOpened }">keyboard_arrow_down</mat-icon>
           </button>
           <mat-menu #menu="matMenu" xPosition="before">
-            <button *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)"
+            <!-- *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" -->
+            <button 
             mat-menu-item class="menu-item" [routerLink]="['admin', 'users']">
               <mat-icon>admin_panel_settings</mat-icon>
               <span>Panel administracyjny</span>
@@ -45,19 +49,20 @@
     </div>
   </ng-container>
   <ng-template #xSmallBlock>
-    <div fxLayout="row" style="position: relative">
-      <div fxLayoutAlign="start center">
+    <div style="position: relative">
+      <div>
         <button mat-flat-button class="sidebar-button" (click)="sidebarEvent.emit()">
           <nb-icon class="sidebar-icon" icon="menu" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
         </button>
       </div>
-      <div fxLayoutAlign="center start" class="w-100 center-div">
+      <div class="w-100 center-div">
         <a routerLink="">
           <img class="logo" src="../../../../assets/images/basketstats.png" alt="Basketstats logo" height="128">
         </a>
       </div>
-      <div fxLayoutAlign="end center" class="w-100">
-        <button *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticatedSmall"
+      <div class="w-100">
+        <!-- *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticatedSmall" -->
+        <button 
                 mat-flat-button class="login-button" routerLink="auth/login">
           <nb-icon class="sidebar-icon" icon="log-in-outline" [options]="{ animation: { type: 'pulse' } }">
           </nb-icon>

@@ -9,6 +9,10 @@ html *
   font-family: BalooBhaina2 !important;
 }
 
+body {
+  overflow-x: auto;
+}
+
 :focus {
   outline: none !important;
 }
@@ -87,125 +91,125 @@ a {
   display: unset !important;
 }
 
-/* NEBULAR STYLING */
+// /* NEBULAR STYLING */
 
-[nbInput] {
-  transition: background-color 0.5s;
-}
+// [nbInput] {
+//   transition: background-color 0.5s;
+// }
 
-[nbInput].status-basic {
-  background-color: #ffffff !important;
-}
+// [nbInput].status-basic {
+//   background-color: #ffffff !important;
+// }
 
-[nbInput].status-danger {
-  background-image: linear-gradient(to bottom, #f7f9fc 92%, #ff3d71 8%) !important;
-  border-color: #e4e9f2 !important;
-}
+// [nbInput].status-danger {
+//   background-image: linear-gradient(to bottom, #f7f9fc 92%, #ff3d71 8%) !important;
+//   border-color: #e4e9f2 !important;
+// }
 
-[nbInput].status-success {
-  background-image: linear-gradient(to bottom, #f7f9fc 92%, #00d68f 8%) !important;
-  border-color: #e4e9f2 !important;
-}
+// [nbInput].status-success {
+//   background-image: linear-gradient(to bottom, #f7f9fc 92%, #00d68f 8%) !important;
+//   border-color: #e4e9f2 !important;
+// }
 
-.nb-theme-default nb-select.appearance-outline.status-danger .select-button {
-  background-image: linear-gradient(to bottom, #f7f9fc 92%, #ff3d71 8%) !important;
-  border-color: #e4e9f2 !important;
-}
+// .nb-theme-default nb-select.appearance-outline.status-danger .select-button {
+//   background-image: linear-gradient(to bottom, #f7f9fc 92%, #ff3d71 8%) !important;
+//   border-color: #e4e9f2 !important;
+// }
 
-.nb-theme-default nb-select.appearance-outline.status-success .select-button {
-  background-image: linear-gradient(to bottom, #f7f9fc 92%, #00d68f 8%) !important;
-  border-color: #e4e9f2 !important;
-}
+// .nb-theme-default nb-select.appearance-outline.status-success .select-button {
+//   background-image: linear-gradient(to bottom, #f7f9fc 92%, #00d68f 8%) !important;
+//   border-color: #e4e9f2 !important;
+// }
 
-.nb-theme-default nb-checkbox.status-warning .custom-checkbox {
-  background-color: rgba(255, 112, 67, 0.24);
-  border-color: #FF7043;
-}
+// .nb-theme-default nb-checkbox.status-warning .custom-checkbox {
+//   background-color: rgba(255, 112, 67, 0.24);
+//   border-color: #FF7043;
+// }
 
-.nb-theme-default nb-checkbox.status-warning .custom-checkbox:hover {
-  background-color: rgba(255, 112, 67, 0.50);
-  border-color: #FF7043;
-}
+// .nb-theme-default nb-checkbox.status-warning .custom-checkbox:hover {
+//   background-color: rgba(255, 112, 67, 0.50);
+//   border-color: #FF7043;
+// }
 
-.nb-theme-default nb-checkbox.status-warning .native-input:enabled:focus+.custom-checkbox.indeterminate,
-.nb-theme-default nb-checkbox.status-warning .native-input:enabled:focus+.custom-checkbox.checked {
-  background-color: #FF7043;
-  border-color: #bd5331;
-}
+// .nb-theme-default nb-checkbox.status-warning .native-input:enabled:focus+.custom-checkbox.indeterminate,
+// .nb-theme-default nb-checkbox.status-warning .native-input:enabled:focus+.custom-checkbox.checked {
+//   background-color: #FF7043;
+//   border-color: #bd5331;
+// }
 
-.nb-theme-default a:focus {
-  color: #FF7043 !important;
-}
+// .nb-theme-default a:focus {
+//   color: #FF7043 !important;
+// }
 
-[nbButton]:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
+// [nbButton]:focus {
+//   outline: none !important;
+//   box-shadow: none !important;
+// }
 
-.nb-theme-default .cdk-overlay-container {
-  z-index: 1080 !important;
-}
+// .nb-theme-default .cdk-overlay-container {
+//   z-index: 1080 !important;
+// }
 
-.nb-theme-default nb-checkbox.status-basic .custom-checkbox.checked {
-  background-color: #FF7043;
-  border-color: #FF7043;
-}
+// .nb-theme-default nb-checkbox.status-basic .custom-checkbox.checked {
+//   background-color: #FF7043;
+//   border-color: #FF7043;
+// }
 
-.nb-theme-default [nbInput].status-basic:disabled {
-  background-color: #f7f9fc !important;
-  color: rgb(143, 155, 179);
-}
+// .nb-theme-default [nbInput].status-basic:disabled {
+//   background-color: #f7f9fc !important;
+//   color: rgb(143, 155, 179);
+// }
 
-.nb-theme-default nb-select.appearance-outline.status-basic .select-button {
-  background-color: #ffffff !important;
-}
+// .nb-theme-default nb-select.appearance-outline.status-basic .select-button {
+//   background-color: #ffffff !important;
+// }
 
-.nb-theme-default nb-layout .layout {
-  background-color: #ffffff !important;
-}
+// .nb-theme-default nb-layout .layout {
+//   background-color: #ffffff !important;
+// }
 
-.nb-theme-default nb-option.selected {
-    background-color: #FF7043;
-    color: #ffffff;
-}
+// .nb-theme-default nb-option.selected {
+//     background-color: #FF7043;
+//     color: #ffffff;
+// }
 
-.nb-theme-default nb-option:hover.selected {
-    background-color: #ff6535;
-    color: #ffffff;
-}
+// .nb-theme-default nb-option:hover.selected {
+//     background-color: #ff6535;
+//     color: #ffffff;
+// }
 
-.nb-theme-default nb-option:focus.selected {
-    background-color: #FF7043;
-    color: #ffffff;
-}
+// .nb-theme-default nb-option:focus.selected {
+//     background-color: #FF7043;
+//     color: #ffffff;
+// }
 
-.nb-theme-default .nb-timepicker-container .list-item.selected {
-    background-color: #FF7043;
-    color: #ffffff;
-}
+// .nb-theme-default .nb-timepicker-container .list-item.selected {
+//     background-color: #FF7043;
+//     color: #ffffff;
+// }
 
-.nb-theme-default nb-calendar-picker .day-cell:not(.disabled):not(.empty).selected .cell-content, .nb-theme-default nb-calendar-picker .month-cell:not(.disabled):not(.empty).selected .cell-content, .nb-theme-default nb-calendar-picker .year-cell:not(.disabled):not(.empty).selected .cell-content {
-    background-color: #FF7043 !important;
-    color: #ffffff !important;
-}
+// .nb-theme-default nb-calendar-picker .day-cell:not(.disabled):not(.empty).selected .cell-content, .nb-theme-default nb-calendar-picker .month-cell:not(.disabled):not(.empty).selected .cell-content, .nb-theme-default nb-calendar-picker .year-cell:not(.disabled):not(.empty).selected .cell-content {
+//     background-color: #FF7043 !important;
+//     color: #ffffff !important;
+// }
 
-.nb-theme-default nb-calendar-picker .day-cell:not(.disabled):not(.empty).today .cell-content, .nb-theme-default nb-calendar-picker .month-cell:not(.disabled):not(.empty).today .cell-content, .nb-theme-default nb-calendar-picker .year-cell:not(.disabled):not(.empty).today .cell-content {
-    border-color: #FF7043 !important;
-}
+// .nb-theme-default nb-calendar-picker .day-cell:not(.disabled):not(.empty).today .cell-content, .nb-theme-default nb-calendar-picker .month-cell:not(.disabled):not(.empty).today .cell-content, .nb-theme-default nb-calendar-picker .year-cell:not(.disabled):not(.empty).today .cell-content {
+//     border-color: #FF7043 !important;
+// }
 
-.nb-theme-default [nbButton].appearance-ghost.status-primary {
-    color: #FF7043 !important;
-}
+// .nb-theme-default [nbButton].appearance-ghost.status-primary {
+//     color: #FF7043 !important;
+// }
 
-.nb-theme-default [nbButton].appearance-filled.status-primary {
-    background-color: #FF7043 !important;
-    color: #ffffff !important;
-    border-color: #FF7043;
-}
+// .nb-theme-default [nbButton].appearance-filled.status-primary {
+//     background-color: #FF7043 !important;
+//     color: #ffffff !important;
+//     border-color: #FF7043;
+// }
 
-.nb-theme-default .nb-timepicker-container .header-cell {
-    display: none;
-}
+// .nb-theme-default .nb-timepicker-container .header-cell {
+//     display: none;
+// }
 
 /* MATERIAL STYLING*/
 
@@ -290,7 +294,7 @@ mat-progress-bar {
   left: 0;
   z-index: 100;
   position: fixed !important;
-  top: 76px;
+  top: 75px;
 }
 
 .mat-slide-toggle-thumb {

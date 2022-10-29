@@ -1,15 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Position} from "../../../../enums/position.enum";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {League} from "../../../../models/league";
-import {TeamService} from "../../../team/team.service";
-import {MatchService} from "../../../schedule/match.service";
-import {Match} from "../../../../models/match";
-import {Team} from "../../../../models/team";
-import {User} from "../../../../models/user";
-import {MatchStatus} from "../../../../enums/match-status.enum";
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatchStatus } from "../../../../enums/match-status.enum";
+import { Position } from "../../../../enums/position.enum";
+import { League } from "../../../../models/league";
+import { Match } from "../../../../models/match";
+import { Team } from "../../../../models/team";
+import { User } from "../../../../models/user";
+import { MatchService } from "../../../schedule/match.service";
+import { TeamService } from "../../../team/team.service";
 
 @Component({
   selector: 'app-match-add',
@@ -30,14 +29,14 @@ export class MatchAddComponent implements OnInit {
   teamAList: Team[];
   teamBList: Team[];
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   positions = Object.values(Position);
 
   constructor(
     private matchService: MatchService,
     private teamService: TeamService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -64,28 +63,28 @@ export class MatchAddComponent implements OnInit {
 
 
   initForm() {
-    this.formGroup = new FormGroup({
-      teamA: new FormControl(null,
+    this.formGroup = new UntypedFormGroup({
+      teamA: new UntypedFormControl(null,
         [
           Validators.required
         ]
       ),
-      teamB: new FormControl(null,
+      teamB: new UntypedFormControl(null,
         [
           Validators.required
         ]
       ),
-      matchDate: new FormControl(null,
+      matchDate: new UntypedFormControl(null,
         [
           Validators.required
         ]
       ),
-      place: new FormControl(null,
+      place: new UntypedFormControl(null,
         [
           Validators.required
         ]
       ),
-      user: new FormControl(null,
+      user: new UntypedFormControl(null,
       ),
     });
 
@@ -95,7 +94,7 @@ export class MatchAddComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -153,8 +152,8 @@ export class MatchAddComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

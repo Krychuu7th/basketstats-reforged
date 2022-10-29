@@ -1,14 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {League} from "../../../../models/league";
-import {User} from "../../../../models/user";
-import {Team} from "../../../../models/team";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Position} from "../../../../enums/position.enum";
-import {MatchService} from "../../../schedule/match.service";
-import {TeamService} from "../../../team/team.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Match} from "../../../../models/match";
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Position } from "../../../../enums/position.enum";
+import { Match } from "../../../../models/match";
+import { MatchService } from "../../../schedule/match.service";
+import { TeamService } from "../../../team/team.service";
 
 @Component({
   selector: 'app-match-edit',
@@ -22,7 +18,7 @@ export class MatchEditComponent implements OnInit {
   @Input()
   match: Match;
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   matchDatetime: Date = new Date();
 
@@ -31,7 +27,7 @@ export class MatchEditComponent implements OnInit {
   constructor(
     private matchService: MatchService,
     private teamService: TeamService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -40,13 +36,13 @@ export class MatchEditComponent implements OnInit {
   }
 
   initForm() {
-    this.formGroup = new FormGroup({
-      matchDate: new FormControl(this.match ? new Date(this.match.matchDate) : new Date(),
+    this.formGroup = new UntypedFormGroup({
+      matchDate: new UntypedFormControl(this.match ? new Date(this.match.matchDate) : new Date(),
         [
           Validators.required
         ]
       ),
-      place: new FormControl(this.match ? this.match.place : null,
+      place: new UntypedFormControl(this.match ? this.match.place : null,
         [
           Validators.required
         ]
@@ -58,7 +54,7 @@ export class MatchEditComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -116,7 +112,7 @@ export class MatchEditComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 }

@@ -388,9 +388,9 @@
   font-size: 20px;
 }
 
-::ng-deep .nb-theme-default .cdk-overlay-container {
+/* ::ng-deep .nb-theme-default .cdk-overlay-container {
   z-index: 3080 !important;
-}
+} */
 
 .left-outer-field {
   position: absolute;

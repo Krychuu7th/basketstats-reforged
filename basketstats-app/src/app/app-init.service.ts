@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import {NbAuthService} from "@nebular/auth";
+import { Injectable } from "@angular/core";
 
 @Injectable({
   providedIn: 'root'
@@ -7,18 +6,17 @@ import {NbAuthService} from "@nebular/auth";
 export class AppInitService {
 
   constructor(
-    private nbAuthService: NbAuthService
   ) { }
 
   refreshJwtToken() {
-    return this.nbAuthService.isAuthenticated()
-      .toPromise()
-      .then(
-        data => {
-          if(!data) {
-            localStorage.removeItem('auth_app_token');
-          }
-        }
-      )
+    // return this.nbAuthService.isAuthenticated()
+    //   .toPromise()
+    //   .then(
+    //     data => {
+    //       if(!data) {
+    //         localStorage.removeItem('auth_app_token');
+    //       }
+    //     }
+    //   )
   }
 }

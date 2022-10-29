@@ -1,18 +1,17 @@
-import {Injectable} from "@angular/core";
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {NbToastrService} from "@nebular/theme";
-import {catchError} from "rxjs/operators";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
-    private nbToastrService: NbToastrService
+    // private nbToastrService: NbToastrService
   ) {}
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
   intercept(

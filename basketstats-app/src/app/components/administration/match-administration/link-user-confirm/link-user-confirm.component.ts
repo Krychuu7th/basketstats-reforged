@@ -1,10 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PlayerService} from "../../../team/team-players/player.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Match} from "../../../../models/match";
-import {User} from "../../../../models/user";
-import {MatchService} from "../../../schedule/match.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Match } from "../../../../models/match";
+import { User } from "../../../../models/user";
+import { MatchService } from "../../../schedule/match.service";
 
 @Component({
   selector: 'app-link-user-confirm',
@@ -18,7 +16,7 @@ export class LinkUserConfirmComponent implements OnInit {
 
   constructor(
     private matchService: MatchService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -54,8 +52,8 @@ export class LinkUserConfirmComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

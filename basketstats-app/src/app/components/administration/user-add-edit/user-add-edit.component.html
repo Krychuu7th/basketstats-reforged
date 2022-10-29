@@ -8,12 +8,10 @@
   <div class="modal-body">
     <div class="form-group">
       <label class="label" for="username">Nazwa użytkownika</label>
-      <input type="text" class="form-control w-100" id="username" placeholder="Nazwa użytkownika" nbInput autofocus
+      <input type="text" class="form-control w-100" id="username" placeholder="Nazwa użytkownika"
              formControlName="username"
              fullWidth
              fieldSize="large"
-             [status]="(form.username.touched || form.username.dirty)
-             ? (form.username.invalid  ? 'danger' : 'success') : 'basic'"
              [attr.aria-invalid]="form.username.invalid && form.username.touched ? true : null">
       <div *ngIf="form.username.errors" class="invalid-feedback">
         <div *ngIf="form.username.errors.required && submited">Nazwa użytkownika jest wymagana</div>
@@ -35,12 +33,10 @@
     <div class="form-row" *ngIf="(!isEdit) || (isEdit && changePassword)">
       <div class="form-group col">
         <label class="label" for="password">Hasło</label>
-        <input [type]="getInputType()" class="form-control w-100" id="password" placeholder="Hasło" nbInput
+        <input [type]="getInputType()" class="form-control w-100" id="password" placeholder="Hasło"
                formControlName="password"
                fullWidth
                fieldSize="large"
-               [status]="(form.password.touched || form.password.dirty)
-               ? (form.password.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.password.invalid
                && form.password.touched ? true : null">
         <div *ngIf="form.password.errors" class="invalid-feedback">
@@ -54,12 +50,10 @@
       </div>
       <div class="form-group col">
         <label class="label" for="confirmPassword">Potwierdź</label>
-        <input [type]="getInputType()" class="form-control w-100" id="confirmPassword" placeholder="Potwierdź" nbInput
+        <input [type]="getInputType()" class="form-control w-100" id="confirmPassword" placeholder="Potwierdź"
                formControlName="passwordConfirm"
                fullWidth
                fieldSize="large"
-               [status]="(form.passwordConfirm.touched || form.passwordConfirm.dirty)
-               ? (form.passwordConfirm.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.passwordConfirm.invalid
                && form.passwordConfirm.touched ? true : null">
         <div *ngIf="form.passwordConfirm.errors" class="invalid-feedback">
@@ -68,24 +62,22 @@
         </div>
       </div>
       <div class="form-group col-auto show-password-box">
-        <button id="showPassword" type="button" [ngClass]="{'active': showPassword}" nbButton ghost
+        <button id="showPassword" type="button" [ngClass]="{'active': showPassword}"
                 (click)="toggleShowPassword()">
-          <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+          <!-- <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
                    pack="eva"
-                   [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
-          </nb-icon>
+                   [attr.aria-label]="showPassword ? 'hide password' : 'show password'"> 
+          </nb-icon> -->
         </button>
       </div>
     </div>
     <div class="form-row">
       <div id="form-group-firstName" class="form-group">
         <label class="label" for="firstName">Imię</label>
-        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię" nbInput
+        <input type="text" class="form-control w-100" id="firstName" placeholder="Imię"
                formControlName="firstName"
                fullWidth
                fieldSize="large"
-               [status]="(form.firstName.touched || form.firstName.dirty)
-               ? (form.firstName.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.firstName.invalid
                && form.firstName.touched ? true : null">
         <div *ngIf="form.firstName.errors" class="invalid-feedback">
@@ -97,12 +89,10 @@
       </div>
       <div id="form-group-lastName" class="form-group col-auto">
         <label class="label" for="lastName">Nazwisko</label>
-        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko" nbInput
+        <input type="text" class="form-control w-100" id="lastName" placeholder="Nazwisko"
                formControlName="lastName"
                fullWidth
                fieldSize="large"
-               [status]="(form.lastName.touched || form.lastName.dirty)
-               ? (form.lastName.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.lastName.invalid
                && form.lastName.touched ? true : null">
         <div *ngIf="form.lastName.errors" class="invalid-feedback">
@@ -115,12 +105,10 @@
     </div>
     <div class="form-group">
       <label class="label" for="email">E-mail</label>
-      <input type="email" class="form-control w-100" id="email" placeholder="np. mail@domena.com" nbInput
+      <input type="email" class="form-control w-100" id="email" placeholder="np. mail@domena.com"
              formControlName="email"
              fullWidth
              fieldSize="large"
-             [status]="(form.email.touched || form.email.dirty)
-             ? (form.email.invalid  ? 'danger' : 'success') : 'basic'"
              [attr.aria-invalid]="form.email.invalid
              && form.email.touched ? true : null">
       <div *ngIf="form.email.errors" class="invalid-feedback">
@@ -134,13 +122,13 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label class="label" for="roles">Rola</label>
-        <nb-select multiple id="roles" placeholder="Wybierz role" formControlName="roles"
+        <!-- <nb-select multiple id="roles" placeholder="Wybierz role" formControlName="roles"
                    [status]="(form.roles.touched || form.roles.dirty)
                    ? (form.roles.invalid  ? 'danger' : 'success') : 'basic'"
                    [attr.aria-invalid]="form.roles.invalid
                    && form.roles.touched ? true : null">
           <nb-option *ngFor="let role of roles" [value]="role" >{{ userRoles[role.name] }}</nb-option>
-        </nb-select>
+        </nb-select> -->
         <div *ngIf="form.roles.errors" class="invalid-feedback">
           <div *ngIf="form.roles.errors.required && submited">Musisz wybrać rolę</div>
         </div>

@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {TeamService} from "../../../team/team.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TeamService } from "../../../team/team.service";
 
 @Component({
   selector: 'app-team-delete-confirm',
@@ -15,7 +14,7 @@ export class TeamDeleteConfirmComponent implements OnInit {
 
   constructor(
     private teamService: TeamService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -44,7 +43,7 @@ export class TeamDeleteConfirmComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 }

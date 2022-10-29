@@ -1,16 +1,15 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {NbRequestPasswordComponent, NbResetPasswordComponent} from "@nebular/auth";
-import {LoginComponent} from "./components/auth/login/login.component"
-import {AuthGuard} from "./components/auth/auth-guard.service";
-import {HomepageComponent} from "./components/homepage/homepage.component";
-import {AuthComponent} from "./components/auth/auth.component";
-import {TeamComponent} from "./components/team/team.component";
-import {ViewType} from "./enums/view-type.enum";
-import {TeamPlayersComponent} from "./components/team/team-players/team-players.component";
-import {LogoutComponent} from "./components/auth/logout/logout.component";
-import {ScheduleComponent} from "./components/schedule/schedule.component";
-import {MatchStatsComponent} from "./components/schedule/match-stats/match-stats.component";
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./components/auth/auth-guard.service";
+import { AuthComponent } from "./components/auth/auth.component";
+import { LoginComponent } from "./components/auth/login/login.component";
+import { LogoutComponent } from "./components/auth/logout/logout.component";
+import { HomepageComponent } from "./components/homepage/homepage.component";
+import { MatchStatsComponent } from "./components/schedule/match-stats/match-stats.component";
+import { ScheduleComponent } from "./components/schedule/schedule.component";
+import { TeamPlayersComponent } from "./components/team/team-players/team-players.component";
+import { TeamComponent } from "./components/team/team.component";
+import { ViewType } from "./enums/view-type.enum";
 
 export const appRoutes: Routes = [
 
@@ -77,11 +76,13 @@ export const appRoutes: Routes = [
       },
       {
         path: 'request-password',
-        component: NbRequestPasswordComponent,
+        redirectTo: 'login'
+        // component: NbRequestPasswordComponent,
       },
       {
         path: 'reset-password',
-        component: NbResetPasswordComponent,
+        redirectTo: 'login'
+        // component: NbResetPasswordComponent,
       },
     ],
   },
@@ -93,8 +94,9 @@ export const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(appRoutes,
       {
-        useHash: true
-      })
+    useHash: true,
+    relativeLinkResolution: 'legacy'
+})
   ],
   exports: [
     RouterModule

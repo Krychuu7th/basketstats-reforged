@@ -1,22 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {delay, first, takeUntil} from "rxjs/operators";
-import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
-import {User} from "../../../models/user";
-import {UserService} from "../../administration/user-list/user.service";
-import {Subject} from "rxjs";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {MatchService} from "../../schedule/match.service";
-import {Match} from "../../../models/match";
-import {PlayerService} from "../../team/team-players/player.service";
-import {Player} from "../../../models/player";
-import {Location} from "@angular/common";
-import {environment} from "../../../../environments/environment";
-import {NbToastrService} from "@nebular/theme";
-import {MatchQuarterStatsOfPlayerForTeam} from "../../../models/match-quarter-player-stats-for-team";
-import {PlayerStats} from "../../../models/player-stats";
-import {MatchStatus} from "../../../enums/match-status.enum";
-import {Team} from "../../../models/team";
-import {TeamWithoutLogo} from "../../../models/team-without-logo";
+import { Location } from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Subject } from "rxjs";
+import { delay } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
+import { MatchStatus } from "../../../enums/match-status.enum";
+import { Match } from "../../../models/match";
+import { MatchQuarterStatsOfPlayerForTeam } from "../../../models/match-quarter-player-stats-for-team";
+import { Player } from "../../../models/player";
+import { PlayerStats } from "../../../models/player-stats";
+import { TeamWithoutLogo } from "../../../models/team-without-logo";
+import { User } from "../../../models/user";
+import { UserService } from "../../administration/user-list/user.service";
+import { MatchService } from "../../schedule/match.service";
+import { PlayerService } from "../../team/team-players/player.service";
 
 @Component({
   selector: 'app-match-settings',
@@ -46,14 +43,14 @@ export class MatchSettingsComponent implements OnInit {
   apiUrl = environment.url;
 
   constructor(
-    private authService: NbAuthService,
+    // private authService: NbAuthService,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private matchService: MatchService,
     private playerService: PlayerService,
     private location: Location,
     private router: Router,
-    private nbToastrService: NbToastrService
+    // private nbToastrService: NbToastrService
   ) { }
 
   ngOnInit(): void {
@@ -62,18 +59,18 @@ export class MatchSettingsComponent implements OnInit {
   }
 
   loadLoggedUserInfo() {
-    this.authService.getToken().pipe(first())
-      .subscribe((token: NbAuthJWTToken) => {
-        if(token.isValid()){
-          this.username = token.getPayload().sub;
+    // this.authService.getToken().pipe(first())
+    //   .subscribe((token: NbAuthJWTToken) => {
+    //     if(token.isValid()){
+    //       this.username = token.getPayload().sub;
 
-          this.userService.getUserByUsername(this.username)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((user: User) => {
-              this.user = user;
-            });
-        }
-      });
+    //       this.userService.getUserByUsername(this.username)
+    //         .pipe(takeUntil(this.destroy$))
+    //         .subscribe((user: User) => {
+    //           this.user = user;
+    //         });
+    //     }
+    //   });
   }
 
   navigateBack() {
@@ -219,8 +216,8 @@ export class MatchSettingsComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

@@ -1,9 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {UserService} from "../../user-list/user.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {PlayerService} from "../../../team/team-players/player.service";
-import {Player} from "../../../../models/player";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Player } from "../../../../models/player";
+import { PlayerService } from "../../../team/team-players/player.service";
 
 @Component({
   selector: 'app-player-delete-confirm',
@@ -17,7 +15,7 @@ export class PlayerDeleteConfirmComponent implements OnInit {
 
   constructor(
     private playerService: PlayerService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -45,8 +43,8 @@ export class PlayerDeleteConfirmComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

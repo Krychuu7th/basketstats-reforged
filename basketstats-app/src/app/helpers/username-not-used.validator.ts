@@ -1,9 +1,9 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {UserService} from "../components/administration/user-list/user.service";
 
 export function UsernameNotUsed(controlName: string, userService: UserService, usernameToEdit: string) {
 
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const control = formGroup.controls[controlName];
 
     if (control.errors && !control.errors.usernameAlreadyUsed) {

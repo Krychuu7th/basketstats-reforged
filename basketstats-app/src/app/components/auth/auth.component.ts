@@ -1,6 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NbAuthService} from "@nebular/auth";
-import {takeWhile} from "rxjs/operators";
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-auth',
@@ -16,13 +14,15 @@ export class AuthComponent implements OnDestroy {
   authenticated: boolean = false;
   token: string = '';
 
-  constructor(protected auth: NbAuthService) {
+  constructor(
+    // protected auth: NbAuthService
+  ) {
 
-    this.subscription = auth.onAuthenticationChange()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe((authenticated: boolean) => {
-        this.authenticated = authenticated;
-      });
+    // this.subscription = auth.onAuthenticationChange()
+    //   .pipe(takeWhile(() => this.alive))
+    //   .subscribe((authenticated: boolean) => {
+    //     this.authenticated = authenticated;
+    //   });
   }
 
   ngOnDestroy(): void {

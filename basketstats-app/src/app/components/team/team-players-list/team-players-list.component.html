@@ -1,6 +1,7 @@
 <div>
   <div class="row mt-1 mb-2">
-    <div [ngClass]="(accessChecker.isGranted('view', 'admin_panel') | async)? 'col-6': 'col-7'">
+    <!-- [ngClass]="(accessChecker.isGranted('view', 'admin_panel') | async)? 'col-6': 'col-7'" -->
+    <div >
       <mat-form-field class="w-100">
         <mat-label>Szukaj...</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Np. Jan, Kowalski, SF, 3" #input>
@@ -10,7 +11,8 @@
     <div class="col-5">
       <mat-paginator [pageSizeOptions]="[7, dataSource.data.length]"></mat-paginator>
     </div>
-    <div *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" class="col-1 pr-4">
+    <!-- *ngIf="(accessChecker.isGranted('view', 'admin_panel') | async)" -->
+    <div  class="col-1 pr-4">
       <button class="float-right" mat-fab color="primary" matTooltip="Nowy zawodnik" (click)="addPlayer()">
         <mat-icon>add</mat-icon>
       </button>

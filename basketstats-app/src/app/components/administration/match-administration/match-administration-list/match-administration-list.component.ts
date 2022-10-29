@@ -1,23 +1,22 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {League} from "../../../../models/league";
-import {MatchService} from "../../../schedule/match.service";
-import {Match} from "../../../../models/match";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatSort, Sort} from "@angular/material/sort";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {User} from "../../../../models/user";
-import {UserService} from "../../user-list/user.service";
-import {NbToastrService} from "@nebular/theme";
-import {BehaviorSubject} from "rxjs";
-import {environment} from "../../../../../environments/environment";
-import {MatSelectChange} from "@angular/material/select";
-import {LinkUserConfirmComponent} from "../link-user-confirm/link-user-confirm.component";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {MatchAddComponent} from "../match-add/match-add.component";
-import {MatchEditComponent} from "../match-edit/match-edit.component";
-import {MatchDeleteConfirmComponent} from "../match-delete-confirm/match-delete-confirm.component";
-import {MatchStatus} from "../../../../enums/match-status.enum";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSelectChange } from "@angular/material/select";
+import { MatSort, Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { BehaviorSubject } from "rxjs";
+import { environment } from "../../../../../environments/environment";
+import { MatchStatus } from "../../../../enums/match-status.enum";
+import { League } from "../../../../models/league";
+import { Match } from "../../../../models/match";
+import { User } from "../../../../models/user";
+import { MatchService } from "../../../schedule/match.service";
+import { UserService } from "../../user-list/user.service";
+import { LinkUserConfirmComponent } from "../link-user-confirm/link-user-confirm.component";
+import { MatchAddComponent } from "../match-add/match-add.component";
+import { MatchDeleteConfirmComponent } from "../match-delete-confirm/match-delete-confirm.component";
+import { MatchEditComponent } from "../match-edit/match-edit.component";
 
 @Component({
   selector: 'app-match-administration-list',
@@ -59,7 +58,7 @@ export class MatchAdministrationListComponent implements OnChanges, OnInit {
   constructor(
     private userService: UserService,
     private matchService: MatchService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     private modalService: NgbModal
   ) { }
 
@@ -168,8 +167,8 @@ export class MatchAdministrationListComponent implements OnChanges, OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
   onContextMenu(event: MouseEvent, row: Match) {

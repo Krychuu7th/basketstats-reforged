@@ -1,8 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {UserService} from "../../user-list/user.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {MatchService} from "../../../schedule/match.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatchService } from "../../../schedule/match.service";
 
 @Component({
   selector: 'app-match-delete-confirm',
@@ -16,7 +14,7 @@ export class MatchDeleteConfirmComponent implements OnInit {
 
   constructor(
     private matchService: MatchService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -44,8 +42,8 @@ export class MatchDeleteConfirmComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

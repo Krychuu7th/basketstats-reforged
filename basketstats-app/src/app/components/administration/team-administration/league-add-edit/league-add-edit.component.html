@@ -9,12 +9,10 @@
   <div class="modal-body">
     <div class="form-group">
       <label class="label" for="name">Nazwa</label>
-      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa ligi" nbInput autofocus
+      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa ligi" 
              formControlName="name"
              fullWidth
              fieldSize="large"
-             [status]="(form.name.touched || form.name.dirty)
-             ? (form.name.invalid  ? 'danger' : 'success') : 'basic'"
              [attr.aria-invalid]="form.name.invalid && form.name.touched ? true : null">
       <div *ngIf="form.name.errors" class="invalid-feedback">
         <div *ngIf="form.name.errors.required && submited">Nazwa jest wymagana</div>

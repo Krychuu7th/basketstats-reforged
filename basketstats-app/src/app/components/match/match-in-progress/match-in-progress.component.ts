@@ -1,27 +1,24 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {first, takeUntil} from "rxjs/operators";
-import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
-import {User} from "../../../models/user";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {UserService} from "../../administration/user-list/user.service";
-import {MatchService} from "../../schedule/match.service";
-import {PlayerService} from "../../team/team-players/player.service";
-import {Location} from "@angular/common";
-import {NbToastrService} from "@nebular/theme";
-import {Observable, Subject, Subscription, timer} from "rxjs";
-import {Match} from "../../../models/match";
-import {Player} from "../../../models/player";
-import {environment} from "../../../../environments/environment";
-import {MatchStatus} from "../../../enums/match-status.enum";
-import {MatchQuarterStatsOfPlayerForTeam} from "../../../models/match-quarter-player-stats-for-team";
-import {PlayerStats} from "../../../models/player-stats";
-import {LastStat} from "../../../models/last-stat";
-import {StatType} from "../../../enums/stat-type";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {MatchQuarterStatsSaveRequest} from "../../../models/match-quarter-stats-save-request";
-import {PlayersSummaryStatsOfMatch} from "../../../models/players-summary-stats-of-match";
-import {PointStat} from "../../../models/point-stat";
-import {ShootType} from "../../../enums/shoot-type.enum";
+import { Location } from "@angular/common";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Observable, Subject, Subscription, timer } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import { MatchStatus } from "../../../enums/match-status.enum";
+import { ShootType } from "../../../enums/shoot-type.enum";
+import { StatType } from "../../../enums/stat-type";
+import { LastStat } from "../../../models/last-stat";
+import { Match } from "../../../models/match";
+import { MatchQuarterStatsOfPlayerForTeam } from "../../../models/match-quarter-player-stats-for-team";
+import { MatchQuarterStatsSaveRequest } from "../../../models/match-quarter-stats-save-request";
+import { Player } from "../../../models/player";
+import { PlayerStats } from "../../../models/player-stats";
+import { PlayersSummaryStatsOfMatch } from "../../../models/players-summary-stats-of-match";
+import { PointStat } from "../../../models/point-stat";
+import { User } from "../../../models/user";
+import { UserService } from "../../administration/user-list/user.service";
+import { MatchService } from "../../schedule/match.service";
+import { PlayerService } from "../../team/team-players/player.service";
 
 @Component({
   selector: 'app-match-in-progress',
@@ -84,14 +81,14 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   apiUrl = environment.url;
 
   constructor(
-    private authService: NbAuthService,
+    // private authService: NbAuthService,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private matchService: MatchService,
     private playerService: PlayerService,
     private location: Location,
     private router: Router,
-    private nbToastrService: NbToastrService
+    // private nbToastrService: NbToastrService
   ) {
   }
 
@@ -115,18 +112,18 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   }
 
   loadLoggedUserInfo() {
-    this.authService.getToken().pipe(first())
-      .subscribe((token: NbAuthJWTToken) => {
-        if (token.isValid()) {
-          this.username = token.getPayload().sub;
+    // this.authService.getToken().pipe(first())
+    //   .subscribe((token: NbAuthJWTToken) => {
+    //     if (token.isValid()) {
+    //       this.username = token.getPayload().sub;
 
-          this.userService.getUserByUsername(this.username)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((user: User) => {
-              this.user = user;
-            });
-        }
-      });
+    //       this.userService.getUserByUsername(this.username)
+    //         .pipe(takeUntil(this.destroy$))
+    //         .subscribe((user: User) => {
+    //           this.user = user;
+    //         });
+    //     }
+    //   });
   }
 
   loadMatchDataForSettings() {
@@ -1058,7 +1055,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 }

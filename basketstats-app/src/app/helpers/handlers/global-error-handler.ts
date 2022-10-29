@@ -1,11 +1,10 @@
-import {ErrorHandler, Injectable, NgZone} from "@angular/core";
-import {NbToastrService} from "@nebular/theme";
-import {Router} from "@angular/router";
+import { ErrorHandler, Injectable, NgZone } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     private zone: NgZone,
     private router: Router
   ) {}
@@ -26,7 +25,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 }

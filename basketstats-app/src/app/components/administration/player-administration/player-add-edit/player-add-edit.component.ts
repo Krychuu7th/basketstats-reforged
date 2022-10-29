@@ -1,16 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {User} from "../../../../models/user";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Role} from "../../../../models/role";
-import {UserService} from "../../user-list/user.service";
-import {RoleService} from "../../../auth/role.service";
-import {NbToastrService} from "@nebular/theme";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {MustMatch} from "../../../../helpers/must-match.validator";
-import {Player} from "../../../../models/player";
-import {PlayerService} from "../../../team/team-players/player.service";
-import {Position} from "../../../../enums/position.enum";
-import {Team} from "../../../../models/team";
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Position } from "../../../../enums/position.enum";
+import { Player } from "../../../../models/player";
+import { Team } from "../../../../models/team";
+import { PlayerService } from "../../../team/team-players/player.service";
 
 @Component({
   selector: 'app-player-add-edit',
@@ -28,13 +22,13 @@ export class PlayerAddEditComponent implements OnInit {
   @Input()
   team: Team;
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   positions = Object.values(Position);
 
   constructor(
     private playerService: PlayerService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -44,28 +38,28 @@ export class PlayerAddEditComponent implements OnInit {
 
   initForm() {
     console.log(this.player);
-    this.formGroup = new FormGroup({
-      firstName: new FormControl(this.player ? this.player.firstName : null,
+    this.formGroup = new UntypedFormGroup({
+      firstName: new UntypedFormControl(this.player ? this.player.firstName : null,
         [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\-]*')
         ]
       ),
-      lastName: new FormControl(this.player ? this.player.lastName : null,
+      lastName: new UntypedFormControl(this.player ? this.player.lastName : null,
         [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\-]*')
         ]
       ),
-      number: new FormControl(this.player ? this.player.number : null,
+      number: new UntypedFormControl(this.player ? this.player.number : null,
         [
           Validators.required,
           Validators.max(99)
         ]
       ),
-      position: new FormControl(this.player ? this.player.position : null,
+      position: new UntypedFormControl(this.player ? this.player.position : null,
         [
           Validators.required
         ]
@@ -78,7 +72,7 @@ export class PlayerAddEditComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -170,8 +164,8 @@ export class PlayerAddEditComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

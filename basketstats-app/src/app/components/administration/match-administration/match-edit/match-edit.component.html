@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div class="form-group">
       <label class="label" for="matchDate">Data spotkania</label>
-      <nb-form-field>
+      <!-- <nb-form-field>
         <nb-icon nbPrefix icon="calendar-outline" pack="eva"></nb-icon>
         <input nbInput placeholder="Wybierz datę..." id="matchDate" [nbDatepicker]="dateTimePicker"
                formControlName="matchDate"
@@ -26,19 +26,17 @@
         [step]="10"
         [applyButtonText]="'OK'"
         [currentTimeButtonText]="'Teraz'">
-      </nb-date-timepicker>
+      </nb-date-timepicker> -->
       <div *ngIf="form.matchDate.errors" class="invalid-feedback">
         <div *ngIf="form.matchDate.errors.required && submited">Musisz wybrać datę spotkania</div>
       </div>
     </div>
     <div class="form-group">
       <label class="label" for="place">Miejsce spotkania</label>
-      <input type="text" class="form-control w-100" id="place" placeholder="Podaj adres spotkania..." nbInput
+      <input type="text" class="form-control w-100" id="place" placeholder="Podaj adres spotkania..."
              formControlName="place"
              fullWidth
              fieldSize="large"
-             [status]="(form.place.touched || form.place.dirty)
-               ? (form.place.invalid  ? 'danger' : 'success') : 'basic'"
              [attr.aria-invalid]="form.place.invalid
                && form.place.touched ? true : null">
       <div *ngIf="form.place.errors" class="invalid-feedback">

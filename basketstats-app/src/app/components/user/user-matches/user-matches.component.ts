@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {League} from "../../../models/league";
-import {LeagueService} from "../../league/league.service";
-import {delay, first, takeUntil} from "rxjs/operators";
-import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
-import {User} from "../../../models/user";
-import {Subject} from "rxjs";
-import {UserService} from "../../administration/user-list/user.service";
+import { Component, OnInit } from '@angular/core';
+import { Subject } from "rxjs";
+import { delay } from "rxjs/operators";
+import { League } from "../../../models/league";
+import { User } from "../../../models/user";
+import { UserService } from "../../administration/user-list/user.service";
+import { LeagueService } from "../../league/league.service";
 
 @Component({
   selector: 'app-user-matches',
@@ -24,7 +23,6 @@ export class UserMatchesComponent implements OnInit {
 
   constructor(
     private leagueService: LeagueService,
-    private authService: NbAuthService,
     private userService: UserService
   ) { }
 
@@ -38,18 +36,18 @@ export class UserMatchesComponent implements OnInit {
   }
 
   loadLoggedUserInfo() {
-    this.authService.getToken().pipe(first())
-      .subscribe((token: NbAuthJWTToken) => {
-        if(token.isValid()){
-          this.username = token.getPayload().sub;
+    // this.authService.getToken().pipe(first())
+    //   .subscribe((token: NbAuthJWTToken) => {
+    //     if(token.isValid()){
+    //       this.username = token.getPayload().sub;
 
-          this.userService.getUserByUsername(this.username)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((user: User) => {
-              this.user = user;
-            });
-        }
-      });
+    //       this.userService.getUserByUsername(this.username)
+    //         .pipe(takeUntil(this.destroy$))
+    //         .subscribe((user: User) => {
+    //           this.user = user;
+    //         });
+    //     }
+    //   });
   }
 
   loadLeagues() {

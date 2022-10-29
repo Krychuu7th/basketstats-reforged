@@ -1,17 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {UserService} from "./user.service";
-import {User} from "../../../models/user";
-import {MatTableDataSource} from "@angular/material/table";
-import {Player} from "../../../models/player";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {NbToastrService} from "@nebular/theme";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserDeleteConfirmComponent} from "../user-delete-confirm/user-delete-confirm.component";
-import {delay, first, takeUntil} from "rxjs/operators";
-import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
-import {UserAddEditComponent} from "../user-add-edit/user-add-edit.component";
-import {MatMenuTrigger} from "@angular/material/menu";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { delay } from "rxjs/operators";
+import { User } from "../../../models/user";
+import { UserAddEditComponent } from "../user-add-edit/user-add-edit.component";
+import { UserDeleteConfirmComponent } from "../user-delete-confirm/user-delete-confirm.component";
+import { UserService } from "./user.service";
 
 @Component({
   selector: 'app-user-list',
@@ -38,9 +35,7 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private nbToastrService: NbToastrService,
-    private modalService: NgbModal,
-    private authService: NbAuthService
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -58,12 +53,12 @@ export class UserListComponent implements OnInit {
       this.isLoading = false;
     });
 
-    this.authService.onTokenChange().pipe(first())
-      .subscribe((token: NbAuthJWTToken) => {
-        if(token.isValid()){
-          this.loggedUsername = token.getPayload().sub;
-        }
-      });
+    // this.authService.onTokenChange().pipe(first())
+    //   .subscribe((token: NbAuthJWTToken) => {
+    //     if (token.isValid()) {
+    //       this.loggedUsername = token.getPayload().sub;
+    //     }
+    //   });
   }
 
   refreshData() {
@@ -86,11 +81,11 @@ export class UserListComponent implements OnInit {
   addUser() {
     const modalRef = this.modalService.open(UserAddEditComponent);
     modalRef.componentInstance.isEdit = false;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.refreshData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -99,11 +94,11 @@ export class UserListComponent implements OnInit {
     const modalRef = this.modalService.open(UserAddEditComponent);
     modalRef.componentInstance.isEdit = true;
     modalRef.componentInstance.user = user;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.refreshData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -112,19 +107,19 @@ export class UserListComponent implements OnInit {
     const modalRef = this.modalService.open(UserDeleteConfirmComponent);
     modalRef.componentInstance.username = username;
     modalRef.componentInstance.userId = userId;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.refreshData();
         this.refreshData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
 
   changeUserActive(userId: number, isActive: boolean) {
-    this.userService.changeUserActive(userId).subscribe( res => {
-      if(!isActive) {
+    this.userService.changeUserActive(userId).subscribe(res => {
+      if (!isActive) {
         this.showToast('Konto użytkownika zostało aktywowane',
           'Udało się!',
           'success',
@@ -141,7 +136,7 @@ export class UserListComponent implements OnInit {
           6000);
       }
     }, error => {
-      if(isActive) {
+      if (isActive) {
         this.showToast('Nie udało się zablokować konta użytkownika',
           'Coś poszło nie tak!',
           'danger',
@@ -163,8 +158,8 @@ export class UserListComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
   onContextMenu(event: MouseEvent, row: User) {

@@ -1,14 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {User} from "../../../../models/user";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {League} from "../../../../models/league";
-import {MustMatch} from "../../../../helpers/must-match.validator";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {NbToastrService} from "@nebular/theme";
-import {LeagueService} from "../../../league/league.service";
-import {UsernameNotUsed} from "../../../../helpers/username-not-used.validator";
-import {EmailNotUsed} from "../../../../helpers/email-not-used.validator";
-import {LeagueNameNotUsed} from "../../../../helpers/league-name-not-used.validator";
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { LeagueNameNotUsed } from "../../../../helpers/league-name-not-used.validator";
+import { League } from "../../../../models/league";
+import { LeagueService } from "../../../league/league.service";
 
 @Component({
   selector: 'app-league-add-edit',
@@ -23,13 +18,13 @@ export class LeagueAddEditComponent implements OnInit {
   isEdit = false;
   @Input()
   league: League;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     private leagueService: LeagueService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +37,7 @@ export class LeagueAddEditComponent implements OnInit {
 
   initForm() {
     this.formGroup = this.formBuilder.group({
-      name: new FormControl(this.league ? this.league.name : null,
+      name: new UntypedFormControl(this.league ? this.league.name : null,
         [
           Validators.required,
           Validators.minLength(2),
@@ -56,7 +51,7 @@ export class LeagueAddEditComponent implements OnInit {
     });
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -144,8 +139,8 @@ export class LeagueAddEditComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

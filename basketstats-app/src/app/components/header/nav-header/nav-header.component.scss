@@ -26,29 +26,30 @@
 }
 
 .logo {
-  background: #37474F;
+  background: #37474f;
   border-radius: 64px;
-  -webkit-box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
-  -moz-box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
-  box-shadow: 0 10px 22px -6px rgba(0,0,0,0.58);
-  transition: transform 0.5s, -webkit-box-shadow 0.5s, -moz-box-shadow 0.5s, box-shadow 0.5s;
+  -webkit-box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.58);
+  -moz-box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.58);
+  box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.58);
+  transition: transform 0.5s, -webkit-box-shadow 0.5s, -moz-box-shadow 0.5s,
+    box-shadow 0.5s;
 }
 
 .logo:hover {
   transform: scale(1.2);
-  -webkit-box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
-  -moz-box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
-  box-shadow: 0 10px 25px 0 rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.7);
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.7);
 }
 
 button {
   font-size: 1.1rem;
   font-weight: bold;
-  height: 45%;
+  height: 100%;
   border-radius: 0;
   margin-left: 15px;
   background-size: 100% 200%;
-  background-image: linear-gradient(to bottom, #FAFAFA 50%, #FF7043 50%);
+  background-image: linear-gradient(to bottom, #fafafa 50%, #ff7043 50%);
   -webkit-transition: background-position 0.5s;
   -moz-transition: background-position 0.5s;
   transition: background-position 0.5s;
@@ -85,4 +86,15 @@ button.active {
   font-size: 160%;
   margin-right: 10px;
   line-height: 0.8;
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: row;
+  max-height: 75px;
+  justify-content: space-between;
+}
+
+.logo-container {
+  margin-top: -10px;
 }

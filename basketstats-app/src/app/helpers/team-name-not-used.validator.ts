@@ -1,10 +1,10 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {UserService} from "../components/administration/user-list/user.service";
 import {TeamService} from "../components/team/team.service";
 
 export function TeamNameNotUsed(controlName: string, teamService: TeamService, teamNameToEdit: string) {
 
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const control = formGroup.controls[controlName];
 
     if (control.errors && !control.errors.nameAlreadyUsed) {

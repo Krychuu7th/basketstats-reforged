@@ -1,18 +1,12 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {NbToastrService} from "@nebular/theme";
-import {Team} from "../../../../models/team";
-import {TeamService} from "../../../team/team.service";
-import {HttpResponse} from "@angular/common/http";
-import {League} from "../../../../models/league";
-import {LeagueService} from "../../../league/league.service";
-import {RxwebValidators} from "@rxweb/reactive-form-validators";
-import {environment} from "../../../../../environments/environment";
-import {MustMatch} from "../../../../helpers/must-match.validator";
-import {UsernameNotUsed} from "../../../../helpers/username-not-used.validator";
-import {EmailNotUsed} from "../../../../helpers/email-not-used.validator";
-import {TeamNameNotUsed} from "../../../../helpers/team-name-not-used.validator";
+import { HttpResponse } from "@angular/common/http";
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TeamNameNotUsed } from "../../../../helpers/team-name-not-used.validator";
+import { League } from "../../../../models/league";
+import { Team } from "../../../../models/team";
+import { LeagueService } from "../../../league/league.service";
+import { TeamService } from "../../../team/team.service";
 
 @Component({
   selector: 'app-team-add-edit',
@@ -29,7 +23,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   team: Team;
   @Input()
   league: League;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   leagueList: League[];
   leagueName = '';
@@ -39,10 +33,10 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     private teamService: TeamService,
     private leagueService: LeagueService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
   }
 
@@ -66,7 +60,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
 
   initForm() {
     this.formGroup = this.formBuilder.group({
-      name: new FormControl(this.team ? this.team.name : null,
+      name: new UntypedFormControl(this.team ? this.team.name : null,
         [
           Validators.required,
           Validators.minLength(2),
@@ -74,12 +68,12 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
           Validators.pattern('[A-Za-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ\\s\\-]*')
         ]
       ),
-      league: new FormControl(this.team ? this.team.league.name : null,
+      league: new UntypedFormControl(this.team ? this.team.league.name : null,
         [
           this.isEdit ? Validators.required : Validators.nullValidator
         ]
       ),
-      logo: new FormControl(null
+      logo: new UntypedFormControl(null
       ),
     }, { validators: [
         TeamNameNotUsed('name', this.teamService, this.team ? this.team.name : null),
@@ -87,7 +81,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
     });
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (<any>Object).values(this.form).forEach(control => {
       control.markAsTouched();
 
@@ -188,8 +182,8 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      {status, preventDuplicates, position, duration});
+    // this.nbToastrService.show(message, title,
+    //   {status, preventDuplicates, position, duration});
   }
 
   onFileSelected(event) {

@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserService} from "../user-list/user.service";
-import {NbToastrService} from "@nebular/theme";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { UserService } from "../user-list/user.service";
 
 @Component({
   selector: 'app-user-delete-confirm',
@@ -15,7 +14,7 @@ export class UserDeleteConfirmComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private nbToastrService: NbToastrService,
+    // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -43,8 +42,8 @@ export class UserDeleteConfirmComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
 }

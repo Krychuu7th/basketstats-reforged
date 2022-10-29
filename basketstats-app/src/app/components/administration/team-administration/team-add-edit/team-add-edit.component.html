@@ -9,12 +9,10 @@
   <div class="modal-body">
     <div class="form-group">
       <label class="label" for="name">Nazwa</label>
-      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa drużyny" nbInput autofocus
+      <input type="text" class="form-control w-100" id="name" placeholder="Nazwa drużyny"
              formControlName="name"
              fullWidth
              fieldSize="large"
-             [status]="(form.name.touched || form.name.dirty)
-             ? (form.name.invalid  ? 'danger' : 'success') : 'basic'"
              [attr.aria-invalid]="form.name.invalid && form.name.touched ? true : null">
       <div *ngIf="form.name.errors" class="invalid-feedback">
         <div *ngIf="form.name.errors.required && submited">Nazwa jest wymagana</div>
@@ -28,7 +26,7 @@
     </div>
     <div *ngIf="!isEdit" class="form-group">
       <label class="label" for="league">Liga</label>
-      <input type="text" class="form-control w-100" id="league" nbInput autofocus
+      <input type="text" class="form-control w-100" id="league"
              value="{{league.name}}"
              fullWidth
              disabled
@@ -37,7 +35,7 @@
     </div>
     <div *ngIf="isEdit" class="form-group">
       <label class="label" for="leagueSelect">Liga</label>
-      <nb-select id="leagueSelect" placeholder="Wybierz ligę..."
+      <!-- <nb-select id="leagueSelect" placeholder="Wybierz ligę..."
                  formControlName="league"
                  [(selected)]="team?.league.name"
                  fullWidth
@@ -46,7 +44,7 @@
                  [attr.aria-invalid]="form.league.invalid
                && form.league.touched ? true : null">
         <nb-option *ngFor="let leagueDef of leagueList" [value]="leagueDef.name">{{ leagueDef.name }}</nb-option>
-      </nb-select>
+      </nb-select> -->
       <div *ngIf="form.league.errors" class="invalid-feedback">
         <div *ngIf="form.league.errors.required && submited">Musisz wybrać ligę</div>
       </div>
@@ -54,7 +52,7 @@
 
     <div class="form-group">
       <label class="label" for="logo">Logo</label>
-      <nb-form-field>
+      <!-- <nb-form-field>
         <nb-icon nbPrefix icon="image-outline" pack="eva"></nb-icon>
         <input type="file" class="form-control w-100 input-file" id="logo" placeholder="Logo" nbInput
                formControlName="logo"
@@ -65,7 +63,7 @@
                [status]="(form.logo.touched || form.logo.dirty)
              ? (form.logo.invalid  ? 'danger' : 'success') : 'basic'"
                [attr.aria-invalid]="form.logo.invalid && form.logo.touched ? true : null">
-      </nb-form-field>
+      </nb-form-field> -->
       <div *ngIf="form.logo.errors" class="invalid-feedback">
         <div *ngIf="form.logo.errors.fileSizeError">Maksymalny rozmiar pliku to 4MB</div>
       </div>

@@ -1,9 +1,18 @@
 .container {
-  padding: 50px 200px 0 200px;
+  height: calc(100% - 75px);
+  position: relative;
+  top: 75px;
+  padding: 5px;
 }
 
 .login-card {
   background-color: rgba(255, 255, 255, 0.7);
+  -webkit-font-smoothing: antialiased;
+  text-align: left;
+  box-sizing: inherit;
+  display: flex;
+  flex-direction: column;
+  color: #424242;
 }
 
 nb-card-body {

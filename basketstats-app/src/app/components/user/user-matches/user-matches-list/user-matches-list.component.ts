@@ -1,17 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {League} from "../../../../models/league";
-import {User} from "../../../../models/user";
-import {Match} from "../../../../models/match";
-import {MatTableDataSource} from "@angular/material/table";
-import {BehaviorSubject} from "rxjs";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatSort, Sort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {environment} from "../../../../../environments/environment";
-import {UserService} from "../../../administration/user-list/user.service";
-import {MatchService} from "../../../schedule/match.service";
-import {NbToastrService} from "@nebular/theme";
-import {MatchStatus} from "../../../../enums/match-status.enum";
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSort, Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { BehaviorSubject } from "rxjs";
+import { environment } from "../../../../../environments/environment";
+import { MatchStatus } from "../../../../enums/match-status.enum";
+import { League } from "../../../../models/league";
+import { Match } from "../../../../models/match";
+import { User } from "../../../../models/user";
+import { UserService } from "../../../administration/user-list/user.service";
+import { MatchService } from "../../../schedule/match.service";
 
 @Component({
   selector: 'app-user-matches-list',
@@ -54,8 +53,7 @@ export class UserMatchesListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private matchService: MatchService,
-    private nbToastrService: NbToastrService
+    private matchService: MatchService
   ) { }
 
   ngOnInit(): void {
@@ -121,8 +119,8 @@ export class UserMatchesListComponent implements OnInit {
   }
 
   showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    this.nbToastrService.show(message, title,
-      { status, preventDuplicates, position, duration });
+    // this.nbToastrService.show(message, title,
+    //   { status, preventDuplicates, position, duration });
   }
 
   onContextMenu(event: MouseEvent, row: Match) {
