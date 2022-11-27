@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import reforged.marcin.krysiak.basketstats.config.enums.MatchStatus;
+import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

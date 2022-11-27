@@ -114,21 +114,4 @@ public class MatchController {
         matchQuarterService.saveMatchQuarterStats(request);
         return true;
     }
-
-    @ExceptionHandler(MatchIsFinishedException.class)
-    public ResponseEntity<Object> handleUpdateException(MatchIsFinishedException ex) {
-        ApiError apiError =
-                new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getLocalizedMessage(), ex.getMessage());
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler(MatchNotFoundException.class)
-    public ResponseEntity<Object> handleUpdateException(MatchNotFoundException ex) {
-        ApiError apiError =
-                new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getLocalizedMessage(), ex.getMessage());
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
 }

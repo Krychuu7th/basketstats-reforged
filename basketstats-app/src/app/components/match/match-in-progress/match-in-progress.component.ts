@@ -78,7 +78,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   isFinishConfirmNeeded = true;
 
   syncIntervalTime = environment.syncIntervalTime;
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   constructor(
     // private authService: NbAuthService,

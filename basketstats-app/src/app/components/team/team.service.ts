@@ -1,15 +1,15 @@
+import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Team} from "../../models/team";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { Team } from "../../models/team";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
-  private baseApiUrl = `${environment.url}/team`;
+  private baseApiUrl = `${environment.api.url}/team`;
 
   constructor(private http: HttpClient) { }
 

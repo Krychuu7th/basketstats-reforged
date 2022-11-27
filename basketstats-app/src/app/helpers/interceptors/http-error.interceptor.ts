@@ -26,6 +26,4 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     ) as Observable<HttpEvent<any>>;
 
   }
-
-
 }

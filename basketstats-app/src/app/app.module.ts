@@ -1,7 +1,7 @@
 import { registerLocaleData } from "@angular/common";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import localePl from '@angular/common/locales/pl';
-import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -20,7 +20,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from "@auth0/auth0-angular";
+import { AuthModule, AuthService } from "@auth0/auth0-angular";
+import { environment } from "src/environments/environment";
 import { AppInitService } from "./app-init.service";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +51,7 @@ import { TeamPlayersComponent } from './components/team/team-players/team-player
 import { TeamComponent } from './components/team/team.component';
 import { UserComponent } from './components/user/user.component';
 import { UserModule } from "./components/user/user.module";
+import { HttpAuthInterceptor } from "./helpers/interceptors/http-auth.interceptor";
 import { HttpErrorInterceptor } from "./helpers/interceptors/http-error.interceptor";
 import { getPolishPaginatorIntl } from "./translations/polish-paginator-intl";
 
@@ -109,25 +111,33 @@ registerLocaleData(localePl);
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     AuthModule.forRoot({
-      domain: 'basketstats.eu.auth0.com',
-      clientId: 'iB3EuDRdj7sB24EySgfnUyJQprr5u7Si'
+      ...environment.auth0,
+      httpInterceptor: {
+        allowedList: [`${environment.api.url}/api/messages/admin`],
+      }
     })
   ],
   providers: [
     AuthGuard,
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptor,
+      deps: [AuthService],
+      multi: true,
+    },
+    {
       provide: MatPaginatorIntl,
       useValue: getPolishPaginatorIntl()
     },
     AppInitService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (appInitService: AppInitService) => () => {
-        return appInitService.refreshJwtToken()
-      },
-      deps: [AppInitService],
-      multi: true
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: (appInitService: AppInitService) => {
+    //     return appInitService.initApp()
+    //   },
+    //   deps: [AppInitService],
+    //   multi: true
+    // },
     {
       provide: LOCALE_ID, useValue: 'pl-PL'
     },

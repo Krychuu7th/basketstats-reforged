@@ -5,9 +5,11 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<spring-boot.version>2.7.4</spring-boot.version>
+		<spring-boot.version>2.7.5</spring-boot.version>
 		<json-web-token.version>0.11.5</json-web-token.version>
 		<lombok.version>1.18.22</lombok.version>
+		<liquibase.version>4.17.1</liquibase.version>
+		<auth0-jwt.version>4.2.1</auth0-jwt.version>
 	</properties>
 
 	<parent>
@@ -24,10 +26,6 @@
 
 	<dependencies>
 		<!-- SPRING  -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -49,6 +47,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,7 +61,9 @@
 			<version>2.9.0</version>
 		</dependency>
 
+
 		<!-- JWT  -->
+		<!-- TODO: REPLACE WITH Auth0  -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -81,6 +82,17 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Auth0 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${auth0-jwt.version}</version>
+		</dependency>
+
 		<!-- DB  -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -92,7 +104,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-maven-plugin</artifactId>
-			<version>4.10.0</version>
+			<version>${liquibase.version}</version>
 		</dependency>
 
 		<!-- LOMBOK -->

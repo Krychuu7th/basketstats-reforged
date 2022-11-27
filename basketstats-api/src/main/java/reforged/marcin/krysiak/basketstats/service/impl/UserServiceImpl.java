@@ -24,9 +24,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private RoleRepository roleRepository;
 
     @Override
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(new Date());
         user.setEnabled(true);
 
@@ -82,7 +79,7 @@ public class UserServiceImpl implements UserService {
             newUser.setUsername(user.getUsername());
             if(user.getPassword() != null)
                 if (!user.getPassword().equals(""))
-                    newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+//                    newUser.setPassword(passwordEncoder.encode(user.getPassword()));
             newUser.setEmail(user.getEmail());
             newUser.setFirstName(user.getFirstName());
             newUser.setLastName(user.getLastName());

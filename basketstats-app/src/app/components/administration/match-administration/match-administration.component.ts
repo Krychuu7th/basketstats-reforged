@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {delay} from "rxjs/operators";
-import {LeagueService} from "../../league/league.service";
-import {League} from "../../../models/league";
-import {MatchService} from "../../schedule/match.service";
-import {UserService} from "../user-list/user.service";
-import {User} from "../../../models/user";
+import { Component, OnInit } from '@angular/core';
+import { delay } from "rxjs/operators";
+import { League } from "../../../models/league";
+import { User } from "../../../models/user";
+import { LeagueService } from "../../league/league.service";
+import { MatchService } from "../../schedule/match.service";
+import { UserService } from "../user-list/user.service";
 
 @Component({
   selector: 'app-match-administration',

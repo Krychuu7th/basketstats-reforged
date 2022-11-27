@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {LeagueService} from "../league/league.service";
-import {delay, first} from "rxjs/operators";
-import {League} from "../../models/league";
-import {MatchService} from "./match.service";
-import {Match} from "../../models/match";
+import { delay, first } from "rxjs/operators";
+import { League } from "../../models/league";
+import { Match } from "../../models/match";
+import { LeagueService } from "../league/league.service";
+import { MatchService } from "./match.service";
 
 @Component({
   selector: 'app-schedule',

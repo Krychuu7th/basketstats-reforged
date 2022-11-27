@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {TeamService} from "../team.service";
-import {Team} from "../../../models/team";
-import {Player} from "../../../models/player";
-import {PlayerService} from "./player.service";
-import {ActivatedRoute, Params} from "@angular/router";
-import {Location} from "@angular/common";
-import {MatchService} from "../../schedule/match.service";
-import {Match} from "../../../models/match";
-import {Label, SingleDataSet} from "ng2-charts";
-import {ChartType} from "chart.js";
-import {ChartProperty} from "../../../core/chart-property";
-import {environment} from "../../../../environments/environment";
-import {delay} from "rxjs/operators";
-import {MatchStatus} from "../../../enums/match-status.enum";
+import { Location } from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from "@angular/router";
+import { ChartType } from "chart.js";
+import { Label, SingleDataSet } from "ng2-charts";
+import { delay } from "rxjs/operators";
+import { environment } from "../../../../environments/environment";
+import { ChartProperty } from "../../../core/chart-property";
+import { MatchStatus } from "../../../enums/match-status.enum";
+import { Match } from "../../../models/match";
+import { Player } from "../../../models/player";
+import { Team } from "../../../models/team";
+import { MatchService } from "../../schedule/match.service";
+import { TeamService } from "../team.service";
+import { PlayerService } from "./player.service";
 
 @Component({
   selector: 'app-team-players',
@@ -32,7 +32,7 @@ export class TeamPlayersComponent implements OnInit {
   teamNumberOfMatches: number;
   chartProperty = ChartProperty;
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   MatchStatus = MatchStatus;
 

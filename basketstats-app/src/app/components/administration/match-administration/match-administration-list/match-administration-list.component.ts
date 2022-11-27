@@ -51,7 +51,7 @@ export class MatchAdministrationListComponent implements OnChanges, OnInit {
 
   contextMenuPosition = { x: '0px', y: '0px' };
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   MatchStatus = MatchStatus;
 

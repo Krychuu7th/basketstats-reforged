@@ -1,16 +1,20 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { AuthService } from "@auth0/auth0-angular";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeagueService {
 
-  private baseApiUrl = `${environment.url}/league`;
+  private baseApiUrl = `${environment.api.url}/league`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
 
   getLeagueList(): Observable<any> {
     return this.http.get(`${this.baseApiUrl}/list`);

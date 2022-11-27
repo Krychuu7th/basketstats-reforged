@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {delay, first} from "rxjs/operators";
-import {TeamService} from "./team.service";
-import {Team} from "../../models/team";
-import {League} from "../../models/league";
-import {LeagueService} from "../league/league.service";
+import { Component, OnInit } from '@angular/core';
+import { delay, first } from "rxjs/operators";
+import { League } from "../../models/league";
+import { Team } from "../../models/team";
+import { LeagueService } from "../league/league.service";
+import { TeamService } from "./team.service";
 
 @Component({
   selector: 'app-team',

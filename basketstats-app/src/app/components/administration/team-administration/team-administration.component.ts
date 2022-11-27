@@ -1,16 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {League} from "../../../models/league";
-import {Team} from "../../../models/team";
-import {TeamService} from "../../team/team.service";
-import {LeagueService} from "../../league/league.service";
-import {delay, first} from "rxjs/operators";
-import {User} from "../../../models/user";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {UserAddEditComponent} from "../user-add-edit/user-add-edit.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {LeagueAddEditComponent} from "./league-add-edit/league-add-edit.component";
-import {UserDeleteConfirmComponent} from "../user-delete-confirm/user-delete-confirm.component";
-import {LeagueDeleteConfirmComponent} from "./league-delete-confirm/league-delete-confirm.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { delay } from "rxjs/operators";
+import { League } from "../../../models/league";
+import { Team } from "../../../models/team";
+import { LeagueService } from "../../league/league.service";
+import { TeamService } from "../../team/team.service";
+import { LeagueAddEditComponent } from "./league-add-edit/league-add-edit.component";
+import { LeagueDeleteConfirmComponent } from "./league-delete-confirm/league-delete-confirm.component";
 
 @Component({
   selector: 'app-team-administration',

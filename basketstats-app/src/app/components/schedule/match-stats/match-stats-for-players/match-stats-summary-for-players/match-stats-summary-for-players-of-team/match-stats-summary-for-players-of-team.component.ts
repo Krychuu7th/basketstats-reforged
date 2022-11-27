@@ -1,9 +1,8 @@
-import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {PlayerStats} from "../../../../../../models/player-stats";
-import {environment} from "../../../../../../../environments/environment";
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { environment } from "../../../../../../../environments/environment";
+import { PlayerStats } from "../../../../../../models/player-stats";
 
 @Component({
   selector: 'app-match-stats-summary-for-players-of-team',
@@ -24,7 +23,7 @@ export class MatchStatsSummaryForPlayersOfTeamComponent implements OnChanges {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   constructor() { }
 

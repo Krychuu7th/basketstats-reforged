@@ -40,7 +40,7 @@ export class MatchSettingsComponent implements OnInit {
   teamASelectedSubstitutePlayers: Player[] = [];
   teamBSelectedSubstitutePlayers: Player[] = [];
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   constructor(
     // private authService: NbAuthService,

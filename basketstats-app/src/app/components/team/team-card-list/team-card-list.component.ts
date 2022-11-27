@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
-import {Team} from "../../../models/team";
-import {PageEvent} from "@angular/material/paginator";
-import {TeamService} from "../team.service";
-import {LeagueService} from "../../league/league.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {League} from "../../../models/league";
-import {TeamDeleteConfirmComponent} from "../../administration/team-administration/team-delete-confirm/team-delete-confirm.component";
-import {TeamAddEditComponent} from "../../administration/team-administration/team-add-edit/team-add-edit.component";
-import {environment} from "../../../../environments/environment";
-import {ActivatedRoute} from "@angular/router";
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from "@angular/material/menu";
+import { PageEvent } from "@angular/material/paginator";
+import { ActivatedRoute } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { environment } from "../../../../environments/environment";
+import { League } from "../../../models/league";
+import { Team } from "../../../models/team";
+import { TeamAddEditComponent } from "../../administration/team-administration/team-add-edit/team-add-edit.component";
+import { TeamDeleteConfirmComponent } from "../../administration/team-administration/team-delete-confirm/team-delete-confirm.component";
+import { LeagueService } from "../../league/league.service";
+import { TeamService } from "../team.service";
 
 @Component({
   selector: 'app-team-card-list',
@@ -37,7 +37,7 @@ export class TeamCardListComponent implements OnChanges {
 
   @Output() emitLoadData = new EventEmitter<void>();
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   constructor(
     private teamService: TeamService,

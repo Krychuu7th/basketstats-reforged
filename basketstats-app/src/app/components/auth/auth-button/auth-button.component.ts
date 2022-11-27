@@ -15,4 +15,10 @@ export class AuthButtonComponent {
   constructor(
     public authService: AuthService
   ) { }
+
+  public login(): void {
+    this.authService.loginWithPopup().subscribe((res) => {
+      window.location.reload();
+    });
+  }
 }

@@ -1,4 +1,4 @@
-package reforged.marcin.krysiak.basketstats.config.enums;
+package reforged.marcin.krysiak.basketstats.enums;
 
 public enum MatchStatus {
     PLANNED,

@@ -45,7 +45,7 @@ export class UserMatchesListComponent implements OnInit {
 
   contextMenuPosition = { x: '0px', y: '0px' };
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   MatchStatus = MatchStatus;
 
