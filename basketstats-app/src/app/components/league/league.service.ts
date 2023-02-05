@@ -16,8 +16,8 @@ export class LeagueService {
     private authService: AuthService
   ) { }
 
-  getLeagueList(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/list`);
+  getLeagueList(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseApiUrl}/list`);
   }
 
   isLeagueWithNameExisting(name: string): Observable<Object> {

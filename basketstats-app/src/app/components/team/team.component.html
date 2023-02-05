@@ -1,10 +1,12 @@
-<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="isLoading$ | async" class="w-100" mode="indeterminate"></mat-progress-bar>
 <div class="container">
   <div class="cards-container">
-    <mat-tab-group *ngIf="leagueList">
-      <ng-container *ngFor="let league of leagueList">
+    <mat-tab-group *ngIf="!!(leagues$ | async)">
+      <ng-container *ngFor="let league of (leagues$ | async)">
         <mat-tab [label]="league.name" class="h-100">
-          <app-team-card-list [teamList]="getTeamsOfLeague(league.id)" (emitLoadData)="loadData()"></app-team-card-list>
+          tralalalal
+          <!-- <app-team-card-list [teamList]="getTeamsOfLeague(league.id)" (emitLoadData)="loadData()"></app-team-card-list> -->
+          <!-- <app-team-card-list [teamList]="getTeamsOfLeague(league.id)" (emitLoadData)="loadData()"></app-team-card-list> -->
         </mat-tab>
       </ng-container>
     </mat-tab-group>
