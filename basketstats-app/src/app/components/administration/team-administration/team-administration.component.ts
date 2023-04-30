@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from "@angular/material/menu";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { delay } from "rxjs/operators";
-import { League } from "../../../models/league";
+import { League } from "../../../models/league.model";
 import { Team } from "../../../models/team";
 import { LeagueService } from "../../league/league.service";
 import { TeamService } from "../../team/team.service";
@@ -46,7 +46,7 @@ export class TeamAdministrationComponent implements OnInit {
 
   loadLeagues() {
     this.isLoading = true;
-    this.leagueService.getLeagueList().pipe(delay(100)).subscribe(data => {
+    this.leagueService.getAllLeagues().pipe(delay(100)).subscribe(data => {
       this.leagueList = data;
     });
   }

@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.core.*;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -18,7 +18,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import reforged.marcin.krysiak.basketstats.security.AudienceValidator;
 import reforged.marcin.krysiak.basketstats.security.AuthAccessDeniedHandler;
-import reforged.marcin.krysiak.basketstats.security.AuthenticationErrorHandler;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/api/messages/public").permitAll() // GET requests don't need auth
+                .requestMatchers(HttpMethod.GET, "/api/messages").permitAll() // GET requests don't need auth
                 .anyRequest()
                 .authenticated()
                 .and()

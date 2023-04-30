@@ -1,5 +1,6 @@
 package reforged.marcin.krysiak.basketstats.controllers;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import reforged.marcin.krysiak.basketstats.exceptions.UserNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.User;
 import reforged.marcin.krysiak.basketstats.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 

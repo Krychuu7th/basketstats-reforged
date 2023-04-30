@@ -21,6 +21,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule, AuthService } from "@auth0/auth0-angular";
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from "src/environments/environment";
@@ -57,8 +59,6 @@ import { HttpAuthInterceptor } from "./helpers/interceptors/http-auth.intercepto
 import { HttpErrorInterceptor } from "./helpers/interceptors/http-error.interceptor";
 import { metaReducers, reducers } from './store';
 import { getPolishPaginatorIntl } from "./translations/polish-paginator-intl";
-import { EffectsModule } from '@ngrx/effects';
-import { LeagueEffects } from './store/effects/league.effects';
 
 registerLocaleData(localePl);
 
@@ -129,12 +129,17 @@ registerLocaleData(localePl);
         runtimeChecks:
         {
           strictStateImmutability: true,
-          strictActionImmutability: true
+          strictActionImmutability: true,
+          strictStateSerializability: true,
+          strictActionSerializability: true,
+          strictActionWithinNgZone: true,
+          strictActionTypeUniqueness: true
         }
       }
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([LeagueEffects])
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     AuthGuard,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { delay, first } from "rxjs/operators";
-import { League } from "../../models/league";
+import { League } from "../../models/league.model";
 import { Match } from "../../models/match";
 import { LeagueService } from "../league/league.service";
 import { MatchService } from "./match.service";
@@ -28,7 +28,7 @@ export class ScheduleComponent implements OnInit {
 
   loadData() {
     this.isLoading = true;
-    this.leagueService.getLeagueList().pipe(first()).subscribe(data => {
+    this.leagueService.getAllLeagues().pipe(first()).subscribe(data => {
       this.leagueList = data;
     });
 

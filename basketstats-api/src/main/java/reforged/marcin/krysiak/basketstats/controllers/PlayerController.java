@@ -1,5 +1,6 @@
 package reforged.marcin.krysiak.basketstats.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import reforged.marcin.krysiak.basketstats.models.Player;
 import reforged.marcin.krysiak.basketstats.service.PlayerService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/player")

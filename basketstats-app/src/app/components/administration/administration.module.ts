@@ -36,6 +36,10 @@ import { TeamTableListComponent } from './team-administration/team-table-list/te
 import { UserAddEditComponent } from "./user-add-edit/user-add-edit.component";
 import { UserDeleteConfirmComponent } from "./user-delete-confirm/user-delete-confirm.component";
 import { UserListComponent } from "./user-list/user-list.component";
+import { StoreModule } from '@ngrx/store';
+import * as fromLeague from '../league/state/league.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { LeagueEffects } from '../league/state/league.effects';
 
 @NgModule({
   declarations: [
@@ -81,7 +85,9 @@ import { UserListComponent } from "./user-list/user-list.component";
     ReactiveFormsModule,
     MatTabsModule,
     MatRippleModule,
-    MatSelectModule
+    MatSelectModule,
+    StoreModule.forFeature(fromLeague.leaguesFeatureKey, fromLeague.reducer),
+    EffectsModule.forFeature([LeagueEffects])
   ]
 })
 export class AdministrationModule { }

@@ -13,8 +13,8 @@ export class TeamService {
 
   constructor(private http: HttpClient) { }
 
-  getTeamList(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/list`);
+  getTeamList(): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.baseApiUrl}/list`);
   }
 
   getTeamById(id: number): Observable<any> {
@@ -25,8 +25,8 @@ export class TeamService {
     return this.http.get(`${this.baseApiUrl}/isTeamWithNameExisting/${name}`);
   }
 
-  getTeamByLeagueId(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/leagueList/${id}`);
+  getTeamByLeagueId(id: number): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.baseApiUrl}/leagueList/${id}`);
   }
 
   getAllPlayerAvgStatsByTeamId(id: number): Observable<any> {

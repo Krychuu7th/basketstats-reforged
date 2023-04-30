@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { LeagueNameNotUsed } from "../../../../helpers/league-name-not-used.validator";
-import { League } from "../../../../models/league";
+import { League } from "../../../../models/league.model";
 import { LeagueService } from "../../../league/league.service";
 
 @Component({

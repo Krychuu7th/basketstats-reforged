@@ -6,7 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { BehaviorSubject } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { MatchStatus } from "../../../../enums/match-status.enum";
-import { League } from "../../../../models/league";
+import { League } from "../../../../models/league.model";
 import { Match } from "../../../../models/match";
 import { User } from "../../../../models/user";
 import { UserService } from "../../../administration/user-list/user.service";

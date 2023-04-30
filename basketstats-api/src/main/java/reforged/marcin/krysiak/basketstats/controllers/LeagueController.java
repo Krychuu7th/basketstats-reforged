@@ -1,27 +1,41 @@
 package reforged.marcin.krysiak.basketstats.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.League;
 import reforged.marcin.krysiak.basketstats.service.LeagueService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/league")
 @RestController
-@CrossOrigin
+//@CrossOrigin
+@RequiredArgsConstructor
 public class LeagueController {
 
-    @Autowired
-    LeagueService leagueService;
+    private final LeagueService leagueService;
 
-    @GetMapping("/list")
+    @GetMapping
+    public ResponseEntity<Page<League>> getLeaguesBySpec(
+            @Spec(path = "name", params = "nameLike", spec = LikeIgnoreCase.class)
+            Specification<League> spec,
+            Pageable pageable
+    ) {
+
+        return ResponseEntity.ok().body(leagueService.getLeaguesBySpec(spec, pageable));
+    }
+
+    @GetMapping("/get-all")
     public ResponseEntity<List<League>> getAllLeagues() {
-
         return ResponseEntity.ok().body(leagueService.getAllLeagues());
     }
 

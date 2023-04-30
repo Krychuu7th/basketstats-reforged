@@ -1,21 +1,19 @@
 package reforged.marcin.krysiak.basketstats.repositories.custom;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import reforged.marcin.krysiak.basketstats.dto.MatchStatsDTO;
-import reforged.marcin.krysiak.basketstats.repositories.TeamRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MatchStatsRepositoryCustomImpl implements MatchStatsRepositoryCustom {
 
-    @Autowired
-    private TeamRepository teamRepository;
+//    @Autowired
+//    private TeamRepository teamRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -47,10 +45,10 @@ public class MatchStatsRepositoryCustomImpl implements MatchStatsRepositoryCusto
 
         List<Object[]> res = (List<Object[]>) query.getResultList();
         List<MatchStatsDTO> matchStatsDTOList = new ArrayList<>();
-        for (Object[] obj : res) {
-            MatchStatsDTO dto = new MatchStatsDTO(obj, teamRepository);
-            matchStatsDTOList.add(dto);
-        }
+//        for (Object[] obj : res) {
+//            MatchStatsDTO dto = new MatchStatsDTO(obj, teamRepository);
+//            matchStatsDTOList.add(dto);
+//        }
         return matchStatsDTOList;
     }
 }

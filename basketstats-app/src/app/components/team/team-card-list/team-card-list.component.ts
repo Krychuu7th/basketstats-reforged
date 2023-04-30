@@ -4,7 +4,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "../../../../environments/environment";
-import { League } from "../../../models/league";
+import { League } from "../../../models/league.model";
 import { Team } from "../../../models/team";
 import { TeamAddEditComponent } from "../../administration/team-administration/team-add-edit/team-add-edit.component";
 import { TeamDeleteConfirmComponent } from "../../administration/team-administration/team-delete-confirm/team-delete-confirm.component";

@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TeamNameNotUsed } from "../../../../helpers/team-name-not-used.validator";
-import { League } from "../../../../models/league";
+import { League } from "../../../../models/league.model";
 import { Team } from "../../../../models/team";
 import { LeagueService } from "../../../league/league.service";
 import { TeamService } from "../../../team/team.service";
@@ -49,7 +49,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   }
 
   loadData() {
-    this.leagueService.getLeagueList().subscribe(res => {
+    this.leagueService.getAllLeagues().subscribe(res => {
       this.leagueList = res;
     });
   }

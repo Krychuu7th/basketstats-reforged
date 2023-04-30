@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as fromLeagueActions from 'src/app/components/league/state/league.actions';
+import { League } from 'src/app/models/league.model';
 import { BasketStatsAppState } from 'src/app/store';
-import { loadLeagues } from 'src/app/store/actions/league.actions';
-import { selectIsLoading, selectLeagues } from 'src/app/store/selectors/league.selectors';
 import { Team } from "../../models/team";
 import { LeagueService } from "../league/league.service";
 import { TeamService } from "./team.service";
@@ -21,7 +21,9 @@ export class TeamComponent implements OnInit {
   isLoading$: Observable<boolean>;
 
   // page$: Observable<number>;
-  leagues$: Observable<any[]>;
+  // leagues$: Observable<any[]>;
+  leagues$: Observable<League[]>;
+  // teamViewModel$: Observable<TeamViewModel>;
 
   constructor(
     private teamService: TeamService,
@@ -30,14 +32,16 @@ export class TeamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.pipe(select(selectIsLoading));
+    // this.isLoading$ = this.store.pipe(select(selectIsLoading));
     // this.page$ = this.store.pipe(select(selectPage));
-    this.leagues$ = this.store.pipe(select(selectLeagues));
+    // this.leagueViewModel$ = this.store.pipe(select(selectLeagueViewModel));
+    
     this.loadData();
   }
 
   loadData() {
-    this.store.dispatch(loadLeagues());
+    this.store.dispatch(fromLeagueActions.loadAllLeagues());
+    // this.store.dispatch(loadTeams())
     // this.isLoading = true;
     // this.leagueService.getLeagueList().pipe(first()).subscribe(data => {
     //   this.leagueList = data;
@@ -50,7 +54,7 @@ export class TeamComponent implements OnInit {
   }
 
   getTeamsOfLeague(leagueId: number) {
-    return this.teamList? this.teamList.filter(obj => obj.league.id == leagueId): null;
+    // return this.teamList ? this.teamList.filter(obj => obj.league.id == leagueId) : null;
+    // return this.store.pipe(select(selectTeamsByLeagueIdViewModel(leagueId)));
   }
-
 }

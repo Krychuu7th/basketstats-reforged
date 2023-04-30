@@ -3,7 +3,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatchStatus } from "../../../../enums/match-status.enum";
 import { Position } from "../../../../enums/position.enum";
-import { League } from "../../../../models/league";
+import { League } from "../../../../models/league.model";
 import { Match } from "../../../../models/match";
 import { Team } from "../../../../models/team";
 import { User } from "../../../../models/user";

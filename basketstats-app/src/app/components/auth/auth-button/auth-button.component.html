@@ -22,7 +22,8 @@
       aria-label="Example icon-button with a menu"
     >
       <ng-container *ngIf="authService.user$ | async as user">
-        <img class="user-avatar" [src]="user.picture" alt="user avatar">
+        <img *ngIf="user.picture" class="user-avatar" [src]="user.picture" alt="user avatar">
+        <img *ngIf="!user.picture" class="user-avatar" src="/assets/images/user.png" alt="user avatar">
         {{ user.name | uppercase }}
         <mat-icon class="dropdown-icon" [ngClass]="{ active: this.menuOpened }"
           >keyboard_arrow_down</mat-icon

@@ -2,6 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { AuthService } from "@auth0/auth0-angular";
 import { Observable } from "rxjs";
+import { League } from "src/app/models/league.model";
+import { Page } from "src/app/models/shared/pageable";
+import { QueryParams } from "src/app/models/shared/query-params";
 import { environment } from "../../../environments/environment";
 
 @Injectable({
@@ -16,8 +19,12 @@ export class LeagueService {
     private authService: AuthService
   ) { }
 
-  getLeagueList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseApiUrl}/list`);
+  getLeagues(queryParams: QueryParams): Observable<Page<League>> {
+    return this.http.get<Page<League>>(`${this.baseApiUrl}/list`);
+  }
+
+  getAllLeagues(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseApiUrl}/get-all`);
   }
 
   isLeagueWithNameExisting(name: string): Observable<Object> {
