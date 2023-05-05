@@ -46,23 +46,23 @@ export class TeamAdministrationComponent implements OnInit {
 
   loadLeagues() {
     this.isLoading = true;
-    this.leagueService.getAllLeagues().pipe(delay(100)).subscribe(data => {
+    this.leagueService.getAll().pipe(delay(100)).subscribe(data => {
       this.leagueList = data;
     });
   }
 
   getTeamsOfLeague(leagueId: number) {
-    return this.teamList? this.teamList.filter(obj => obj.league.id == leagueId): null;
+    return this.teamList ? this.teamList.filter(obj => obj.league.id == leagueId) : null;
   }
 
   addLeague() {
     const modalRef = this.modalService.open(LeagueAddEditComponent);
     modalRef.componentInstance.isEdit = false;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.loadData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -71,11 +71,11 @@ export class TeamAdministrationComponent implements OnInit {
     const modalRef = this.modalService.open(LeagueAddEditComponent);
     modalRef.componentInstance.isEdit = true;
     modalRef.componentInstance.league = league;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.loadData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -84,12 +84,12 @@ export class TeamAdministrationComponent implements OnInit {
     const modalRef = this.modalService.open(LeagueDeleteConfirmComponent);
     modalRef.componentInstance.leagueName = leagueName;
     modalRef.componentInstance.leagueId = leagueId;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.loadData();
         this.loadData();
       }
-    }, error =>{
+    }, error => {
 
     });
   }

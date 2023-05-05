@@ -12,23 +12,23 @@ export class LeagueEffects {
 
   loadLeagues$ = createEffect(() => {
     return this.actions$.pipe(
-        ofType(LeagueActions.loadLeagues),
-        mergeMap((action) =>
-          this.leagueService.getLeagues(action.queryParams).pipe(
-            map(data => LeagueActions.loadLeaguesSuccess({ leagues: data.content })),
-            catchError(error => of(LeagueActions.loadLeaguesFailure({ error }))))
-          ),
+      ofType(LeagueActions.loadLeagues),
+      mergeMap((action) =>
+        this.leagueService.get(action.queryParams).pipe(
+          map(data => LeagueActions.loadLeaguesSuccess({ leaguesPage: data })),
+          catchError(error => of(LeagueActions.loadLeaguesFailure({ error }))))
+      ),
     );
   });
 
   loadAllLeagues$ = createEffect(() => {
     return this.actions$.pipe(
-        ofType(LeagueActions.loadAllLeagues),
-        mergeMap((action) =>
-          this.leagueService.getAllLeagues().pipe(
-            map(data => LeagueActions.loadLeaguesSuccess({ leagues: data })),
-            catchError(error => of(LeagueActions.loadLeaguesFailure({ error }))))
-          ),
+      ofType(LeagueActions.loadAllLeagues),
+      mergeMap((action) =>
+        this.leagueService.getAll().pipe(
+          map(data => LeagueActions.loadAllLeaguesSuccess({ leagues: data })),
+          catchError(error => of(LeagueActions.loadLeaguesFailure({ error }))))
+      ),
     );
   });
 

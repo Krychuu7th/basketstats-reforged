@@ -171,4 +171,8 @@ export class UserListComponent implements OnInit {
     this.contextMenu.openMenu();
   }
 
+  getValue(row: any, columnName: string): any {
+    return row[columnName];
+  }
+
 }

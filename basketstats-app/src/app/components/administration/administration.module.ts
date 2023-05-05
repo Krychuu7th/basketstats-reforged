@@ -15,6 +15,11 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { LeagueEffects } from '../league/state/league.effects';
+import * as fromLeague from '../league/state/league.reducer';
 import { TeamCardListComponent } from "../team/team-card-list/team-card-list.component";
 import { AdminNavigationBarComponent } from "./admin-navigation-bar/admin-navigation-bar.component";
 import { AdministrationRoutingModule } from "./administration-routing.module";
@@ -36,10 +41,6 @@ import { TeamTableListComponent } from './team-administration/team-table-list/te
 import { UserAddEditComponent } from "./user-add-edit/user-add-edit.component";
 import { UserDeleteConfirmComponent } from "./user-delete-confirm/user-delete-confirm.component";
 import { UserListComponent } from "./user-list/user-list.component";
-import { StoreModule } from '@ngrx/store';
-import * as fromLeague from '../league/state/league.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { LeagueEffects } from '../league/state/league.effects';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { LeagueEffects } from '../league/state/league.effects';
   imports: [
     CommonModule,
     AdministrationRoutingModule,
+    SharedModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatIconModule,

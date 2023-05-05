@@ -13,11 +13,21 @@
 
   <div class="first-column">
     <!-- <nb-layout-column class="first-column"> -->
+    <mat-progress-bar
+      *ngIf="isLoading$ | async"
+      class="w-100"
+      mode="indeterminate"
+    ></mat-progress-bar>
     <router-outlet></router-outlet>
     <div class="main-footer">
       <div class="row h-100">
         <div class="footer-hook col-2">
-          <mat-icon class="info-icon" aria-hidden="false" aria-label="Example home icon" fontIcon="info"></mat-icon>
+          <mat-icon
+            class="info-icon"
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="info"
+          ></mat-icon>
         </div>
         <div class="col footer-attribute-container h-100 col-10">
           <p>

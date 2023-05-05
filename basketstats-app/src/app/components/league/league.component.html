@@ -1,0 +1,10 @@
+<div class="container">
+  <app-base-table
+    *ngIf="leaguesViewModel$ | async as leaguesViewModel"
+    [dataPage]="leaguesViewModel.leaguesPage"
+    [queryParams]="queryParams"
+    [tableConfig]="leagueTableConfig"
+    (searched)="applySearchFilter($event)"
+  >
+  </app-base-table>
+</div>

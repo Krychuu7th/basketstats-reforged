@@ -1,10 +1,14 @@
 import { SortDirection } from "@angular/material/sort";
 
 export interface QueryParams {
-    page?: number;
-    size?: number;
+    pagination?: Pagination;
     sort?: SortParam;
     params?: Param[];
+}
+
+export interface Pagination {
+    page: number;
+    size: number;
 }
 
 export interface SortParam {
@@ -16,3 +20,10 @@ export interface Param {
     key: string;
     value: string;
 }
+
+export const defaultQueryParams: QueryParams = {
+    pagination: {
+        page: 0,
+        size: 10
+    }
+};

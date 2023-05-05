@@ -21,7 +21,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule, AuthService } from "@auth0/auth0-angular";
-import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -38,6 +37,7 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
 import { NavHeaderComponent } from "./components/header/nav-header/nav-header.component";
 import { SidebarHeaderComponent } from './components/header/sidebar-header/sidebar-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { LeagueComponent } from './components/league/league.component';
 import { MatchComponent } from './components/match/match.component';
 import { MatchModule } from "./components/match/match.module";
 import { MatchInfoRowComponent } from './components/schedule/match-info-row/match-info-row.component';
@@ -57,8 +57,11 @@ import { UserComponent } from './components/user/user.component';
 import { UserModule } from "./components/user/user.module";
 import { HttpAuthInterceptor } from "./helpers/interceptors/http-auth.interceptor";
 import { HttpErrorInterceptor } from "./helpers/interceptors/http-error.interceptor";
+import { SharedModule } from "./shared/shared.module";
 import { metaReducers, reducers } from './store';
 import { getPolishPaginatorIntl } from "./translations/polish-paginator-intl";
+import { EffectsModule } from '@ngrx/effects';
+import { LoaderEffects } from './shared/state/effect/loader.effects';
 
 registerLocaleData(localePl);
 
@@ -88,9 +91,11 @@ registerLocaleData(localePl);
     MatchStatsSummaryForPlayersOfTeamComponent,
     UserComponent,
     MatchComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    LeagueComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     AdministrationModule,
     UserModule,
@@ -138,8 +143,8 @@ registerLocaleData(localePl);
       }
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([LoaderEffects])
   ],
   providers: [
     AuthGuard,

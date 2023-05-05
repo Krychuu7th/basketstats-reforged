@@ -28,7 +28,7 @@ export class ScheduleComponent implements OnInit {
 
   loadData() {
     this.isLoading = true;
-    this.leagueService.getAllLeagues().pipe(first()).subscribe(data => {
+    this.leagueService.getAll().pipe(first()).subscribe(data => {
       this.leagueList = data;
     });
 
@@ -39,7 +39,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   getMatchesOfLeague(leagueId: number) {
-    return this.matchList ? this.matchList.filter(obj => obj.teamA.league.id == leagueId): null;
+    return this.matchList ? this.matchList.filter(obj => obj.teamA.league.id == leagueId) : null;
   }
 
 }

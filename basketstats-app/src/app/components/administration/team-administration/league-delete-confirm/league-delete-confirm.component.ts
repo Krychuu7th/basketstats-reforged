@@ -22,7 +22,7 @@ export class LeagueDeleteConfirmComponent implements OnInit {
   }
 
   deleteUser() {
-    this.leagueService.deleteLeague(this.leagueId).subscribe(
+    this.leagueService.delete(this.leagueId).subscribe(
       res => {
         this.showToast('Liga została usunięta',
           'Udało się!',

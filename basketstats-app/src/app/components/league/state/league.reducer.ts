@@ -1,20 +1,20 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { League } from 'src/app/models/league.model';
-import { QueryParams } from 'src/app/models/shared/query-params';
+import { Page } from 'src/app/shared/model/pageable';
 import * as LeagueActions from './league.actions';
 
 export const leaguesFeatureKey = 'leagues';
 
 export interface State extends EntityState<League> {
-  queryParams: QueryParams;
+  leaguesPage: Page<League>;
   error: any
 }
 
 export const adapter: EntityAdapter<League> = createEntityAdapter<League>();
 
 export const initialState: State = adapter.getInitialState({
-  queryParams: {},
+  leaguesPage: null,
   error: null
 });
 
@@ -45,9 +45,25 @@ export const reducer = createReducer(
     (state, action) => adapter.removeMany(action.ids, state)
   ),
   on(LeagueActions.loadLeaguesSuccess,
-    (state, action) => adapter.setAll(action.leagues, state)
+    (state, action) => {
+      return {
+        ...state,
+        leaguesPage: action.leaguesPage
+      };
+    }
   ),
   on(LeagueActions.loadLeaguesFailure,
+    (state, action) => {
+      return {
+        ...state,
+        error: action.error
+      };
+    }
+  ),
+  on(LeagueActions.loadAllLeaguesSuccess,
+    (state, action) => adapter.setAll(action.leagues, state)
+  ),
+  on(LeagueActions.loadAllLeaguesFailure,
     (state, action) => {
       return {
         ...state,

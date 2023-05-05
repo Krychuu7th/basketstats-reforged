@@ -1,0 +1,15 @@
+.table-header {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.option-button {
+  color: rgba(0, 0, 0, 0.8);
+  &:disabled {
+    color: rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+.option-button-icon-disabled {
+  color: rgba(0, 0, 0, 0.2) !important;
+}

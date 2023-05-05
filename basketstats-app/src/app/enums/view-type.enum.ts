@@ -1,4 +1,5 @@
 export enum ViewType {
+  LEAGUES = 'leagues',
   TEAMS = 'teams',
   AUTH = 'auth',
   USER_PANEL = 'user_panel',

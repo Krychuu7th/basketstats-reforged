@@ -4,8 +4,7 @@
   src: url("/../assets/fonts/BalooBhaina2-Regular.ttf");
 }
 
-html *
-{
+html * {
   font-family: BalooBhaina2 !important;
 }
 
@@ -33,7 +32,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF7043;
+  background: #ff7043;
 }
 
 /**/
@@ -53,9 +52,9 @@ a {
 .button-confirm {
   color: black;
   padding-top: 4px;
-  border: solid 1px #00D68F;
+  border: solid 1px #00d68f;
   background-size: 99% 200%;
-  background-image: linear-gradient(to bottom, #00D68F 50%, #FAFAFA 50%);
+  background-image: linear-gradient(to bottom, #00d68f 50%, #fafafa 50%);
   -webkit-transition: background-position 0.5s;
   -moz-transition: background-position 0.5s;
   transition: background-position 0.5s;
@@ -69,7 +68,7 @@ a {
   color: black;
   padding-top: 4px;
   background-size: 100% 200%;
-  background-image: linear-gradient(to bottom, #FAFAFA 50%, #FF3D71 50%);
+  background-image: linear-gradient(to bottom, #fafafa 50%, #ff3d71 50%);
   -webkit-transition: background-position 0.5s;
   -moz-transition: background-position 0.5s;
   transition: background-position 0.5s;
@@ -223,7 +222,7 @@ a {
 
 .mat-ink-bar {
   height: 7px !important;
-  background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 .mat-tab-label {
@@ -236,32 +235,35 @@ a {
 }
 
 .mat-focused {
-  color: #FF7043 !important;
+  color: #ff7043 !important;
 }
 
 .mat-form-field-underline {
-  background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 .mat-form-field-ripple {
-  background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 .mat-option.mat-selected {
-  color: #FF7043 !important;
+  color: #ff7043 !important;
 }
 
 .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-  color: #FF7043 !important;
+  color: #ff7043 !important;
 }
 
-mat-icon{
-  font-family: 'Material Icons' !important;
+mat-icon {
+  font-family: "Material Icons" !important;
 }
 
-.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
   color: #ffffff !important;
-  background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 th.mat-header-cell {
@@ -270,7 +272,11 @@ th.mat-header-cell {
 }
 
 tr.mat-header-row {
-  background-image: linear-gradient(to bottom, #ffffff 99%, rgba(0, 0, 0, 0.12) 1%);
+  background-image: linear-gradient(
+    to bottom,
+    #ffffff 99%,
+    rgba(0, 0, 0, 0.12) 1%
+  );
 }
 
 tr.mat-row {
@@ -282,7 +288,7 @@ tr.mat-row:hover {
 }
 
 .mat-progress-bar-fill::after {
-  background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 .mat-progress-bar-buffer {
@@ -305,8 +311,9 @@ mat-progress-bar {
   background-color: rgba(255, 112, 67, 0.38) !important;
 }
 
-.mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #FF7043 !important;
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #ff7043 !important;
 }
 
 /* NGBOOTSTRAP STYLING */
@@ -321,5 +328,5 @@ mat-progress-bar {
 .container {
   height: 100%;
   background-color: rgba(255, 255, 255, 0.2);
-  padding-top: 75px;
+  padding-top: 135px;
 }

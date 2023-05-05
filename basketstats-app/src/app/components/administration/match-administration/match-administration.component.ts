@@ -36,7 +36,7 @@ export class MatchAdministrationComponent implements OnInit {
 
   loadLeagues() {
     this.isLoading = true;
-    this.leagueService.getAllLeagues().pipe(delay(400)).subscribe(data => {
+    this.leagueService.getAll().pipe(delay(400)).subscribe(data => {
       this.leagueList = data;
       this.isLoading = false;
     });

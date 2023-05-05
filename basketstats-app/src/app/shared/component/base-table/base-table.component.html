@@ -1,0 +1,69 @@
+<div class="table-header">{{ headerText }}</div>
+<div class="row">
+  <div class="col-6">
+    <mat-form-field class="w-100">
+      <mat-label>Szukaj...</mat-label>
+      <input
+        matInput
+        [formControl]="searchInputFormControl"
+        placeholder="{{ searchPlaceholder }}"
+        #input
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="col-5">
+    <mat-paginator
+      [pageIndex]="dataPage?.number"
+      [length]="dataPage?.totalElements"
+      [pageSizeOptions]="tableConfig.pageSizeOptions"
+      [pageSize]="dataPage?.size"
+    ></mat-paginator>
+  </div>
+  <div class="col-1">
+    <button
+      class="float-right"
+      mat-fab
+      color="primary"
+      matTooltip="{{ addButtonTooltip }}"
+      (click)="add()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<table
+  mat-table
+  [dataSource]="dataPage?.content"
+  matSort
+  matSortActive="username"
+  matSortDirection="asc"
+  matSortDisableClear
+  class="w-100"
+>
+  <ng-container
+    *ngFor="let column of tableColumns"
+    matColumnDef="{{ column.name }}"
+  >
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{ column.translation }}
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let row"
+      (contextmenu)="onContextMenu($event, row)"
+    >
+      {{ row | fieldValue : column.name }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableColumnNames"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableColumnNames"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell text-center font-weight-bolder" colspan="7">
+      Brak danych
+    </td>
+  </tr>
+</table>

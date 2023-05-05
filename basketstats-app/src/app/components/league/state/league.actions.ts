@@ -1,10 +1,11 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { League } from 'src/app/models/league.model';
-import { QueryParams } from 'src/app/models/shared/query-params';
+import { Page } from 'src/app/shared/model/pageable';
+import { QueryParams } from 'src/app/shared/model/query-params';
 
 export const loadLeagues = createAction(
-  '[League/API] Load Leagues', 
+  '[League/API] Load Leagues',
   props<{ queryParams: QueryParams }>()
 );
 
@@ -13,12 +14,22 @@ export const loadAllLeagues = createAction(
 );
 
 export const loadLeaguesSuccess = createAction(
-  '[League Effect] Load Leagues Success', 
-  props<{ leagues: League[] }>()
+  '[League Effect] Load Leagues Success',
+  props<{ leaguesPage: Page<League> }>()
 );
 
 export const loadLeaguesFailure = createAction(
-  '[League Effect] Load Leagues Failure', 
+  '[League Effect] Load Leagues Failure',
+  props<{ error: any }>()
+);
+
+export const loadAllLeaguesSuccess = createAction(
+  '[League Effect] Load All Leagues Success',
+  props<{ leagues: League[] }>()
+);
+
+export const loadAllLeaguesFailure = createAction(
+  '[League Effect] Load All Leagues Failure',
   props<{ error: any }>()
 );
 

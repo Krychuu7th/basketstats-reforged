@@ -5,6 +5,7 @@ import { AuthComponent } from "./components/auth/auth.component";
 import { LoginComponent } from "./components/auth/login/login.component";
 import { LogoutComponent } from "./components/auth/logout/logout.component";
 import { HomepageComponent } from "./components/homepage/homepage.component";
+import { LeagueComponent } from "./components/league/league.component";
 import { MatchStatsComponent } from "./components/schedule/match-stats/match-stats.component";
 import { ScheduleComponent } from "./components/schedule/schedule.component";
 import { TeamPlayersComponent } from "./components/team/team-players/team-players.component";
@@ -19,13 +20,25 @@ export const appRoutes: Routes = [
   },
 
   {
+    path: 'leagues',
+    data: {
+      viewType: ViewType.LEAGUES
+    },
+    children: [
+      {
+        path: '', component: LeagueComponent,
+      }
+    ]
+  },
+
+  {
     path: 'teams',
     data: {
       viewType: ViewType.TEAMS
     },
-    children:[
+    children: [
       {
-        path: '',  component: TeamComponent,
+        path: '', component: TeamComponent,
       },
       {
         path: 'info/:id', component: TeamPlayersComponent
@@ -38,9 +51,9 @@ export const appRoutes: Routes = [
     data: {
       viewType: ViewType.SCHEDULE
     },
-    children:[
+    children: [
       {
-        path: '',  component: ScheduleComponent,
+        path: '', component: ScheduleComponent,
       },
       {
         path: 'match/:id', component: MatchStatsComponent
@@ -52,7 +65,7 @@ export const appRoutes: Routes = [
     path: 'auth',
     component: AuthComponent,
     data: {
-    viewType: ViewType.AUTH
+      viewType: ViewType.AUTH
     },
     children: [
       {
@@ -94,9 +107,9 @@ export const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(appRoutes,
       {
-    useHash: true,
-    relativeLinkResolution: 'legacy'
-})
+        useHash: true,
+        relativeLinkResolution: 'legacy'
+      })
   ],
   exports: [
     RouterModule

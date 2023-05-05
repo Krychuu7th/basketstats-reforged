@@ -25,7 +25,7 @@ export class LeagueAddEditComponent implements OnInit {
     // private nbToastrService: NbToastrService,
     private leagueService: LeagueService,
     private formBuilder: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -45,7 +45,8 @@ export class LeagueAddEditComponent implements OnInit {
           Validators.pattern('[A-Za-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ\\s\\-]*')
         ]
       )
-    }, { validators: [
+    }, {
+      validators: [
         LeagueNameNotUsed('name', this.leagueService, this.league ? this.league.name : null),
       ]
     });
@@ -62,7 +63,7 @@ export class LeagueAddEditComponent implements OnInit {
   }
 
   submit() {
-    if(!this.isEdit) {
+    if (!this.isEdit) {
       this.addLeague();
     }
     else {
@@ -78,16 +79,16 @@ export class LeagueAddEditComponent implements OnInit {
 
   addLeague() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
-      this.leagueService.createLeague(this.getNewLeague()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Użytkownik został dodany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+    if (!this.formGroup.invalid) {
+      this.leagueService.create(this.getNewLeague()).subscribe(res => {
+        this.activeModal.close('confirm');
+        this.showToast('Użytkownik został dodany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Liga nie został dodany',
             'Coś poszło nie tak!',
@@ -109,16 +110,18 @@ export class LeagueAddEditComponent implements OnInit {
 
   editLeague() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
-      this.leagueService.updateLeague(this.league.id, this.getNewLeague()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Liga została zaktualizowana',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+    if (!this.formGroup.invalid) {
+      const league = this.getNewLeague();
+      league.id = this.league.id;
+      this.leagueService.update(league).subscribe(res => {
+        this.activeModal.close('confirm');
+        this.showToast('Liga została zaktualizowana',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Liga nie została zaktualizowana',
             'Coś poszło nie tak!',

@@ -49,7 +49,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   }
 
   loadData() {
-    this.leagueService.getAllLeagues().subscribe(res => {
+    this.leagueService.getAll().subscribe(res => {
       this.leagueList = res;
     });
   }
@@ -75,7 +75,8 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
       ),
       logo: new UntypedFormControl(null
       ),
-    }, { validators: [
+    }, {
+      validators: [
         TeamNameNotUsed('name', this.teamService, this.team ? this.team.name : null),
       ]
     });
@@ -123,9 +124,9 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
             'bottom-end',
             6000);
         }
-        },
+      },
         error => {
-        console.log(error);
+          console.log(error);
           this.selectedLogoFile = new File([""], "nologo");
           this.form.logo.setValue(null);
           this.showToast('Drużyna nie została dodana',
@@ -150,20 +151,20 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
     this.markFormGroupTouched(this.formGroup);
     if (!this.formGroup.invalid) {
       this.teamService.updateTeam(this.team.id, this.getNewTeam(this.selectedLogoFile)).subscribe(event => {
-          if (event instanceof HttpResponse) {
+        if (event instanceof HttpResponse) {
 
-            this.activeModal.close('confirm');
-            this.showToast('Drużyna została zaktualizowana',
-              'Udało się!',
-              'success',
-              false,
-              'bottom-end',
-              6000);
-          }
-        },
+          this.activeModal.close('confirm');
+          this.showToast('Drużyna została zaktualizowana',
+            'Udało się!',
+            'success',
+            false,
+            'bottom-end',
+            6000);
+        }
+      },
         error => {
-        this.selectedLogoFile = new File([""], "nologo");
-        this.form.logo.setValue(null);
+          this.selectedLogoFile = new File([""], "nologo");
+          this.form.logo.setValue(null);
           this.showToast('Drużyna nie została zaktualizowana',
             'Coś poszło nie tak!',
             'danger',
@@ -188,8 +189,8 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
 
   onFileSelected(event) {
     this.selectedLogoFile = event.target.files[0];
-    if(this.selectedLogoFile.size > this.maxFileSize) {
-      this.form.logo.setErrors({fileSizeError: true});
+    if (this.selectedLogoFile.size > this.maxFileSize) {
+      this.form.logo.setErrors({ fileSizeError: true });
     }
   }
 
