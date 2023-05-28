@@ -4,7 +4,7 @@ import { Page } from 'src/app/shared/model/pageable';
 
 import * as LeagueReducer from './league.reducer';
 
-export const selectLeaguesState = createFeatureSelector<LeagueReducer.State>(
+export const selectLeaguesState = createFeatureSelector<LeagueReducer.LeagueState>(
     LeagueReducer.leaguesFeatureKey
 );
 
@@ -13,9 +13,14 @@ export const selectAllLeagues = createSelector(
     LeagueReducer.selectAll
 );
 
+export const selectAllEntities = createSelector(
+    selectLeaguesState,
+    LeagueReducer.selectEntities
+);
+
 export const selectLeaguesPage = createSelector(
     selectLeaguesState,
-    (state: LeagueReducer.State) => state.leaguesPage
+    (state: LeagueReducer.LeagueState) => state.leaguesPage
 );
 
 export interface LeaguesViewModel {
@@ -31,5 +36,20 @@ export const selectLeaguesViewModel = createSelector(
             leagues,
             leaguesPage
         }
+    }
+);
+
+//Factory selector for passing props like ID
+export const entityExistsInStore = (id: number) => createSelector(
+    selectAllEntities,
+    (entities): boolean => {
+        return entities[id] != undefined;
+    }
+);
+
+export const selectEntityById = (id: number) => createSelector(
+    selectAllEntities,
+    (entities): League => {
+        return entities[id]!;
     }
 );

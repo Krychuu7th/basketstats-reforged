@@ -15,7 +15,10 @@ export const loadAllLeagues = createAction(
 
 export const loadLeaguesSuccess = createAction(
   '[League Effect] Load Leagues Success',
-  props<{ leaguesPage: Page<League> }>()
+  props<{
+    leaguesPage: Page<League>,
+    queryParams: QueryParams
+  }>()
 );
 
 export const loadLeaguesFailure = createAction(
@@ -33,14 +36,49 @@ export const loadAllLeaguesFailure = createAction(
   props<{ error: any }>()
 );
 
+export const loadLeague = createAction(
+  '[League/API] Load League',
+  props<{ id: number }>()
+);
+
+export const loadLeagueSuccess = createAction(
+  '[League Effect] Load League Success',
+  props<{ league: League }>()
+);
+
+export const loadLeagueFailure = createAction(
+  '[League Effect] Load League Failure',
+  props<{ error: any }>()
+);
+
 export const addLeague = createAction(
   '[League/API] Add League',
   props<{ league: League }>()
 );
 
+export const addLeagueSuccess = createAction(
+  '[League Effect] Add League Success',
+  props<{ league: League }>()
+);
+
+export const addLeagueFailure = createAction(
+  '[League Effect] Add League Failure',
+  props<{ error: any }>()
+);
+
 export const upsertLeague = createAction(
   '[League/API] Upsert League',
   props<{ league: League }>()
+);
+
+export const upsertLeagueSuccess = createAction(
+  '[League Effect] Upsert League Success',
+  props<{ league: League }>()
+);
+
+export const upsertLeagueFailure = createAction(
+  '[League Effect] Upsert League Failure',
+  props<{ error: any }>()
 );
 
 export const addLeagues = createAction(
@@ -65,12 +103,21 @@ export const updateLeagues = createAction(
 
 export const deleteLeague = createAction(
   '[League/API] Delete League',
-  props<{ id: string }>()
+  props<{ id: number }>()
+);
+
+export const deleteLeagueSuccess = createAction(
+  '[League Effect] Delete League Success'
+);
+
+export const deleteLeagueFailure = createAction(
+  '[League Effect] Delete League Failure',
+  props<{ error: any }>()
 );
 
 export const deleteLeagues = createAction(
   '[League/API] Delete Leagues',
-  props<{ ids: string[] }>()
+  props<{ ids: number[] }>()
 );
 
 export const clearLeagues = createAction(

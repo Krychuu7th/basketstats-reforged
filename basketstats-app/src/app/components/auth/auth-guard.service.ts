@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     //   );
   }
 
-  showToast(status, preventDuplicates, position, duration) {
+  showToast(status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show('Brak dostępu do treści', `MUSISZ SIĘ ZALOGOWAĆ`,
     //   { status, preventDuplicates, position, duration });
   }

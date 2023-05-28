@@ -1,3 +1,3 @@
-export abstract class BaseCrudResource<T> {
+export abstract class BaseCrudResource {
     public id: number;
 }

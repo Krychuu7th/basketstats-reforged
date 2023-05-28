@@ -1,6 +1,14 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": true
-    },
-    "editor.formatOnSave": true
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "editor.formatOnSave": true,
+  "eslint.validate": ["typescript", "html"],
+  // Prettier ESLing configs
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSaveMode": "file",
+  "files.autoSave": "onFocusChange",
+  "vs-code-prettier-eslint.prettierLast": false
 }

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LeagueService {
-    Page<League> getLeaguesBySpec(Specification<League> spec, Pageable pageable);
-    List<League> getAllLeagues();
-    Optional<League> getTeamById(Long id);
-    Optional<League> getLeagueByNane(String name);
-    League createLeague(League league);
-    void updateLeague(Long id, League league);
-    void deleteLeague(Long id);
+    Page<League> getAllBySpec(Specification<League> spec, Pageable pageable);
+    List<League> getAll();
+    Optional<League> getById(Long id);
+    Optional<League> getByNane(String name);
+    League create(League league);
+    void update(Long id, League league);
+    void delete(Long id);
 }

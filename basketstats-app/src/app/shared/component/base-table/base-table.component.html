@@ -1,69 +1,125 @@
-<div class="table-header">{{ headerText }}</div>
-<div class="row">
-  <div class="col-6">
-    <mat-form-field class="w-100">
-      <mat-label>Szukaj...</mat-label>
-      <input
-        matInput
-        [formControl]="searchInputFormControl"
-        placeholder="{{ searchPlaceholder }}"
-        #input
-      />
-    </mat-form-field>
+<ng-container *ngIf="tableConfig">
+  <div class="table-header">{{ headerText }}</div>
+  <div class="row">
+    <div class="col-xl-6 col-md-3 col-sm-12">
+      <mat-form-field class="w-100">
+        <mat-label>Szukaj...</mat-label>
+        <input
+          matInput
+          [formControl]="searchInputFormControl"
+          placeholder="{{ searchPlaceholder }}"
+          #input
+        />
+        <button
+          *ngIf="searchInputValue"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearSearchInput()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-5 col-md-8 col-10">
+      <mat-paginator
+        [pageIndex]="dataPage?.number"
+        [length]="dataPage?.totalElements"
+        [pageSizeOptions]="tableConfig.pageSizeOptions"
+        [pageSize]="dataPage?.size"
+        (page)="applyPageChange($event)"
+      ></mat-paginator>
+    </div>
+    <div *ngIf="hasOperation(tableOperation.ADD)" class="col-md-1 col-2">
+      <button
+        class="float-right"
+        mat-fab
+        color="primary"
+        matTooltip="{{ addButtonTooltip }}"
+        (click)="openFormModal(formViewType.ADD)"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <div class="col-5">
-    <mat-paginator
-      [pageIndex]="dataPage?.number"
-      [length]="dataPage?.totalElements"
-      [pageSizeOptions]="tableConfig.pageSizeOptions"
-      [pageSize]="dataPage?.size"
-    ></mat-paginator>
-  </div>
-  <div class="col-1">
-    <button
-      class="float-right"
-      mat-fab
-      color="primary"
-      matTooltip="{{ addButtonTooltip }}"
-      (click)="add()"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-</div>
-
-<table
-  mat-table
-  [dataSource]="dataPage?.content"
-  matSort
-  matSortActive="username"
-  matSortDirection="asc"
-  matSortDisableClear
-  class="w-100"
->
-  <ng-container
-    *ngFor="let column of tableColumns"
-    matColumnDef="{{ column.name }}"
+  <table
+    mat-table
+    [dataSource]="dataPage?.content"
+    matSort
+    (matSortChange)="applySortChange($event)"
+    [matSortActive]="sortColumnName"
+    [matSortDirection]="sortName"
+    matSortDisableClear
+    class="w-100"
   >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      {{ column.translation }}
-    </th>
-    <td
-      mat-cell
-      *matCellDef="let row"
-      (contextmenu)="onContextMenu($event, row)"
+    <ng-container
+      *ngFor="let column of tableColumns"
+      matColumnDef="{{ column.name }}"
     >
-      {{ row | fieldValue : column.name }}
-    </td>
-  </ng-container>
+      <ng-container [ngSwitch]="column.type">
+        <ng-container *ngSwitchCase="columnType.ORDINAL">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let index = index">
+            {{ index | tableIndex : dataPage.number : dataPage.size }}
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ column.translation }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            (contextmenu)="onContextMenu($event, row)"
+          >
+            {{ row | fieldValue : column.name }}
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="columnType.OPTIONS">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <ng-container *ngFor="let operation of tableConfig.tableOperations">
+              <ng-container [ngSwitch]="operation">
+                <button
+                  *ngSwitchCase="tableOperation.PREVIEW"
+                  mat-icon-button
+                  [aria-label]="operation"
+                  (click)="rowPreview.emit(row.id)"
+                >
+                  <mat-icon class="option-icon">visibility</mat-icon>
+                </button>
+                <button
+                  *ngSwitchCase="tableOperation.EDIT"
+                  mat-icon-button
+                  [aria-label]="operation"
+                  (click)="rowEdit.emit(row.id)"
+                >
+                  <mat-icon class="option-icon">edit</mat-icon>
+                </button>
+                <button
+                  *ngSwitchCase="tableOperation.DELETE"
+                  mat-icon-button
+                  [aria-label]="operation"
+                  (click)="rowDelete.emit(row.id)"
+                >
+                  <mat-icon class="option-icon">delete</mat-icon>
+                </button>
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+      </ng-container>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="tableColumnNames"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableColumnNames"></tr>
+    <tr mat-header-row *matHeaderRowDef="tableColumnNames"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableColumnNames"></tr>
 
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell text-center font-weight-bolder" colspan="7">
-      Brak danych
-    </td>
-  </tr>
-</table>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell text-center font-weight-bolder" colspan="7">
+        Brak danych
+      </td>
+    </tr>
+  </table>
+</ng-container>

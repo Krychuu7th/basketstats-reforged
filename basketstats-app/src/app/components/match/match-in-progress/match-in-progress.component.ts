@@ -51,14 +51,14 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   teamAPlayersOnCourt: Player[] = [];
   teamBPlayersOnCourt: Player[] = [];
 
-  teamAPlayersOnCourtHashSet = {};
-  teamBPlayersOnCourtHashSet = {};
+  teamAPlayersOnCourtHashSet: any = {};
+  teamBPlayersOnCourtHashSet: any = {};
 
   teamAPlayersSubs: Player[] = [];
   teamBPlayersSubs: Player[] = [];
 
-  teamAPointsToAdd: PointStat;
-  teamBPointsToAdd: PointStat;
+  teamAPointsToAdd: PointStat | undefined;
+  teamBPointsToAdd: PointStat | undefined;
 
   lastAddedStats: LastStat[] = [];
 
@@ -106,7 +106,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     if (this.localStorageSaveInterval) {
       clearInterval(this.localStorageSaveInterval);
     }
-    if ( this.subscription && this.subscription instanceof Subscription) {
+    if (this.subscription && this.subscription instanceof Subscription) {
       this.subscription.unsubscribe();
     }
   }
@@ -130,7 +130,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.activatedRoute.params
       .subscribe((queryParams: Params) => {
         this.isLoading = true;
-        this.matchService.getPlayersSummaryStatsOfMatch(queryParams['id']).subscribe(res =>{
+        this.matchService.getPlayersSummaryStatsOfMatch(queryParams['id']).subscribe(res => {
           this.startingQuarterStats = res;
         });
 
@@ -174,7 +174,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   }
 
   setTeamAPlayers() {
-    this.teamAData = JSON.parse(localStorage.getItem('teamAStatsForMatchInProgress'));
+    this.teamAData = JSON.parse(localStorage.getItem('teamAStatsForMatchInProgress')!);
     this.teamAPlayers = [];
     this.teamAPlayersOnCourt = [];
     this.teamAPlayersOnCourtHashSet = {};
@@ -215,7 +215,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
 
       this.teamAFouls = 0;
       this.startingQuarterStats.forEach((p, index) => {
-        if(p.player.team.id == this.match.teamA.id) {
+        if (p.player.team.id == this.match.teamA.id) {
           if (index < 5) {
             this.teamAPlayersOnCourt.push(p.player);
             this.teamAPlayersOnCourtHashSet[p.player.id] = true;
@@ -228,7 +228,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   }
 
   setTeamBPlayers() {
-    this.teamBData = JSON.parse(localStorage.getItem('teamBStatsForMatchInProgress'));
+    this.teamBData = JSON.parse(localStorage.getItem('teamBStatsForMatchInProgress')!);
     this.teamBPlayers = [];
     this.teamBPlayersOnCourt = [];
     this.teamBPlayersOnCourtHashSet = {};
@@ -272,7 +272,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
       this.teamBFouls = 0;
 
       this.startingQuarterStats.forEach((p, index) => {
-        if(p.player.team.id == this.match.teamB.id) {
+        if (p.player.team.id == this.match.teamB.id) {
           if (index < 5) {
             this.teamBPlayersOnCourt.push(p.player);
             this.teamBPlayersOnCourtHashSet[p.player.id] = true;
@@ -310,7 +310,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.runSaveLoader();
   }
 
-  runSaveLoader(){
+  runSaveLoader() {
     this.showSaveLoader = true;
     this.timer = timer(2000);
     this.subscription = this.timer.subscribe(() => {
@@ -325,7 +325,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   getFoulsOfTeamAPlayer(playerId: number) {
     if (this.teamAStats) {
       const playerStats = this.teamAStats.find(ps => ps.player.id == playerId);
-      if(playerStats) {
+      if (playerStats) {
         return playerStats.pf;
       }
     }
@@ -335,7 +335,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   getFoulsOfTeamBPlayer(playerId: number) {
     if (this.teamBStats) {
       const playerStats = this.teamBStats.find(ps => ps.player.id == playerId);
-      if(playerStats) {
+      if (playerStats) {
         return playerStats.pf;
       }
     }
@@ -360,12 +360,12 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   undoLastStat() {
     this.isFinishConfirmNeeded = true;
     const lastStat = this.lastAddedStats.pop();
-    if (lastStat.statType == StatType.PA2) {
+    if (lastStat?.statType == StatType.PA2) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.pa2--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.pm2--;
               ps.pts -= 2;
               this.match.teamAScore -= 2;
@@ -376,7 +376,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
         this.teamBStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.pa2--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.pm2--;
               ps.pts -= 2;
               this.match.teamBScore -= 2;
@@ -384,12 +384,12 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.PA3) {
+    } else if (lastStat?.statType == StatType.PA3) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.pa3--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.pm3--;
               ps.pts -= 3;
               this.match.teamAScore -= 3;
@@ -400,7 +400,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
         this.teamBStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.pa3--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.pm3--;
               ps.pts -= 3;
               this.match.teamBScore -= 3;
@@ -408,12 +408,12 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.FTA) {
+    } else if (lastStat?.statType == StatType.FTA) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.fta--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.ftm--;
               ps.pts -= 1;
               this.match.teamAScore -= 1;
@@ -424,7 +424,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
         this.teamBStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
             ps.fta--;
-            if(lastStat.quantity > 0) {
+            if (lastStat.quantity > 0) {
               ps.ftm--;
               ps.pts -= 3;
               this.match.teamBScore -= 3;
@@ -432,7 +432,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.ASSIST) {
+    } else if (lastStat?.statType == StatType.ASSIST) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -446,7 +446,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.OFF_REB) {
+    } else if (lastStat?.statType == StatType.OFF_REB) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -460,7 +460,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.DEF_REB) {
+    } else if (lastStat?.statType == StatType.DEF_REB) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -474,7 +474,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.FOUL) {
+    } else if (lastStat?.statType == StatType.FOUL) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -488,7 +488,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.FOUL_DRAWN) {
+    } else if (lastStat?.statType == StatType.FOUL_DRAWN) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -502,7 +502,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.TURNOVER) {
+    } else if (lastStat?.statType == StatType.TURNOVER) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -516,7 +516,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.STEAL) {
+    } else if (lastStat?.statType == StatType.STEAL) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -530,7 +530,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.BLOCK) {
+    } else if (lastStat?.statType == StatType.BLOCK) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -544,7 +544,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           }
         });
       }
-    } else if (lastStat.statType == StatType.BLOCK_GOT) {
+    } else if (lastStat?.statType == StatType.BLOCK_GOT) {
       if (lastStat.teamId == this.match.teamA.id) {
         this.teamAStats.forEach(ps => {
           if (ps.player.id == lastStat.playerId) {
@@ -567,7 +567,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.contextMenuPosition.y = event.clientY + 'px';
     const teamASubs = this.teamAPlayersSubs.filter(ps => this.getFoulsOfTeamAPlayer(ps.id) < 5);
     this.contextMenu.menuData = { 'item': { player: teamAPlayer, subs: teamASubs } };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu?.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
 
@@ -577,7 +577,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.contextMenuPosition.y = event.clientY + 'px';
     const teamBSubs = this.teamBPlayersSubs.filter(ps => this.getFoulsOfTeamBPlayer(ps.id) < 5);
     this.contextMenu.menuData = { 'item': { player: teamBPlayer, subs: teamBSubs } };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu?.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
 
@@ -591,14 +591,14 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     const playerIndex = this.teamAPlayersOnCourt.indexOf(player);
     const subIndex = this.teamAPlayersSubs.indexOf(sub);
 
-    const playerGoingOnCourt = this.teamAPlayersOnCourt.slice(playerIndex, playerIndex+1)[0];
-    const playerGoingToSub = this.teamAPlayersSubs.slice(subIndex, subIndex+1)[0];
-    this.teamAPlayersSubs.fill(playerGoingOnCourt, subIndex, subIndex+1);
+    const playerGoingOnCourt = this.teamAPlayersOnCourt.slice(playerIndex, playerIndex + 1)[0];
+    const playerGoingToSub = this.teamAPlayersSubs.slice(subIndex, subIndex + 1)[0];
+    this.teamAPlayersSubs.fill(playerGoingOnCourt, subIndex, subIndex + 1);
     delete this.teamAPlayersOnCourtHashSet[player.id];
-    this.teamAPlayersOnCourt.fill(playerGoingToSub, playerIndex, playerIndex+1);
+    this.teamAPlayersOnCourt.fill(playerGoingToSub, playerIndex, playerIndex + 1);
     this.teamAPlayersOnCourtHashSet[sub.id] = true;
 
-    this.swapItemsOfArray(this.teamAStats, playerIndex, subIndex+5);
+    this.swapItemsOfArray(this.teamAStats, playerIndex, subIndex + 5);
   }
 
   makeSubstituteForTeamB(player: Player, sub: Player) {
@@ -606,14 +606,14 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     const playerIndex = this.teamBPlayersOnCourt.indexOf(player);
     const subIndex = this.teamBPlayersSubs.indexOf(sub);
 
-    const playerGoingOnCourt = this.teamBPlayersOnCourt.slice(playerIndex, playerIndex+1)[0];
-    const playerGoingToSub = this.teamBPlayersSubs.slice(subIndex, subIndex+1)[0];
-    this.teamBPlayersSubs.fill(playerGoingOnCourt, subIndex, subIndex+1);
+    const playerGoingOnCourt = this.teamBPlayersOnCourt.slice(playerIndex, playerIndex + 1)[0];
+    const playerGoingToSub = this.teamBPlayersSubs.slice(subIndex, subIndex + 1)[0];
+    this.teamBPlayersSubs.fill(playerGoingOnCourt, subIndex, subIndex + 1);
     delete this.teamBPlayersOnCourtHashSet[player.id];
-    this.teamBPlayersOnCourt.fill(playerGoingToSub, playerIndex, playerIndex+1);
+    this.teamBPlayersOnCourt.fill(playerGoingToSub, playerIndex, playerIndex + 1);
     this.teamBPlayersOnCourtHashSet[sub.id] = true;
 
-    this.swapItemsOfArray(this.teamBStats, playerIndex, subIndex+5);
+    this.swapItemsOfArray(this.teamBStats, playerIndex, subIndex + 5);
   }
 
   choosePointsToAddToTeamA(shootType: ShootType, scored: boolean) {
@@ -766,7 +766,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.teamAStats.forEach(ps => {
       if (ps.player.id == playerId) {
         ps.pf++;
-        if(this.teamAFouls < 5) {
+        if (this.teamAFouls < 5) {
           this.teamAFouls++;
         }
         this.addLastStat(new LastStat(this.match.teamA.id, ps.player.id, StatType.FOUL, 1, ps.player.number));
@@ -778,7 +778,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     this.teamBStats.forEach(ps => {
       if (ps.player.id == playerId) {
         ps.pf++;
-        if(this.teamBFouls < 5) {
+        if (this.teamBFouls < 5) {
           this.teamBFouls++;
         }
         this.addLastStat(new LastStat(this.match.teamB.id, ps.player.id, StatType.FOUL, 1, ps.player.number));
@@ -884,9 +884,9 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
   }
 
   finishQuarter() {
-    if(this.isFinishConfirmNeeded) {
+    if (this.isFinishConfirmNeeded) {
       this.showToast('Wciśnij przycisk ponownie by potwierdzić',
-        this.canMatchBeFinished() ? 'Czy na pewno chcesz zakończyć mecz?' :'Czy na pewno chcesz zakończyć kwartę?',
+        this.canMatchBeFinished() ? 'Czy na pewno chcesz zakończyć mecz?' : 'Czy na pewno chcesz zakończyć kwartę?',
         'info',
         false,
         'bottom-end',
@@ -900,23 +900,25 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           let tempQuarterTeamAPlayerStats = new PlayerStats(teamAPlayerStat.player);
           let tempStartingQuarterTeamAPlayerStats =
             this.startingQuarterStats.find(sqs => sqs.player.id == teamAPlayerStat.player.id);
-          tempQuarterTeamAPlayerStats.blkm = teamAPlayerStat.blkm - tempStartingQuarterTeamAPlayerStats.blkm;
-          tempQuarterTeamAPlayerStats.stl = teamAPlayerStat.stl - tempStartingQuarterTeamAPlayerStats.stl;
-          tempQuarterTeamAPlayerStats.tov = teamAPlayerStat.tov - tempStartingQuarterTeamAPlayerStats.tov;
-          tempQuarterTeamAPlayerStats.defr = teamAPlayerStat.defr - tempStartingQuarterTeamAPlayerStats.defr;
-          tempQuarterTeamAPlayerStats.offr = teamAPlayerStat.offr - tempStartingQuarterTeamAPlayerStats.offr;
-          tempQuarterTeamAPlayerStats.pf = teamAPlayerStat.pf - tempStartingQuarterTeamAPlayerStats.pf;
-          tempQuarterTeamAPlayerStats.ast = teamAPlayerStat.ast - tempStartingQuarterTeamAPlayerStats.ast;
-          tempQuarterTeamAPlayerStats.pm2 = teamAPlayerStat.pm2 - tempStartingQuarterTeamAPlayerStats.pm2;
-          tempQuarterTeamAPlayerStats.blkg = teamAPlayerStat.blkg - tempStartingQuarterTeamAPlayerStats.blkg;
-          tempQuarterTeamAPlayerStats.eff = teamAPlayerStat.eff - tempStartingQuarterTeamAPlayerStats.eff;
-          tempQuarterTeamAPlayerStats.fd = teamAPlayerStat.fd - tempStartingQuarterTeamAPlayerStats.fd;
-          tempQuarterTeamAPlayerStats.fta = teamAPlayerStat.fta - tempStartingQuarterTeamAPlayerStats.fta;
-          tempQuarterTeamAPlayerStats.ftm = teamAPlayerStat.ftm - tempStartingQuarterTeamAPlayerStats.ftm;
-          tempQuarterTeamAPlayerStats.pa2 = teamAPlayerStat.pa2 - tempStartingQuarterTeamAPlayerStats.pa2;
-          tempQuarterTeamAPlayerStats.pa3 = teamAPlayerStat.pa3 - tempStartingQuarterTeamAPlayerStats.pa3;
-          tempQuarterTeamAPlayerStats.pm3 = teamAPlayerStat.pm3 - tempStartingQuarterTeamAPlayerStats.pm3;
-          tempQuarterTeamAPlayerStats.pts = teamAPlayerStat.pts - tempStartingQuarterTeamAPlayerStats.pts;
+          if (tempStartingQuarterTeamAPlayerStats) {
+            tempQuarterTeamAPlayerStats.blkm = teamAPlayerStat.blkm - tempStartingQuarterTeamAPlayerStats.blkm;
+            tempQuarterTeamAPlayerStats.stl = teamAPlayerStat.stl - tempStartingQuarterTeamAPlayerStats.stl;
+            tempQuarterTeamAPlayerStats.tov = teamAPlayerStat.tov - tempStartingQuarterTeamAPlayerStats.tov;
+            tempQuarterTeamAPlayerStats.defr = teamAPlayerStat.defr - tempStartingQuarterTeamAPlayerStats.defr;
+            tempQuarterTeamAPlayerStats.offr = teamAPlayerStat.offr - tempStartingQuarterTeamAPlayerStats.offr;
+            tempQuarterTeamAPlayerStats.pf = teamAPlayerStat.pf - tempStartingQuarterTeamAPlayerStats.pf;
+            tempQuarterTeamAPlayerStats.ast = teamAPlayerStat.ast - tempStartingQuarterTeamAPlayerStats.ast;
+            tempQuarterTeamAPlayerStats.pm2 = teamAPlayerStat.pm2 - tempStartingQuarterTeamAPlayerStats.pm2;
+            tempQuarterTeamAPlayerStats.blkg = teamAPlayerStat.blkg - tempStartingQuarterTeamAPlayerStats.blkg;
+            tempQuarterTeamAPlayerStats.eff = teamAPlayerStat.eff - tempStartingQuarterTeamAPlayerStats.eff;
+            tempQuarterTeamAPlayerStats.fd = teamAPlayerStat.fd - tempStartingQuarterTeamAPlayerStats.fd;
+            tempQuarterTeamAPlayerStats.fta = teamAPlayerStat.fta - tempStartingQuarterTeamAPlayerStats.fta;
+            tempQuarterTeamAPlayerStats.ftm = teamAPlayerStat.ftm - tempStartingQuarterTeamAPlayerStats.ftm;
+            tempQuarterTeamAPlayerStats.pa2 = teamAPlayerStat.pa2 - tempStartingQuarterTeamAPlayerStats.pa2;
+            tempQuarterTeamAPlayerStats.pa3 = teamAPlayerStat.pa3 - tempStartingQuarterTeamAPlayerStats.pa3;
+            tempQuarterTeamAPlayerStats.pm3 = teamAPlayerStat.pm3 - tempStartingQuarterTeamAPlayerStats.pm3;
+            tempQuarterTeamAPlayerStats.pts = teamAPlayerStat.pts - tempStartingQuarterTeamAPlayerStats.pts;
+          }
 
           quarterTeamAPlayerStats.push(tempQuarterTeamAPlayerStats);
         }
@@ -926,23 +928,25 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
           let tempQuarterTeamBPlayerStats = new PlayerStats(teamBPlayerStat.player);
           let tempStartingQuarterTeamBPlayerStats =
             this.startingQuarterStats.find(sqs => sqs.player.id == teamBPlayerStat.player.id);
-          tempQuarterTeamBPlayerStats.blkm = teamBPlayerStat.blkm - tempStartingQuarterTeamBPlayerStats.blkm;
-          tempQuarterTeamBPlayerStats.stl = teamBPlayerStat.stl - tempStartingQuarterTeamBPlayerStats.stl;
-          tempQuarterTeamBPlayerStats.tov = teamBPlayerStat.tov - tempStartingQuarterTeamBPlayerStats.tov;
-          tempQuarterTeamBPlayerStats.defr = teamBPlayerStat.defr - tempStartingQuarterTeamBPlayerStats.defr;
-          tempQuarterTeamBPlayerStats.offr = teamBPlayerStat.offr - tempStartingQuarterTeamBPlayerStats.offr;
-          tempQuarterTeamBPlayerStats.pf = teamBPlayerStat.pf - tempStartingQuarterTeamBPlayerStats.pf;
-          tempQuarterTeamBPlayerStats.ast = teamBPlayerStat.ast - tempStartingQuarterTeamBPlayerStats.ast;
-          tempQuarterTeamBPlayerStats.pm2 = teamBPlayerStat.pm2 - tempStartingQuarterTeamBPlayerStats.pm2;
-          tempQuarterTeamBPlayerStats.blkg = teamBPlayerStat.blkg - tempStartingQuarterTeamBPlayerStats.blkg;
-          tempQuarterTeamBPlayerStats.eff = teamBPlayerStat.eff - tempStartingQuarterTeamBPlayerStats.eff;
-          tempQuarterTeamBPlayerStats.fd = teamBPlayerStat.fd - tempStartingQuarterTeamBPlayerStats.fd;
-          tempQuarterTeamBPlayerStats.fta = teamBPlayerStat.fta - tempStartingQuarterTeamBPlayerStats.fta;
-          tempQuarterTeamBPlayerStats.ftm = teamBPlayerStat.ftm - tempStartingQuarterTeamBPlayerStats.ftm;
-          tempQuarterTeamBPlayerStats.pa2 = teamBPlayerStat.pa2 - tempStartingQuarterTeamBPlayerStats.pa2;
-          tempQuarterTeamBPlayerStats.pa3 = teamBPlayerStat.pa3 - tempStartingQuarterTeamBPlayerStats.pa3;
-          tempQuarterTeamBPlayerStats.pm3 = teamBPlayerStat.pm3 - tempStartingQuarterTeamBPlayerStats.pm3;
-          tempQuarterTeamBPlayerStats.pts = teamBPlayerStat.pts - tempStartingQuarterTeamBPlayerStats.pts;
+          if (tempStartingQuarterTeamBPlayerStats) {
+            tempQuarterTeamBPlayerStats.blkm = teamBPlayerStat.blkm - tempStartingQuarterTeamBPlayerStats.blkm;
+            tempQuarterTeamBPlayerStats.stl = teamBPlayerStat.stl - tempStartingQuarterTeamBPlayerStats.stl;
+            tempQuarterTeamBPlayerStats.tov = teamBPlayerStat.tov - tempStartingQuarterTeamBPlayerStats.tov;
+            tempQuarterTeamBPlayerStats.defr = teamBPlayerStat.defr - tempStartingQuarterTeamBPlayerStats.defr;
+            tempQuarterTeamBPlayerStats.offr = teamBPlayerStat.offr - tempStartingQuarterTeamBPlayerStats.offr;
+            tempQuarterTeamBPlayerStats.pf = teamBPlayerStat.pf - tempStartingQuarterTeamBPlayerStats.pf;
+            tempQuarterTeamBPlayerStats.ast = teamBPlayerStat.ast - tempStartingQuarterTeamBPlayerStats.ast;
+            tempQuarterTeamBPlayerStats.pm2 = teamBPlayerStat.pm2 - tempStartingQuarterTeamBPlayerStats.pm2;
+            tempQuarterTeamBPlayerStats.blkg = teamBPlayerStat.blkg - tempStartingQuarterTeamBPlayerStats.blkg;
+            tempQuarterTeamBPlayerStats.eff = teamBPlayerStat.eff - tempStartingQuarterTeamBPlayerStats.eff;
+            tempQuarterTeamBPlayerStats.fd = teamBPlayerStat.fd - tempStartingQuarterTeamBPlayerStats.fd;
+            tempQuarterTeamBPlayerStats.fta = teamBPlayerStat.fta - tempStartingQuarterTeamBPlayerStats.fta;
+            tempQuarterTeamBPlayerStats.ftm = teamBPlayerStat.ftm - tempStartingQuarterTeamBPlayerStats.ftm;
+            tempQuarterTeamBPlayerStats.pa2 = teamBPlayerStat.pa2 - tempStartingQuarterTeamBPlayerStats.pa2;
+            tempQuarterTeamBPlayerStats.pa3 = teamBPlayerStat.pa3 - tempStartingQuarterTeamBPlayerStats.pa3;
+            tempQuarterTeamBPlayerStats.pm3 = teamBPlayerStat.pm3 - tempStartingQuarterTeamBPlayerStats.pm3;
+            tempQuarterTeamBPlayerStats.pts = teamBPlayerStat.pts - tempStartingQuarterTeamBPlayerStats.pts;
+          }
 
           quarterTeamBPlayerStats.push(tempQuarterTeamBPlayerStats);
         }
@@ -951,7 +955,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
       const matchQuarterStatsToSaveRequest =
         new MatchQuarterStatsSaveRequest(this.match.id, this.quarter,
           this.startingQuarterStats.length > 0 ? quarterTeamAPlayerStats : this.teamAStats,
-          this.startingQuarterStats.length > 0 ? quarterTeamBPlayerStats : this.teamBStats,);
+          this.startingQuarterStats.length > 0 ? quarterTeamBPlayerStats : this.teamBStats);
       this.matchService.saveMatchQuarterStats(matchQuarterStatsToSaveRequest).subscribe(res => {
         if (this.quarter == 1) {
           this.match.matchStatus = MatchStatus.SECOND_QUARTER;
@@ -1054,7 +1058,7 @@ export class MatchInProgressComponent implements OnInit, OnDestroy {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

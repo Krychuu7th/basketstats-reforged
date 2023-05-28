@@ -73,7 +73,7 @@ export class PlayerAddEditComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -83,7 +83,7 @@ export class PlayerAddEditComponent implements OnInit {
   }
 
   submit() {
-    if(!this.isEdit) {
+    if (!this.isEdit) {
       this.addPlayer();
     }
     else {
@@ -103,16 +103,16 @@ export class PlayerAddEditComponent implements OnInit {
 
   addPlayer() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.playerService.createPlayer(this.getNewPlayer()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Zawodnik został dodany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Zawodnik został dodany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Zawodnik nie został dodany',
             'Coś poszło nie tak!',
@@ -134,16 +134,16 @@ export class PlayerAddEditComponent implements OnInit {
 
   editPlayer() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.playerService.updatePlayer(this.player.id, this.getNewPlayer()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Zawodnik został zaktualizowany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Zawodnik został zaktualizowany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Zawodnik nie został zaktualizowany',
             'Coś poszło nie tak!',
@@ -163,7 +163,7 @@ export class PlayerAddEditComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

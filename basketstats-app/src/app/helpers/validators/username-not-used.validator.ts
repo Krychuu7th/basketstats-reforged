@@ -1,5 +1,5 @@
 import { UntypedFormGroup } from '@angular/forms';
-import {UserService} from "../components/administration/user-list/user.service";
+import { UserService } from 'src/app/components/administration/user-list/user.service';
 
 export function UsernameNotUsed(controlName: string, userService: UserService, usernameToEdit: string) {
 
@@ -9,8 +9,8 @@ export function UsernameNotUsed(controlName: string, userService: UserService, u
     if (control.errors && !control.errors.usernameAlreadyUsed) {
       return;
     }
-    userService.isUserWithUsernameExisting(control.value).subscribe(res =>{
-      if ( control.value != usernameToEdit && res ) {
+    userService.isUserWithUsernameExisting(control.value).subscribe((res: any) => {
+      if (control.value != usernameToEdit && res) {
         control.setErrors({ usernameAlreadyUsed: true });
       } else {
         control.setErrors(null);

@@ -10,10 +10,10 @@ import * as fromLeague from '../components/league/state/league.reducer';
 export interface BasketStatsAppState {
 
   // [fromLeague.leagueFeatureKey]: fromLeague.LeagueState;
-  [fromLeague.leaguesFeatureKey]: fromLeague.State;
-  
-  router:  fromRouter.RouterReducerState;
-  
+  [fromLeague.leaguesFeatureKey]: fromLeague.LeagueState;
+
+  router: fromRouter.RouterReducerState;
+
 }
 
 export const reducers: ActionReducerMap<BasketStatsAppState> = {
@@ -23,7 +23,7 @@ export const reducers: ActionReducerMap<BasketStatsAppState> = {
 
   router: fromRouter.routerReducer
 
-  
+
 };
 
 

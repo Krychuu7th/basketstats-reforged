@@ -14,7 +14,11 @@ export class LoaderEffects {
     this.actions$.pipe(
       ofType(
         LeagueActions.loadLeagues,
-        LeagueActions.loadAllLeagues
+        LeagueActions.loadAllLeagues,
+        LeagueActions.loadLeague,
+        LeagueActions.addLeague,
+        LeagueActions.upsertLeague,
+        LeagueActions.deleteLeague
       ),
       tap(() =>
         this.loaderService.show()
@@ -28,7 +32,17 @@ export class LoaderEffects {
     this.actions$.pipe(
       ofType(
         LeagueActions.loadLeaguesSuccess,
-        LeagueActions.loadLeaguesFailure
+        LeagueActions.loadLeaguesFailure,
+        LeagueActions.loadAllLeaguesSuccess,
+        LeagueActions.loadAllLeaguesFailure,
+        LeagueActions.loadLeagueSuccess,
+        LeagueActions.loadLeagueFailure,
+        LeagueActions.addLeagueSuccess,
+        LeagueActions.addLeagueFailure,
+        LeagueActions.upsertLeagueSuccess,
+        LeagueActions.upsertLeagueFailure,
+        LeagueActions.deleteLeagueSuccess,
+        LeagueActions.deleteLeagueFailure,
       ),
       tap(() =>
         this.loaderService.hide()

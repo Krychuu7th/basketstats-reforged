@@ -1,8 +1,6 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {MatchQuarter} from "../../../../../models/match-quarter";
-import {Team} from "../../../../../models/team";
-import {MatchQuarterStatsForTeam} from "../../../../../models/match-quarter-for-team";
-import {MatchSummaryStatsOfPlayerForTeam} from "../../../../../models/match-summary-stats-of-player-for-team";
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatchSummaryStatsOfPlayerForTeam } from "../../../../../models/match-summary-stats-of-player-for-team";
+import { Team } from "../../../../../models/team";
 
 @Component({
   selector: 'app-match-stats-summary-for-players',
@@ -12,7 +10,7 @@ import {MatchSummaryStatsOfPlayerForTeam} from "../../../../../models/match-summ
 export class MatchStatsSummaryForPlayersComponent implements OnChanges {
 
   @Input()
-  matchPlayersSummaryStats;
+  matchPlayersSummaryStats: any;
 
   @Input()
   teamA: Team;
@@ -27,7 +25,7 @@ export class MatchStatsSummaryForPlayersComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes) {
-      if(this.matchPlayersSummaryStats) {
+      if (this.matchPlayersSummaryStats) {
         this.setDefaultValuesForTeams();
       }
     }

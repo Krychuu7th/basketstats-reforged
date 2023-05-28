@@ -7,7 +7,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     // private nbToastrService: NbToastrService,
     private zone: NgZone,
     private router: Router
-  ) {}
+  ) { }
 
   handleError(error: Error) {
 
@@ -20,11 +20,11 @@ export class GlobalErrorHandler implements ErrorHandler {
         true,
         'bottom-end',
         6000);
-      }
+    }
     );
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

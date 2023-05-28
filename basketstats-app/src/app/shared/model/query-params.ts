@@ -25,5 +25,6 @@ export const defaultQueryParams: QueryParams = {
     pagination: {
         page: 0,
         size: 10
-    }
+    },
+    params: []
 };

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from "@angular/material/menu";
 import { PageEvent } from "@angular/material/paginator";
 import { ActivatedRoute } from "@angular/router";
@@ -16,7 +16,7 @@ import { TeamService } from "../team.service";
   templateUrl: './team-card-list.component.html',
   styleUrls: ['./team-card-list.component.scss']
 })
-export class TeamCardListComponent implements OnChanges {
+export class TeamCardListComponent {
 
   @Input()
   teamList: Team[];
@@ -45,13 +45,10 @@ export class TeamCardListComponent implements OnChanges {
     private modalService: NgbModal,
     private activatedRoute: ActivatedRoute
   ) {
-    if(this.activatedRoute.snapshot.data['adminViewType'] == 'TEAMS') {
+    if (this.activatedRoute.snapshot.data['adminViewType'] == 'TEAMS') {
       this.adminView = true;
       this.highIndex = 12;
     }
-  }
-
-  ngOnChanges(): void {
   }
 
   public getPaginatorData(event: PageEvent): PageEvent {
@@ -64,37 +61,37 @@ export class TeamCardListComponent implements OnChanges {
     const modalRef = this.modalService.open(TeamAddEditComponent);
     modalRef.componentInstance.isEdit = false;
     modalRef.componentInstance.league = this.league;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
 
-  editTeam( team: Team ) {
+  editTeam(team: Team) {
     const modalRef = this.modalService.open(TeamAddEditComponent);
     modalRef.componentInstance.isEdit = true;
     modalRef.componentInstance.team = team;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
 
-  deleteTeam( teamName: string, teamId: number ) {
+  deleteTeam(teamName: string, teamId: number) {
     const modalRef = this.modalService.open(TeamDeleteConfirmComponent);
     modalRef.componentInstance.teamName = teamName;
     modalRef.componentInstance.teamId = teamId;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -104,7 +101,7 @@ export class TeamCardListComponent implements OnChanges {
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
     this.contextMenu.menuData = { 'team': team };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu?.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
 

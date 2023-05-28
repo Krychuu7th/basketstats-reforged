@@ -95,7 +95,7 @@ export class MatchAddComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -122,16 +122,16 @@ export class MatchAddComponent implements OnInit {
   addMatch() {
     this.markFormGroupTouched(this.formGroup);
     console.log(this.getNewMatch());
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.matchService.createMatch(this.getNewMatch()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Mecz został dodany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Mecz został dodany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Mecz nie został dodany',
             'Coś poszło nie tak!',
@@ -151,7 +151,7 @@ export class MatchAddComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

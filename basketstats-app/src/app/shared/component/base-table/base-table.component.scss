@@ -3,13 +3,18 @@
   margin-bottom: 5px;
 }
 
-.option-button {
-  color: rgba(0, 0, 0, 0.8);
+.option-icon {
+  color: #ff7043;
   &:disabled {
     color: rgba(0, 0, 0, 0.2) !important;
   }
 }
 
-.option-button-icon-disabled {
+.option-icon-disabled {
   color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.mat-column-options {
+  width: 200px;
+  text-align: end;
 }

@@ -20,34 +20,34 @@ public class LeagueServiceImpl implements LeagueService {
     private final LeagueRepository leagueRepository;
 
     @Override
-    public Page<League> getLeaguesBySpec(Specification<League> spec, Pageable pageable) {
+    public Page<League> getAllBySpec(Specification<League> spec, Pageable pageable) {
         return leagueRepository.findAll(spec, pageable);
     }
 
     @Override
-    public List<League> getAllLeagues() {
+    public List<League> getAll() {
         return leagueRepository.findAllByOrderByIdDesc();
     }
 
     @Override
-    public Optional<League> getTeamById(Long id) {
+    public Optional<League> getById(Long id) {
         return leagueRepository.findById(id);
     }
 
     @Override
-    public Optional<League> getLeagueByNane(String name) {
+    public Optional<League> getByNane(String name) {
         return leagueRepository.findByName(name);
     }
 
     @Override
     @Transactional
-    public League createLeague(League league) {
+    public League create(League league) {
         return leagueRepository.save(league);
     }
 
     @Override
     @Transactional
-    public void updateLeague(Long id, League league) {
+    public void update(Long id, League league) {
         if (this.leagueRepository.findById(id).isPresent()) {
             League newLeague = this.leagueRepository.findById(id).get();
             newLeague.setName(league.getName());
@@ -60,7 +60,7 @@ public class LeagueServiceImpl implements LeagueService {
     }
 
     @Override
-    public void deleteLeague(Long id) {
+    public void delete(Long id) {
         leagueRepository.deleteById(id);
     }
 }

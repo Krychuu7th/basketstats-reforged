@@ -30,13 +30,13 @@ export class MatchSettingsComponent implements OnInit {
   teamBPlayers: Player[] = [];
   isLoading = true;
 
-  teamASelectedPlayersHashSet = {};
-  teamBSelectedPlayersHashSet = {};
+  teamASelectedPlayersHashSet: any = {};
+  teamBSelectedPlayersHashSet: any = {};
   teamASelectedPlayers: Player[] = [];
   teamBSelectedPlayers: Player[] = [];
 
-  teamASelectedSubstitutePlayersHashSet = {};
-  teamBSelectedSubstitutePlayersHashSet = {};
+  teamASelectedSubstitutePlayersHashSet: any = {};
+  teamBSelectedSubstitutePlayersHashSet: any = {};
   teamASelectedSubstitutePlayers: Player[] = [];
   teamBSelectedSubstitutePlayers: Player[] = [];
 
@@ -98,7 +98,7 @@ export class MatchSettingsComponent implements OnInit {
 
   choosePlayerForTeamA(player: Player) {
     if (!this.teamASelectedPlayersHashSet[player.id] && !this.teamASelectedSubstitutePlayersHashSet[player.id]) {
-      if(this.teamASelectedPlayers.length < 5) {
+      if (this.teamASelectedPlayers.length < 5) {
         this.teamASelectedPlayers.push(player);
         this.teamASelectedPlayersHashSet[player.id] = true;
       } else {
@@ -106,10 +106,10 @@ export class MatchSettingsComponent implements OnInit {
         this.teamASelectedSubstitutePlayersHashSet[player.id] = true;
       }
     } else {
-      if(this.teamASelectedPlayersHashSet[player.id]) {
+      if (this.teamASelectedPlayersHashSet[player.id]) {
         this.teamASelectedPlayers = this.teamASelectedPlayers.filter(p => p.id != player.id);
         delete this.teamASelectedPlayersHashSet[player.id];
-      } else if(this.teamASelectedSubstitutePlayersHashSet[player.id]) {
+      } else if (this.teamASelectedSubstitutePlayersHashSet[player.id]) {
         this.teamASelectedSubstitutePlayers = this.teamASelectedSubstitutePlayers.filter(p => p.id != player.id);
         delete this.teamASelectedSubstitutePlayersHashSet[player.id];
       }
@@ -119,7 +119,7 @@ export class MatchSettingsComponent implements OnInit {
 
   choosePlayerForTeamB(player: Player) {
     if (!this.teamBSelectedPlayersHashSet[player.id] && !this.teamBSelectedSubstitutePlayersHashSet[player.id]) {
-      if(this.teamBSelectedPlayers.length < 5) {
+      if (this.teamBSelectedPlayers.length < 5) {
         this.teamBSelectedPlayers.push(player);
         this.teamBSelectedPlayersHashSet[player.id] = true;
       } else {
@@ -127,10 +127,10 @@ export class MatchSettingsComponent implements OnInit {
         this.teamBSelectedSubstitutePlayersHashSet[player.id] = true;
       }
     } else {
-      if(this.teamBSelectedPlayersHashSet[player.id]) {
+      if (this.teamBSelectedPlayersHashSet[player.id]) {
         this.teamBSelectedPlayers = this.teamBSelectedPlayers.filter(p => p.id != player.id);
         delete this.teamBSelectedPlayersHashSet[player.id];
-      } else if(this.teamBSelectedSubstitutePlayersHashSet[player.id]) {
+      } else if (this.teamBSelectedSubstitutePlayersHashSet[player.id]) {
         this.teamBSelectedSubstitutePlayers = this.teamBSelectedSubstitutePlayers.filter(p => p.id != player.id);
         delete this.teamBSelectedSubstitutePlayersHashSet[player.id];
       }
@@ -138,19 +138,19 @@ export class MatchSettingsComponent implements OnInit {
   }
 
   startMatch() {
-    if(this.teamASelectedPlayers.length == 5 && this.teamBSelectedPlayers.length == 5) {
+    if (this.teamASelectedPlayers.length == 5 && this.teamBSelectedPlayers.length == 5) {
       this.createStatTemplateForTeamA();
       this.createStatTemplateForTeamB();
-      if(this.match.matchStatus == MatchStatus.PLANNED) {
+      if (this.match.matchStatus == MatchStatus.PLANNED) {
         this.match.matchStatus = MatchStatus.FIRST_QUARTER;
-        this.matchService.updateMatch(this.match).subscribe(res =>{
+        this.matchService.updateMatch(this.match).subscribe(res => {
           this.showToast('Możesz już zbierać statystyki dla meczu',
             'Mecz rozpoczęty!',
             'success',
             false,
             'bottom-end',
             6000);
-          this.router.navigate([ '/match', 'progress', this.match.id, 1]);
+          this.router.navigate(['/match', 'progress', this.match.id, 1]);
         });
       } else if (this.match.matchStatus == MatchStatus.DONE) {
         this.showToast('Nie możesz rozpocząć zakończonego meczu',
@@ -185,10 +185,10 @@ export class MatchSettingsComponent implements OnInit {
     teamAStatTemplate.quarter = 1;
     teamAStatTemplate.playerStats = [];
     teamAStatTemplate.teamFouls = 0;
-    for(let playerStarter of this.teamASelectedPlayers) {
+    for (let playerStarter of this.teamASelectedPlayers) {
       teamAStatTemplate.playerStats.push(new PlayerStats(playerStarter));
     }
-    if(this.teamASelectedSubstitutePlayers.length > 0) {
+    if (this.teamASelectedSubstitutePlayers.length > 0) {
       for (let playerSub of this.teamASelectedSubstitutePlayers) {
         teamAStatTemplate.playerStats.push(new PlayerStats(playerSub));
       }
@@ -203,10 +203,10 @@ export class MatchSettingsComponent implements OnInit {
     teamBStatTemplate.quarter = 1;
     teamBStatTemplate.playerStats = [];
     teamBStatTemplate.teamFouls = 0;
-    for(let playerStarter of this.teamBSelectedPlayers) {
+    for (let playerStarter of this.teamBSelectedPlayers) {
       teamBStatTemplate.playerStats.push(new PlayerStats(playerStarter));
     }
-    if(this.teamBSelectedSubstitutePlayers.length > 0) {
+    if (this.teamBSelectedSubstitutePlayers.length > 0) {
       for (let playerSub of this.teamBSelectedSubstitutePlayers) {
         teamBStatTemplate.playerStats.push(new PlayerStats(playerSub));
       }
@@ -215,7 +215,7 @@ export class MatchSettingsComponent implements OnInit {
     localStorage.setItem('teamBStatsForMatchInProgress', JSON.stringify(teamBStatTemplate));
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

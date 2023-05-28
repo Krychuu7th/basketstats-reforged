@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { MustMatch } from 'src/app/helpers/validators/must-match.validator';
+import { UsernameNotUsed } from 'src/app/helpers/validators/username-not-used.validator';
 import { UserRoles } from "../../../enums/user-roles";
-import { EmailNotUsed } from "../../../helpers/email-not-used.validator";
-import { MustMatch } from "../../../helpers/must-match.validator";
-import { UsernameNotUsed } from "../../../helpers/username-not-used.validator";
+import { EmailNotUsed } from "../../../helpers/validators/email-not-used.validator";
 import { Role } from "../../../models/role";
 import { User } from "../../../models/user";
 import { RoleService } from "../../auth/role.service";
@@ -45,15 +45,14 @@ export class UserAddEditComponent implements OnInit {
     this.initForm();
   }
 
-  loadData(){
-    this.roleService.getRoleList().subscribe( res => {
+  loadData() {
+    this.roleService.getRoleList().subscribe(res => {
       this.roles = res;
     });
   }
 
   initForm() {
-    if(!this.isEdit)
-    {
+    if (!this.isEdit) {
       this.changePassword = true;
     }
     this.formGroup = this.formBuilder.group({
@@ -65,9 +64,9 @@ export class UserAddEditComponent implements OnInit {
           Validators.pattern('^[A-Za-z0-9_-]*$')
         ]
       ),
-      password: new UntypedFormControl( '',
+      password: new UntypedFormControl('',
       ),
-      passwordConfirm: new UntypedFormControl( '',
+      passwordConfirm: new UntypedFormControl('',
       ),
       firstName: new UntypedFormControl(this.user ? this.user.firstName : null,
         [
@@ -95,13 +94,14 @@ export class UserAddEditComponent implements OnInit {
           Validators.required
         ]
       ),
-    }, { validators: [
-        MustMatch('password','passwordConfirm'),
-        UsernameNotUsed('username', this.userService, this.user ? this.user.username : null),
-        EmailNotUsed('email', this.userService, this.user ? this.user.email : null),
+    }, {
+      validators: [
+        MustMatch('password', 'passwordConfirm'),
+        UsernameNotUsed('username', this.userService, this.user?.username ?? null),
+        EmailNotUsed('email', this.userService, this.user?.username ?? null),
       ]
     });
-    if(this.isEdit) {
+    if (this.isEdit) {
       this.formGroup.controls['username'].disable();
       this.user.roles.forEach(role => {
         this.selectedRoles.push(role);
@@ -160,7 +160,7 @@ export class UserAddEditComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -170,7 +170,7 @@ export class UserAddEditComponent implements OnInit {
   }
 
   submit() {
-    if(!this.isEdit) {
+    if (!this.isEdit) {
       this.addUser();
     }
     else {
@@ -184,11 +184,11 @@ export class UserAddEditComponent implements OnInit {
     newUser.firstName = this.form.firstName.value;
     newUser.lastName = this.form.lastName.value;
     newUser.email = this.form.email.value;
-    if(this.changePassword) {
+    if (this.changePassword) {
       newUser.password = this.form.password.value;
     }
     else {
-      newUser.password = null;
+      newUser.password = undefined;
     }
     newUser.roles = this.form.roles.value;
     return newUser;
@@ -198,16 +198,16 @@ export class UserAddEditComponent implements OnInit {
     this.changePassword = true;
     this.markFormGroupTouched(this.formGroup);
     console.log(this.formGroup);
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.userService.createUser(this.getNewUser()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Użytkownik został dodany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Użytkownik został dodany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Użytkownik nie został dodany',
             'Coś poszło nie tak!',
@@ -215,7 +215,7 @@ export class UserAddEditComponent implements OnInit {
             false,
             'bottom-end',
             6000);
-      });
+        });
     }
     else {
       this.showToast('Popraw wprowadzone dane',
@@ -229,16 +229,16 @@ export class UserAddEditComponent implements OnInit {
 
   editUser() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.userService.updateUser(this.user.id, this.getNewUser()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Użytkownik został zaktualizowany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Użytkownik został zaktualizowany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Użytkownik nie został zaktualizowany',
             'Coś poszło nie tak!',
@@ -258,12 +258,12 @@ export class UserAddEditComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }
 
-  userHasRole(roleId: number){
+  userHasRole(roleId: number) {
     return this.user.roles.some(element => element.id == roleId);
   }
 

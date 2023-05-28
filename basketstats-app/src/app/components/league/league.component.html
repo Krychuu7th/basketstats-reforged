@@ -4,7 +4,13 @@
     [dataPage]="leaguesViewModel.leaguesPage"
     [queryParams]="queryParams"
     [tableConfig]="leagueTableConfig"
-    (searched)="applySearchFilter($event)"
+    [formConfig]="leagueFormConfig"
+    (queryParamsChange)="applyParamsAndFetch($event)"
+    (formSubmit)="formSubmit($event)"
+    (rowPreview)="openModal($event, formViewType.PREVIEW)"
+    (rowEdit)="openModal($event, formViewType.EDIT)"
+    (rowDelete)="openModal($event)"
+    (delete)="delete($event)"
   >
   </app-base-table>
 </div>

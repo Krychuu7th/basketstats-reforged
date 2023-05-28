@@ -99,7 +99,7 @@ export class TeamAdministrationComponent implements OnInit {
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
     this.contextMenu.menuData = { 'league': league };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu?.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
 }

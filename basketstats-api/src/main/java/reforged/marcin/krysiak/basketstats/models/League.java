@@ -11,13 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(name="seq", initialValue=10)
 @Table(name = "leagues")
 public class League {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "leagues_id_seq", sequenceName = "leagues_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "leagues_id_seq")
     @Column(name = "id")
     private Long id;
 

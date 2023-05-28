@@ -16,15 +16,21 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EffectsModule } from '@ngrx/effects';
+import { BaseAddEditFormComponent } from './component/base-add-edit-form/base-add-edit-form.component';
 import { BaseTableComponent } from './component/base-table/base-table.component';
-import { FieldValuePipe } from './pipe/field-value.pipe';
+import { ConfirmDeleteModalComponent } from './component/confirm-delete-modal/confirm-delete-modal.component';
+import { FieldValuePipe } from './pipe/field-value/field-value.pipe';
+import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
 
 
 
 @NgModule({
   declarations: [
     BaseTableComponent,
-    FieldValuePipe
+    FieldValuePipe,
+    TableIndexPipe,
+    BaseAddEditFormComponent,
+    ConfirmDeleteModalComponent
   ],
   imports: [
     CommonModule,

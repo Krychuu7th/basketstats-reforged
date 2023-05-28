@@ -1,0 +1,28 @@
+<div class="modal-header pb-0">
+  <h2 mat-dialog-title>Usuń</h2>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('close')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body pb-0" [innerHTML]="body"></div>
+<div class="modal-footer">
+  <button
+    mat-mini-fab
+    class="button-modal-cancel"
+    (click)="activeModal.dismiss('cancel')"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  <button
+    mat-mini-fab
+    class="ml-2 button-modal-confirm"
+    (click)="activeModal.close(objectId)"
+  >
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

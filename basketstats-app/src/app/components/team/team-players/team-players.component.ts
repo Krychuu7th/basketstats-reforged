@@ -4,8 +4,8 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { ChartType } from "chart.js";
 import { Label, SingleDataSet } from "ng2-charts";
 import { delay } from "rxjs/operators";
+import { BASIC_DOUGHNUT_CHART_OPTIONS, NO_MATCHES_DOUGHNUT_CHART_COLORS, NO_MATCHES_DOUGHNUT_CHART_DATA, NO_MATCHES_DOUGHNUT_CHART_LABELS, NO_TOOLTIP_DOUGHNUT_CHART_OPTIONS, WIN_LOSE_CHART_LABELS, WIN_LOSE_DOUGHNUT_CHART_COLORS } from "src/app/constants/chart-properties";
 import { environment } from "../../../../environments/environment";
-import { ChartProperty } from "../../../core/chart-property";
 import { MatchStatus } from "../../../enums/match-status.enum";
 import { Match } from "../../../models/match";
 import { Player } from "../../../models/player";
@@ -30,7 +30,6 @@ export class TeamPlayersComponent implements OnInit {
   teamWins: number;
   teamLoses: number;
   teamNumberOfMatches: number;
-  chartProperty = ChartProperty;
 
   apiUrl = environment.api.url;
 
@@ -72,24 +71,24 @@ export class TeamPlayersComponent implements OnInit {
           this.teamWins = 0;
           this.teamLoses = 0;
           this.teamNumberOfMatches = 0;
-          for(let match of this.teamMatches) {
+          for (let match of this.teamMatches) {
             match.matchStatus == MatchStatus.DONE ? this.teamNumberOfMatches++ : this.teamNumberOfMatches;
-            if(match.teamAScore > match.teamBScore) {
+            if (match.teamAScore > match.teamBScore) {
               this.team.id == match.teamA.id ? this.teamWins++ : this.teamLoses++;
             }
             else if (match.teamAScore < match.teamBScore) {
               this.team.id == match.teamB.id ? this.teamWins++ : this.teamLoses++;
             }
           }
-          if(this.teamLoses == 0 && this.teamWins == 0) {
-            this.winLoseChartOptions = this.chartProperty.noTooltipDoughnutChartOptions;
-            this.winLoseChartLabels = this.chartProperty.noMatchesDoughnutChartLabels;
-            this.winLoseChartColors = this.chartProperty.noMatchesDoughnutChartColors;
-            this.winLoseChartData = this.chartProperty.noMatchesDoughnutChartData;;
+          if (this.teamLoses == 0 && this.teamWins == 0) {
+            this.winLoseChartOptions = NO_TOOLTIP_DOUGHNUT_CHART_OPTIONS;
+            this.winLoseChartLabels = NO_MATCHES_DOUGHNUT_CHART_LABELS;
+            this.winLoseChartColors = NO_MATCHES_DOUGHNUT_CHART_COLORS;
+            this.winLoseChartData = NO_MATCHES_DOUGHNUT_CHART_DATA;;
           } else {
-            this.winLoseChartOptions  = this.chartProperty.basicDoughnutChartOptions;
-            this.winLoseChartLabels = this.chartProperty.winLoseChartLabels;
-            this.winLoseChartColors = this.chartProperty.winLoseDoughnutChartColors;
+            this.winLoseChartOptions = BASIC_DOUGHNUT_CHART_OPTIONS;
+            this.winLoseChartLabels = WIN_LOSE_CHART_LABELS;
+            this.winLoseChartColors = WIN_LOSE_DOUGHNUT_CHART_COLORS;
             this.winLoseChartData = [this.teamLoses, this.teamWins];
           }
         });

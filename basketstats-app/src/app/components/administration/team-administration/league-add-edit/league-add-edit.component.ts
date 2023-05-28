@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { LeagueNameNotUsed } from "../../../../helpers/league-name-not-used.validator";
+import { LeagueNameNotUsed } from 'src/app/helpers/validators/league-name-not-used.validator';
 import { League } from "../../../../models/league.model";
 import { LeagueService } from "../../../league/league.service";
 
@@ -47,13 +47,13 @@ export class LeagueAddEditComponent implements OnInit {
       )
     }, {
       validators: [
-        LeagueNameNotUsed('name', this.leagueService, this.league ? this.league.name : null),
+        LeagueNameNotUsed('name', this.leagueService, this.league?.name ?? null),
       ]
     });
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -141,7 +141,7 @@ export class LeagueAddEditComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

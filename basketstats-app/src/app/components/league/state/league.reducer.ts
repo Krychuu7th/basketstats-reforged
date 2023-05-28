@@ -2,42 +2,47 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { League } from 'src/app/models/league.model';
 import { Page } from 'src/app/shared/model/pageable';
+import { defaultQueryParams, QueryParams } from 'src/app/shared/model/query-params';
 import * as LeagueActions from './league.actions';
 
 export const leaguesFeatureKey = 'leagues';
 
-export interface State extends EntityState<League> {
+export interface LeagueState extends EntityState<League> {
   leaguesPage: Page<League>;
+  queryParams: QueryParams;
   error: any
 }
 
 export const adapter: EntityAdapter<League> = createEntityAdapter<League>();
 
-export const initialState: State = adapter.getInitialState({
-  leaguesPage: null,
+export const initialState: LeagueState = adapter.getInitialState({
+  leaguesPage: {} as Page<League>,
+  queryParams: defaultQueryParams,
   error: null
 });
 
 export const reducer = createReducer(
   initialState,
-  on(LeagueActions.addLeague,
+  on(
+    LeagueActions.loadLeagueSuccess,
+    LeagueActions.addLeagueSuccess,
     (state, action) => adapter.addOne(action.league, state)
   ),
-  on(LeagueActions.upsertLeague,
+  on(LeagueActions.upsertLeagueSuccess,
     (state, action) => adapter.upsertOne(action.league, state)
   ),
-  on(LeagueActions.addLeagues,
-    (state, action) => adapter.addMany(action.leagues, state)
-  ),
-  on(LeagueActions.upsertLeagues,
-    (state, action) => adapter.upsertMany(action.leagues, state)
-  ),
-  on(LeagueActions.updateLeague,
-    (state, action) => adapter.updateOne(action.league, state)
-  ),
-  on(LeagueActions.updateLeagues,
-    (state, action) => adapter.updateMany(action.leagues, state)
-  ),
+  // on(LeagueActions.addLeagues,
+  //   (state, action) => adapter.addMany(action.leagues, state)
+  // ),
+  // on(LeagueActions.upsertLeagues,
+  //   (state, action) => adapter.upsertMany(action.leagues, state)
+  // ),
+  // on(LeagueActions.updateLeague,
+  //   (state, action) => adapter.updateOne(action.league, state)
+  // ),
+  // on(LeagueActions.updateLeagues,
+  //   (state, action) => adapter.updateMany(action.leagues, state)
+  // ),
   on(LeagueActions.deleteLeague,
     (state, action) => adapter.removeOne(action.id, state)
   ),
@@ -48,22 +53,21 @@ export const reducer = createReducer(
     (state, action) => {
       return {
         ...state,
-        leaguesPage: action.leaguesPage
-      };
-    }
-  ),
-  on(LeagueActions.loadLeaguesFailure,
-    (state, action) => {
-      return {
-        ...state,
-        error: action.error
+        leaguesPage: action.leaguesPage,
+        queryParams: action.queryParams,
       };
     }
   ),
   on(LeagueActions.loadAllLeaguesSuccess,
     (state, action) => adapter.setAll(action.leagues, state)
   ),
-  on(LeagueActions.loadAllLeaguesFailure,
+  on(
+    LeagueActions.loadAllLeaguesFailure,
+    LeagueActions.loadLeaguesFailure,
+    LeagueActions.loadLeagueFailure,
+    LeagueActions.addLeagueFailure,
+    LeagueActions.upsertLeagueFailure,
+    LeagueActions.deleteLeagueFailure,
     (state, action) => {
       return {
         ...state,

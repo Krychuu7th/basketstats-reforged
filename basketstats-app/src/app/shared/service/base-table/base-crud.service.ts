@@ -6,7 +6,7 @@ import { Page } from '../../model/pageable';
 import { QueryParams } from '../../model/query-params';
 import { QueryParamsService } from '../query-params/query-params.service';
 
-export abstract class BaseCrudService<T extends BaseCrudResource<T>> {
+export abstract class BaseCrudService<T extends BaseCrudResource> {
 
   constructor(
     protected http: HttpClient,
