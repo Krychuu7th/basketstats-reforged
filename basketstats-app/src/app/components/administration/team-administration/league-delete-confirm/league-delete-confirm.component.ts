@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { LeagueService } from "../../../league/league.service";
 
@@ -7,10 +7,10 @@ import { LeagueService } from "../../../league/league.service";
   templateUrl: './league-delete-confirm.component.html',
   styleUrls: ['./league-delete-confirm.component.scss']
 })
-export class LeagueDeleteConfirmComponent implements OnInit {
+export class LeagueDeleteConfirmComponent {
 
-  @Input() leagueName;
-  @Input() leagueId;
+  @Input() leagueName: string;
+  @Input() leagueId: number;
 
   constructor(
     private leagueService: LeagueService,
@@ -18,11 +18,8 @@ export class LeagueDeleteConfirmComponent implements OnInit {
     public activeModal: NgbActiveModal
   ) { }
 
-  ngOnInit(): void {
-  }
-
   deleteUser() {
-    this.leagueService.deleteLeague(this.leagueId).subscribe(
+    this.leagueService.delete(this.leagueId).subscribe(
       res => {
         this.showToast('Liga została usunięta',
           'Udało się!',
@@ -41,7 +38,7 @@ export class LeagueDeleteConfirmComponent implements OnInit {
       });
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

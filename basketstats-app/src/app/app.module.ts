@@ -1,7 +1,7 @@
 import { registerLocaleData } from "@angular/common";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import localePl from '@angular/common/locales/pl';
-import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -12,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
@@ -19,10 +20,16 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule, AuthService } from "@auth0/auth0-angular";
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from "src/environments/environment";
 import { AppInitService } from "./app-init.service";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdministrationModule } from "./components/administration/administration.module";
+import { AuthButtonComponent } from './components/auth/auth-button/auth-button.component';
 import { AuthGuard } from "./components/auth/auth-guard.service";
 import { AuthComponent } from "./components/auth/auth.component";
 import { LoginComponent } from './components/auth/login/login.component';
@@ -30,6 +37,7 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
 import { NavHeaderComponent } from "./components/header/nav-header/nav-header.component";
 import { SidebarHeaderComponent } from './components/header/sidebar-header/sidebar-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { LeagueComponent } from './components/league/league.component';
 import { MatchComponent } from './components/match/match.component';
 import { MatchModule } from "./components/match/match.module";
 import { MatchInfoRowComponent } from './components/schedule/match-info-row/match-info-row.component';
@@ -47,96 +55,135 @@ import { TeamPlayersComponent } from './components/team/team-players/team-player
 import { TeamComponent } from './components/team/team.component';
 import { UserComponent } from './components/user/user.component';
 import { UserModule } from "./components/user/user.module";
-import { GlobalErrorHandler } from "./helpers/handlers/global-error-handler";
+import { HttpAuthInterceptor } from "./helpers/interceptors/http-auth.interceptor";
 import { HttpErrorInterceptor } from "./helpers/interceptors/http-error.interceptor";
+import { SharedModule } from "./shared/shared.module";
+import { metaReducers, reducers } from './store';
 import { getPolishPaginatorIntl } from "./translations/polish-paginator-intl";
+import { EffectsModule } from '@ngrx/effects';
+import { LoaderEffects } from './shared/state/effect/loader.effects';
 
 registerLocaleData(localePl);
 
 registerLocaleData(localePl);
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavHeaderComponent,
-        SidebarHeaderComponent,
-        LoginComponent,
-        HomepageComponent,
-        AuthComponent,
-        TeamComponent,
-        TeamPlayersComponent,
-        ScheduleComponent,
-        LogoutComponent,
-        MatchScheduleListComponent,
-        TeamPlayersListComponent,
-        MatchStatsComponent,
-        MatchInfoRowComponent,
-        TeamPlayersAvgStatsListComponent,
-        MatchStatsForPlayersComponent,
-        QuarterStatsForPlayersComponent,
-        QuarterStatsForPlayersByTeamComponent,
-        MatchStatsSummaryForPlayersComponent,
-        MatchStatsSummaryForPlayersOfTeamComponent,
-        UserComponent,
-        MatchComponent
-    ],
-    imports: [
-        BrowserModule,
-        AdministrationModule,
-        UserModule,
-        MatchModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        MatButtonModule,
-        MatRippleModule,
-        MatTabsModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatSortModule,
-        MatMenuModule,
-        MatIconModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        MatProgressBarModule,
-        MatSlideToggleModule
-    ],
-    providers: [
-        AuthGuard,
-        {
-            provide: MatPaginatorIntl,
-            useValue: getPolishPaginatorIntl()
-        },
-        AppInitService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (appInitService: AppInitService) => () => {
-                return appInitService.refreshJwtToken()
-            },
-            deps: [AppInitService],
-            multi: true
-        },
-        {
-          provide: LOCALE_ID, useValue: 'pl-PL'
-        },
-      {
-        provide: ErrorHandler,
-        useClass: GlobalErrorHandler
-      },
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: HttpErrorInterceptor,
-        multi: true
+  declarations: [
+    AppComponent,
+    NavHeaderComponent,
+    SidebarHeaderComponent,
+    LoginComponent,
+    HomepageComponent,
+    AuthComponent,
+    TeamComponent,
+    TeamPlayersComponent,
+    ScheduleComponent,
+    LogoutComponent,
+    MatchScheduleListComponent,
+    TeamPlayersListComponent,
+    MatchStatsComponent,
+    MatchInfoRowComponent,
+    TeamPlayersAvgStatsListComponent,
+    MatchStatsForPlayersComponent,
+    QuarterStatsForPlayersComponent,
+    QuarterStatsForPlayersByTeamComponent,
+    MatchStatsSummaryForPlayersComponent,
+    MatchStatsSummaryForPlayersOfTeamComponent,
+    UserComponent,
+    MatchComponent,
+    AuthButtonComponent,
+    LeagueComponent
+  ],
+  imports: [
+    SharedModule,
+    BrowserModule,
+    AdministrationModule,
+    UserModule,
+    MatchModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatMenuModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    AuthModule.forRoot({
+      ...environment.auth0,
+      httpInterceptor: {
+        allowedList: [`${environment.api.url}/api/messages/admin`],
       }
-    ],
-    exports: [
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreModule.forRoot(
+      reducers,
+      {
+        metaReducers,
+        runtimeChecks:
+        {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+          strictStateSerializability: true,
+          strictActionSerializability: true,
+          strictActionWithinNgZone: true,
+          strictActionTypeUniqueness: true
+        }
+      }
+    ),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([LoaderEffects])
+  ],
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptor,
+      deps: [AuthService],
+      multi: true,
+    },
+    {
+      provide: MatPaginatorIntl,
+      useValue: getPolishPaginatorIntl()
+    },
+    AppInitService,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: (appInitService: AppInitService) => {
+    //     return appInitService.initApp()
+    //   },
+    //   deps: [AppInitService],
+    //   multi: true
+    // },
+    {
+      provide: LOCALE_ID, useValue: 'pl-PL'
+    },
+    // {
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler
+    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
+  exports: [
 
-    ],
-    bootstrap: [AppComponent]
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

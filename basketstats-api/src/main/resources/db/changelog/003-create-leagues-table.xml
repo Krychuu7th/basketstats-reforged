@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="003-create-leagues-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="leagues"/>
+            </not>
+        </preConditions>
+
         <createTable tableName="leagues">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
             <column name="name" type="varchar(50)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true"/>
             </column>
-
         </createTable>
-
-        <createSequence schemaName="dbo" sequenceName="leagues_id_seq"
-                        startValue="1" incrementBy="1"/>
-
     </changeSet>
-
-    <changeSet id="003-add-unique-contraints" author="krysiakm">
-        <preConditions>
-            <tableExists tableName="leagues"/>
+    
+    <changeSet id="003-create-leagues-table-sequence" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="leagues_id_seq"/>
+            </not>
         </preConditions>
 
-        <addUniqueConstraint tableName="leagues" columnNames="name"/>
+        <createSequence sequenceName="leagues_id_seq" startValue="10"/>
     </changeSet>
 </databaseChangeLog>

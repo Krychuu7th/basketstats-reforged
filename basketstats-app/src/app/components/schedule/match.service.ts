@@ -1,16 +1,16 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Match} from "../../models/match";
-import {MatchQuarterStatsSaveRequest} from "../../models/match-quarter-stats-save-request";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { Match } from "../../models/match";
+import { MatchQuarterStatsSaveRequest } from "../../models/match-quarter-stats-save-request";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
 
-  private baseApiUrl = `${environment.url}/match`;
+  private baseApiUrl = `${environment.api.url}/match`;
 
   constructor(private http: HttpClient) { }
 

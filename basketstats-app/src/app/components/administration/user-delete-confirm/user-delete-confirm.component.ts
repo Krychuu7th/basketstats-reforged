@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { UserService } from "../user-list/user.service";
 
@@ -7,20 +7,16 @@ import { UserService } from "../user-list/user.service";
   templateUrl: './user-delete-confirm.component.html',
   styleUrls: ['./user-delete-confirm.component.scss']
 })
-export class UserDeleteConfirmComponent implements OnInit {
+export class UserDeleteConfirmComponent {
 
-  @Input() username;
-  @Input() userId;
+  @Input() username: string;
+  @Input() userId: number;
 
   constructor(
     private userService: UserService,
     // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
-
-  ngOnInit(): void {
-  }
-
   deleteUser() {
     this.userService.deleteUser(this.userId).subscribe(
       res => {
@@ -41,7 +37,7 @@ export class UserDeleteConfirmComponent implements OnInit {
       });
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

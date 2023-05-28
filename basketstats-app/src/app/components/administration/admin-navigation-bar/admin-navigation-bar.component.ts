@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AdminViewType} from "../../../enums/admin-view-type.enum";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { AdminViewType } from "../../../enums/admin-view-type.enum";
 
 @Component({
   selector: 'app-admin-navigation-bar',
   templateUrl: './admin-navigation-bar.component.html',
   styleUrls: ['./admin-navigation-bar.component.scss']
 })
-export class AdminNavigationBarComponent implements OnInit {
+export class AdminNavigationBarComponent {
 
   activeViewType: AdminViewType;
 
@@ -18,10 +18,8 @@ export class AdminNavigationBarComponent implements OnInit {
     public route: ActivatedRoute
   ) {
     route.url.subscribe(() => {
-      this.activeViewType = route.snapshot.firstChild.data.adminViewType;
+      this.activeViewType = route.snapshot.firstChild?.data.adminViewType;
     });
   }
 
-  ngOnInit() {
-  }
 }

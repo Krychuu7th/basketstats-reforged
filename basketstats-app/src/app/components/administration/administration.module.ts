@@ -15,6 +15,11 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { LeagueEffects } from '../league/state/league.effects';
+import * as fromLeague from '../league/state/league.reducer';
 import { TeamCardListComponent } from "../team/team-card-list/team-card-list.component";
 import { AdminNavigationBarComponent } from "./admin-navigation-bar/admin-navigation-bar.component";
 import { AdministrationRoutingModule } from "./administration-routing.module";
@@ -66,6 +71,7 @@ import { UserListComponent } from "./user-list/user-list.component";
   imports: [
     CommonModule,
     AdministrationRoutingModule,
+    SharedModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatIconModule,
@@ -81,7 +87,9 @@ import { UserListComponent } from "./user-list/user-list.component";
     ReactiveFormsModule,
     MatTabsModule,
     MatRippleModule,
-    MatSelectModule
+    MatSelectModule,
+    StoreModule.forFeature(fromLeague.leaguesFeatureKey, fromLeague.reducer),
+    EffectsModule.forFeature([LeagueEffects])
   ]
 })
 export class AdministrationModule { }

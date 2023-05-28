@@ -2,13 +2,13 @@ package reforged.marcin.krysiak.basketstats.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import reforged.marcin.krysiak.basketstats.config.enums.MatchStatus;
+import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter

@@ -1,22 +1,20 @@
 package reforged.marcin.krysiak.basketstats.repositories.custom;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import reforged.marcin.krysiak.basketstats.dto.PlayerStatsAvgForTeamDTO;
 import reforged.marcin.krysiak.basketstats.dto.PlayersSummaryStatsOfMatchDTO;
-import reforged.marcin.krysiak.basketstats.repositories.PlayerRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class PlayerStatsRepositoryCustomImpl implements PlayerStatsRepositoryCustom {
 
-    @Autowired
-    private PlayerRepository playerRepository;
+//    @Autowired
+//    private PlayerRepository playerRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -48,10 +46,10 @@ public class PlayerStatsRepositoryCustomImpl implements PlayerStatsRepositoryCus
 
         List<Object[]> res = (List<Object[]>) query.getResultList();
         List<PlayerStatsAvgForTeamDTO> playerStatsAvgForTeamDTOList= new ArrayList<>();
-        for (Object[] obj: res) {
-            PlayerStatsAvgForTeamDTO dto = new PlayerStatsAvgForTeamDTO(obj, playerRepository);
-            playerStatsAvgForTeamDTOList.add(dto);
-        }
+//        for (Object[] obj: res) {
+//            PlayerStatsAvgForTeamDTO dto = new PlayerStatsAvgForTeamDTO(obj, playerRepository);
+//            playerStatsAvgForTeamDTOList.add(dto);
+//        }
         return playerStatsAvgForTeamDTOList;
     }
 
@@ -82,10 +80,10 @@ public class PlayerStatsRepositoryCustomImpl implements PlayerStatsRepositoryCus
 
         List<Object[]> res = (List<Object[]>) query.getResultList();
         List<PlayersSummaryStatsOfMatchDTO> playerStatsAvgForTeamDTOList= new ArrayList<>();
-        for (Object[] obj: res) {
-            PlayersSummaryStatsOfMatchDTO dto = new PlayersSummaryStatsOfMatchDTO(obj, playerRepository);
-            playerStatsAvgForTeamDTOList.add(dto);
-        }
+//        for (Object[] obj: res) {
+//            PlayersSummaryStatsOfMatchDTO dto = new PlayersSummaryStatsOfMatchDTO(obj, playerRepository);
+//            playerStatsAvgForTeamDTOList.add(dto);
+//        }
         return playerStatsAvgForTeamDTOList;
     }
 }

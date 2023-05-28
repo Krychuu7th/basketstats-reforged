@@ -7,12 +7,12 @@ import { catchError } from "rxjs/operators";
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     // private nbToastrService: NbToastrService
-  ) {}
+  ) { }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
-    // this.nbToastrService.show(message, title,
-    //   { status, preventDuplicates, position, duration });
-  }
+  // showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
+  //   // this.nbToastrService.show(message, title,
+  //   //   { status, preventDuplicates, position, duration });
+  // }
 
   intercept(
     request: HttpRequest<any>,
@@ -26,6 +26,4 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     ) as Observable<HttpEvent<any>>;
 
   }
-
-
 }

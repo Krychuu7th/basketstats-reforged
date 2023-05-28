@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TeamService } from "../../../team/team.service";
 
@@ -7,19 +7,16 @@ import { TeamService } from "../../../team/team.service";
   templateUrl: './team-delete-confirm.component.html',
   styleUrls: ['./team-delete-confirm.component.css']
 })
-export class TeamDeleteConfirmComponent implements OnInit {
+export class TeamDeleteConfirmComponent {
 
-  @Input() teamName;
-  @Input() teamId;
+  @Input() teamName: string;
+  @Input() teamId: number;
 
   constructor(
     private teamService: TeamService,
     // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
-
-  ngOnInit(): void {
-  }
 
   deleteUser() {
     this.teamService.deleteTeam(this.teamId).subscribe(
@@ -42,7 +39,7 @@ export class TeamDeleteConfirmComponent implements OnInit {
       });
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

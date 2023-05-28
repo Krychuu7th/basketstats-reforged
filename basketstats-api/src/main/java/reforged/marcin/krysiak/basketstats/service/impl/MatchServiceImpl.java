@@ -3,7 +3,7 @@ package reforged.marcin.krysiak.basketstats.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reforged.marcin.krysiak.basketstats.config.enums.MatchStatus;
+import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 import reforged.marcin.krysiak.basketstats.dto.MatchStatsDTO;
 import reforged.marcin.krysiak.basketstats.dto.MatchWithScoreDTO;
 import reforged.marcin.krysiak.basketstats.exceptions.MatchIsFinishedException;

@@ -1,20 +1,20 @@
+import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Team} from "../../models/team";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { Team } from "../../models/team";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
-  private baseApiUrl = `${environment.url}/team`;
+  private baseApiUrl = `${environment.api.url}/team`;
 
   constructor(private http: HttpClient) { }
 
-  getTeamList(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/list`);
+  getTeamList(): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.baseApiUrl}/list`);
   }
 
   getTeamById(id: number): Observable<any> {
@@ -25,8 +25,8 @@ export class TeamService {
     return this.http.get(`${this.baseApiUrl}/isTeamWithNameExisting/${name}`);
   }
 
-  getTeamByLeagueId(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/leagueList/${id}`);
+  getTeamByLeagueId(id: number): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.baseApiUrl}/leagueList/${id}`);
   }
 
   getAllPlayerAvgStatsByTeamId(id: number): Observable<any> {

@@ -1,34 +1,26 @@
 package reforged.marcin.krysiak.basketstats.models;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@SequenceGenerator(name="seq", initialValue=10)
 @Table(name = "leagues")
 public class League {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "leagues_id_seq", sequenceName = "leagues_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "leagues_id_seq")
     @Column(name = "id")
     private Long id;
 
     @Column(length = 50, nullable = false)
     private String name;
-
-    public League() {
-
-    }
-
-    public League(Long id, String name, Set<Team> teams) {
-        this.id = id;
-        this.name = name;
-    }
 
 }

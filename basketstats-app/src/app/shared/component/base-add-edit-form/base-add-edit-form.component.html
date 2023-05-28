@@ -1,0 +1,59 @@
+<div class="modal-header pb-0">
+  <h2 mat-dialog-title>{{ headerText }}</h2>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('close')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <div class="modal-body pb-0">
+    <div *ngFor="let formFieldDef of formConfig.formFields" class="form-group">
+      <mat-form-field class="col-12" appearance="fill">
+        <mat-label for="{{ formFieldDef.name }}">{{
+          formFieldDef.label
+        }}</mat-label>
+        <ng-container [ngSwitch]="formFieldDef.type">
+          <input
+            *ngSwitchCase="fieldType.STRING"
+            matInput
+            type="text"
+            [readonly]="readonly"
+            [formControl]="formGroup.get(formFieldDef.name)"
+            [id]="formFieldDef.name"
+            [aria-describedby]="formFieldDef.label"
+            [placeholder]="formFieldDef.placeholder"
+          />
+        </ng-container>
+        <mat-hint *ngIf="formFieldDef.hint">
+          {{ formFieldDef.hint }}
+        </mat-hint>
+        <mat-error *ngIf="formGroup.get(formFieldDef.name).invalid">
+          <ng-container *ngFor="let validator of formFieldDef.validators">
+            <ng-container [ngSwitch]="validator">
+              <ng-container *ngSwitchCase="validators.required">
+                Pole <strong>{{ formFieldDef.label }}</strong> jest wymagane
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div *ngIf="!readonly" class="modal-footer">
+    <button
+      mat-mini-fab
+      class="button-modal-cancel"
+      type="button"
+      (click)="activeModal.dismiss('cancel')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-mini-fab class="ml-2 button-modal-confirm" type="submit">
+      <mat-icon>done</mat-icon>
+    </button>
+  </div>
+</form>

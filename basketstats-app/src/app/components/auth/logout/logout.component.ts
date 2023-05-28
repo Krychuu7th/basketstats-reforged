@@ -37,7 +37,7 @@ export class LogoutComponent implements OnInit {
   //   return getDeepFromObject(this.options, key, null);
   // }
 
-  // showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  // showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
   //   this.nbToastrService.show(message, title,
   //     { status, preventDuplicates, position, duration });
   // }

@@ -1,10 +1,9 @@
 package reforged.marcin.krysiak.basketstats.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter

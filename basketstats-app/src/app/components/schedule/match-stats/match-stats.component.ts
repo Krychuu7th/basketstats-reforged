@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
-import {Location} from "@angular/common";
-import {MatchService} from "../match.service";
-import {MatchQuarter} from "../../../models/match-quarter";
-import {Match} from "../../../models/match";
-import {ChartDataSets, ChartType} from "chart.js";
-import {ChartProperty} from "../../../core/chart-property";
-import {delay} from "rxjs/operators";
-import {PlayersSummaryStatsOfMatch} from "../../../models/players-summary-stats-of-match";
+import { Location } from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from "@angular/router";
+import { ChartDataSets, ChartType } from "chart.js";
+import { delay } from "rxjs/operators";
+import { LOSE_WIN_BAR_CHART_COLORS, MATCH_SUMMARY_STATS_CHART_LABEL, MATCH_SUMMARY_STATS_RADAR_CHART_OPTIONS, WIN_LOSE_BAR_CHART_COLORS, WIN_LOSE_RADAR_CHART_COLORS } from "src/app/constants/chart-properties";
+import { Match } from "../../../models/match";
+import { MatchQuarter } from "../../../models/match-quarter";
+import { PlayersSummaryStatsOfMatch } from "../../../models/players-summary-stats-of-match";
+import { MatchService } from "../match.service";
 
 @Component({
   selector: 'app-match-stats',
@@ -19,15 +19,16 @@ export class MatchStatsComponent implements OnInit {
   public isLoading = false;
 
   public matchQuartersStats: MatchQuarter[];
-  public matchSummaryStatsOfTeamA;
-  public matchSummaryStatsOfTeamB;
+  public matchSummaryStatsOfTeamA: any;
+  public matchSummaryStatsOfTeamB: any;
   public match: Match;
   public matchPlayersSummaryStats: PlayersSummaryStatsOfMatch;
 
   public matchSummaryChartDataSets: ChartDataSets[];
   public matchSummaryChartType: ChartType = 'bar';
   public matchSummaryChartColor: any[];
-  chartProperty = ChartProperty;
+  public MATCH_SUMMARY_STATS_CHART_LABEL = MATCH_SUMMARY_STATS_CHART_LABEL;
+  public MATCH_SUMMARY_STATS_RADAR_CHART_OPTIONS = MATCH_SUMMARY_STATS_RADAR_CHART_OPTIONS;
 
   constructor(
     private matchService: MatchService,
@@ -61,9 +62,9 @@ export class MatchStatsComponent implements OnInit {
           this.matchSummaryStatsOfTeamB = res[1];
 
           if (this.matchSummaryStatsOfTeamA.pts > this.matchSummaryStatsOfTeamB.pts) {
-            this.matchSummaryChartColor = this.chartProperty.winLoseBarChartColors;
+            this.matchSummaryChartColor = WIN_LOSE_BAR_CHART_COLORS;
           } else {
-            this.matchSummaryChartColor = this.chartProperty.loseWinBarChartColors;
+            this.matchSummaryChartColor = LOSE_WIN_BAR_CHART_COLORS;
           }
           this.matchSummaryChartDataSets = [
             {
@@ -101,7 +102,7 @@ export class MatchStatsComponent implements OnInit {
 
   changeChartType(): void {
     this.matchSummaryChartColor = this.matchSummaryChartType === 'radar' ?
-      this.chartProperty.winLoseBarChartColors: this.chartProperty.winLoseRadarChartColors;
+      WIN_LOSE_BAR_CHART_COLORS : WIN_LOSE_RADAR_CHART_COLORS;
     this.matchSummaryChartType = this.matchSummaryChartType === 'radar' ? 'bar' : 'radar';
   }
 }

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {delay} from "rxjs/operators";
-import {LeagueService} from "../../league/league.service";
-import {League} from "../../../models/league";
-import {MatchService} from "../../schedule/match.service";
-import {UserService} from "../user-list/user.service";
-import {User} from "../../../models/user";
+import { Component, OnInit } from '@angular/core';
+import { delay } from "rxjs/operators";
+import { League } from "../../../models/league.model";
+import { User } from "../../../models/user";
+import { LeagueService } from "../../league/league.service";
+import { MatchService } from "../../schedule/match.service";
+import { UserService } from "../user-list/user.service";
 
 @Component({
   selector: 'app-match-administration',
@@ -36,7 +36,7 @@ export class MatchAdministrationComponent implements OnInit {
 
   loadLeagues() {
     this.isLoading = true;
-    this.leagueService.getLeagueList().pipe(delay(400)).subscribe(data => {
+    this.leagueService.getAll().pipe(delay(400)).subscribe(data => {
       this.leagueList = data;
       this.isLoading = false;
     });

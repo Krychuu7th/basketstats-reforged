@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {TeamService} from "../team.service";
-import {Team} from "../../../models/team";
-import {Player} from "../../../models/player";
-import {PlayerService} from "./player.service";
-import {ActivatedRoute, Params} from "@angular/router";
-import {Location} from "@angular/common";
-import {MatchService} from "../../schedule/match.service";
-import {Match} from "../../../models/match";
-import {Label, SingleDataSet} from "ng2-charts";
-import {ChartType} from "chart.js";
-import {ChartProperty} from "../../../core/chart-property";
-import {environment} from "../../../../environments/environment";
-import {delay} from "rxjs/operators";
-import {MatchStatus} from "../../../enums/match-status.enum";
+import { Location } from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from "@angular/router";
+import { ChartType } from "chart.js";
+import { Label, SingleDataSet } from "ng2-charts";
+import { delay } from "rxjs/operators";
+import { BASIC_DOUGHNUT_CHART_OPTIONS, NO_MATCHES_DOUGHNUT_CHART_COLORS, NO_MATCHES_DOUGHNUT_CHART_DATA, NO_MATCHES_DOUGHNUT_CHART_LABELS, NO_TOOLTIP_DOUGHNUT_CHART_OPTIONS, WIN_LOSE_CHART_LABELS, WIN_LOSE_DOUGHNUT_CHART_COLORS } from "src/app/constants/chart-properties";
+import { environment } from "../../../../environments/environment";
+import { MatchStatus } from "../../../enums/match-status.enum";
+import { Match } from "../../../models/match";
+import { Player } from "../../../models/player";
+import { Team } from "../../../models/team";
+import { MatchService } from "../../schedule/match.service";
+import { TeamService } from "../team.service";
+import { PlayerService } from "./player.service";
 
 @Component({
   selector: 'app-team-players',
@@ -30,9 +30,8 @@ export class TeamPlayersComponent implements OnInit {
   teamWins: number;
   teamLoses: number;
   teamNumberOfMatches: number;
-  chartProperty = ChartProperty;
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   MatchStatus = MatchStatus;
 
@@ -72,24 +71,24 @@ export class TeamPlayersComponent implements OnInit {
           this.teamWins = 0;
           this.teamLoses = 0;
           this.teamNumberOfMatches = 0;
-          for(let match of this.teamMatches) {
+          for (let match of this.teamMatches) {
             match.matchStatus == MatchStatus.DONE ? this.teamNumberOfMatches++ : this.teamNumberOfMatches;
-            if(match.teamAScore > match.teamBScore) {
+            if (match.teamAScore > match.teamBScore) {
               this.team.id == match.teamA.id ? this.teamWins++ : this.teamLoses++;
             }
             else if (match.teamAScore < match.teamBScore) {
               this.team.id == match.teamB.id ? this.teamWins++ : this.teamLoses++;
             }
           }
-          if(this.teamLoses == 0 && this.teamWins == 0) {
-            this.winLoseChartOptions = this.chartProperty.noTooltipDoughnutChartOptions;
-            this.winLoseChartLabels = this.chartProperty.noMatchesDoughnutChartLabels;
-            this.winLoseChartColors = this.chartProperty.noMatchesDoughnutChartColors;
-            this.winLoseChartData = this.chartProperty.noMatchesDoughnutChartData;;
+          if (this.teamLoses == 0 && this.teamWins == 0) {
+            this.winLoseChartOptions = NO_TOOLTIP_DOUGHNUT_CHART_OPTIONS;
+            this.winLoseChartLabels = NO_MATCHES_DOUGHNUT_CHART_LABELS;
+            this.winLoseChartColors = NO_MATCHES_DOUGHNUT_CHART_COLORS;
+            this.winLoseChartData = NO_MATCHES_DOUGHNUT_CHART_DATA;;
           } else {
-            this.winLoseChartOptions  = this.chartProperty.basicDoughnutChartOptions;
-            this.winLoseChartLabels = this.chartProperty.winLoseChartLabels;
-            this.winLoseChartColors = this.chartProperty.winLoseDoughnutChartColors;
+            this.winLoseChartOptions = BASIC_DOUGHNUT_CHART_OPTIONS;
+            this.winLoseChartLabels = WIN_LOSE_CHART_LABELS;
+            this.winLoseChartColors = WIN_LOSE_DOUGHNUT_CHART_COLORS;
             this.winLoseChartData = [this.teamLoses, this.teamWins];
           }
         });

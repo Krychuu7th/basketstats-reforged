@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { LeagueNameNotUsed } from "../../../../helpers/league-name-not-used.validator";
-import { League } from "../../../../models/league";
+import { LeagueNameNotUsed } from 'src/app/helpers/validators/league-name-not-used.validator';
+import { League } from "../../../../models/league.model";
 import { LeagueService } from "../../../league/league.service";
 
 @Component({
@@ -25,7 +25,7 @@ export class LeagueAddEditComponent implements OnInit {
     // private nbToastrService: NbToastrService,
     private leagueService: LeagueService,
     private formBuilder: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -45,14 +45,15 @@ export class LeagueAddEditComponent implements OnInit {
           Validators.pattern('[A-Za-z0-9żźćńółęąśŻŹĆĄŚĘŁÓŃ\\s\\-]*')
         ]
       )
-    }, { validators: [
-        LeagueNameNotUsed('name', this.leagueService, this.league ? this.league.name : null),
+    }, {
+      validators: [
+        LeagueNameNotUsed('name', this.leagueService, this.league?.name ?? null),
       ]
     });
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -62,7 +63,7 @@ export class LeagueAddEditComponent implements OnInit {
   }
 
   submit() {
-    if(!this.isEdit) {
+    if (!this.isEdit) {
       this.addLeague();
     }
     else {
@@ -78,16 +79,16 @@ export class LeagueAddEditComponent implements OnInit {
 
   addLeague() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
-      this.leagueService.createLeague(this.getNewLeague()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Użytkownik został dodany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+    if (!this.formGroup.invalid) {
+      this.leagueService.create(this.getNewLeague()).subscribe(res => {
+        this.activeModal.close('confirm');
+        this.showToast('Użytkownik został dodany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Liga nie został dodany',
             'Coś poszło nie tak!',
@@ -109,16 +110,18 @@ export class LeagueAddEditComponent implements OnInit {
 
   editLeague() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
-      this.leagueService.updateLeague(this.league.id, this.getNewLeague()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Liga została zaktualizowana',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+    if (!this.formGroup.invalid) {
+      const league = this.getNewLeague();
+      league.id = this.league.id;
+      this.leagueService.update(league).subscribe(res => {
+        this.activeModal.close('confirm');
+        this.showToast('Liga została zaktualizowana',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Liga nie została zaktualizowana',
             'Coś poszło nie tak!',
@@ -138,7 +141,7 @@ export class LeagueAddEditComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

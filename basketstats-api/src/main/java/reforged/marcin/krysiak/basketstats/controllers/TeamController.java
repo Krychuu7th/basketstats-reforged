@@ -118,12 +118,4 @@ public class TeamController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @ExceptionHandler(TeamNotFoundException.class)
-    public ResponseEntity<Object> handleUpdateException(TeamNotFoundException ex) {
-        ApiError apiError =
-                new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getLocalizedMessage(), ex.getMessage());
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
 }

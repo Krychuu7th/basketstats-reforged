@@ -55,7 +55,7 @@ export class MatchEditComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -74,7 +74,7 @@ export class MatchEditComponent implements OnInit {
     newMatch.teamA = this.match.teamA;
     newMatch.teamB = this.match.teamB;
     newMatch.matchDate = this.form.matchDate.value;
-    newMatch.matchDate.setHours(this.form.matchDate.value.getHours()+1);
+    newMatch.matchDate.setHours(this.form.matchDate.value.getHours() + 1);
     newMatch.place = this.form.place.value;
     newMatch.user = this.match.user;
     return newMatch;
@@ -82,16 +82,16 @@ export class MatchEditComponent implements OnInit {
 
   editMatch() {
     this.markFormGroupTouched(this.formGroup);
-    if(!this.formGroup.invalid) {
+    if (!this.formGroup.invalid) {
       this.matchService.updateMatch(this.getEditedMatch()).subscribe(res => {
-          this.activeModal.close('confirm');
-          this.showToast('Mecz został zaktualizowany',
-            'Udało się!',
-            'success',
-            false,
-            'bottom-end',
-            6000);
-        },
+        this.activeModal.close('confirm');
+        this.showToast('Mecz został zaktualizowany',
+          'Udało się!',
+          'success',
+          false,
+          'bottom-end',
+          6000);
+      },
         error => {
           this.showToast('Mecz nie został zaktualizowany',
             'Coś poszło nie tak!',
@@ -111,7 +111,7 @@ export class MatchEditComponent implements OnInit {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

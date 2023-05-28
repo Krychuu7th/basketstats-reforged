@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  url : 'http://localhost:8080/api',
+  api: {
+    url : 'http://localhost:8080/api',
+  },
+  auth0: {
+    domain: 'basketstats.eu.auth0.com',
+    clientId: 'iB3EuDRdj7sB24EySgfnUyJQprr5u7Si',
+    redirectUri: 'http://localhost:4200',
+    audience: 'http://localhost:8080/api',
+    errorPath: '/',
+  },
   syncIntervalTime: 10000
 };
 

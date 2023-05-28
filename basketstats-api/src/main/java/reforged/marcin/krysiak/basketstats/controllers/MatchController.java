@@ -1,16 +1,14 @@
 package reforged.marcin.krysiak.basketstats.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reforged.marcin.krysiak.basketstats.dto.MatchQuarterStatsSaveRequestDTO;
 import reforged.marcin.krysiak.basketstats.dto.MatchStatsDTO;
 import reforged.marcin.krysiak.basketstats.dto.MatchWithScoreDTO;
 import reforged.marcin.krysiak.basketstats.dto.PlayersSummaryStatsOfMatchDTO;
-import reforged.marcin.krysiak.basketstats.exceptions.ApiError;
 import reforged.marcin.krysiak.basketstats.exceptions.MatchIsFinishedException;
 import reforged.marcin.krysiak.basketstats.exceptions.MatchNotFoundException;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
@@ -20,7 +18,6 @@ import reforged.marcin.krysiak.basketstats.service.MatchQuarterService;
 import reforged.marcin.krysiak.basketstats.service.MatchService;
 import reforged.marcin.krysiak.basketstats.service.PlayerStatsService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/match")
@@ -114,21 +111,4 @@ public class MatchController {
         matchQuarterService.saveMatchQuarterStats(request);
         return true;
     }
-
-    @ExceptionHandler(MatchIsFinishedException.class)
-    public ResponseEntity<Object> handleUpdateException(MatchIsFinishedException ex) {
-        ApiError apiError =
-                new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getLocalizedMessage(), ex.getMessage());
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler(MatchNotFoundException.class)
-    public ResponseEntity<Object> handleUpdateException(MatchNotFoundException ex) {
-        ApiError apiError =
-                new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getLocalizedMessage(), ex.getMessage());
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
 }

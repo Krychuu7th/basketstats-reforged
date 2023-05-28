@@ -8,19 +8,16 @@ import { PlayerService } from "../../../team/team-players/player.service";
   templateUrl: './player-delete-confirm.component.html',
   styleUrls: ['./player-delete-confirm.component.css']
 })
-export class PlayerDeleteConfirmComponent implements OnInit {
+export class PlayerDeleteConfirmComponent {
 
   @Input() player: Player;
-  @Input() playerId;
+  @Input() playerId: number;
 
   constructor(
     private playerService: PlayerService,
     // private nbToastrService: NbToastrService,
     public activeModal: NgbActiveModal
   ) { }
-
-  ngOnInit(): void {
-  }
 
   deleteUser() {
     this.playerService.deletePlayer(this.playerId).subscribe(
@@ -42,7 +39,7 @@ export class PlayerDeleteConfirmComponent implements OnInit {
       });
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   { status, preventDuplicates, position, duration });
   }

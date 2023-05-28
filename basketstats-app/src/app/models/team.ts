@@ -1,4 +1,4 @@
-import {League} from "./league";
+import { League } from "./league.model";
 
 export class Team {
   id: number;

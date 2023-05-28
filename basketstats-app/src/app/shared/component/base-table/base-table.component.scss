@@ -1,0 +1,20 @@
+.table-header {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.option-icon {
+  color: #ff7043;
+  &:disabled {
+    color: rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+.option-icon-disabled {
+  color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.mat-column-options {
+  width: 200px;
+  text-align: end;
+}

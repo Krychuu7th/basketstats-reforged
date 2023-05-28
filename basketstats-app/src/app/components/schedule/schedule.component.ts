@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {LeagueService} from "../league/league.service";
-import {delay, first} from "rxjs/operators";
-import {League} from "../../models/league";
-import {MatchService} from "./match.service";
-import {Match} from "../../models/match";
+import { delay, first } from "rxjs/operators";
+import { League } from "../../models/league.model";
+import { Match } from "../../models/match";
+import { LeagueService } from "../league/league.service";
+import { MatchService } from "./match.service";
 
 @Component({
   selector: 'app-schedule',
@@ -28,7 +28,7 @@ export class ScheduleComponent implements OnInit {
 
   loadData() {
     this.isLoading = true;
-    this.leagueService.getLeagueList().pipe(first()).subscribe(data => {
+    this.leagueService.getAll().pipe(first()).subscribe(data => {
       this.leagueList = data;
     });
 
@@ -39,7 +39,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   getMatchesOfLeague(leagueId: number) {
-    return this.matchList ? this.matchList.filter(obj => obj.teamA.league.id == leagueId): null;
+    return this.matchList ? this.matchList.filter(obj => obj.teamA.league.id == leagueId) : null;
   }
 
 }

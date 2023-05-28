@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import {Match} from "../../../models/match";
-import {Team} from "../../../models/team";
-import {environment} from "../../../../environments/environment";
-import {MatchStatus} from "../../../enums/match-status.enum";
+import { Component, Input, OnChanges } from '@angular/core';
+import { environment } from "../../../../environments/environment";
+import { MatchStatus } from "../../../enums/match-status.enum";
+import { Match } from "../../../models/match";
+import { Team } from "../../../models/team";
 
 @Component({
   selector: 'app-match-info-row',
@@ -24,7 +24,7 @@ export class MatchInfoRowComponent implements OnChanges {
   opponentsScore: number;
   teamScore: number;
 
-  apiUrl = environment.url;
+  apiUrl = environment.api.url;
 
   MatchStatus = MatchStatus;
 

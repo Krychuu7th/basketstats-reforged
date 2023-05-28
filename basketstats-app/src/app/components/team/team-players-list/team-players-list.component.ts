@@ -60,11 +60,11 @@ export class TeamPlayersListComponent implements OnChanges {
     const modalRef = this.modalService.open(PlayerAddEditComponent);
     modalRef.componentInstance.isEdit = false;
     modalRef.componentInstance.team = this.team;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -74,11 +74,11 @@ export class TeamPlayersListComponent implements OnChanges {
     modalRef.componentInstance.isEdit = true;
     modalRef.componentInstance.player = player;
     modalRef.componentInstance.team = this.team;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -87,11 +87,11 @@ export class TeamPlayersListComponent implements OnChanges {
     const modalRef = this.modalService.open(PlayerDeleteConfirmComponent);
     modalRef.componentInstance.player = player;
     modalRef.componentInstance.playerId = playerId;
-    modalRef.result.then( res => {
+    modalRef.result.then(res => {
       if (res == 'confirm') {
         this.emitLoadData.emit();
       }
-    }, error =>{
+    }, error => {
 
     });
   }
@@ -101,7 +101,7 @@ export class TeamPlayersListComponent implements OnChanges {
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
     this.contextMenu.menuData = { 'row': row };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu?.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
 

@@ -1,9 +1,9 @@
 import { HttpResponse } from "@angular/common/http";
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TeamNameNotUsed } from "../../../../helpers/team-name-not-used.validator";
-import { League } from "../../../../models/league";
+import { TeamNameNotUsed } from "src/app/helpers/validators/team-name-not-used.validator";
+import { League } from "../../../../models/league.model";
 import { Team } from "../../../../models/team";
 import { LeagueService } from "../../../league/league.service";
 import { TeamService } from "../../../team/team.service";
@@ -13,7 +13,7 @@ import { TeamService } from "../../../team/team.service";
   templateUrl: './team-add-edit.component.html',
   styleUrls: ['./team-add-edit.component.css']
 })
-export class TeamAddEditComponent implements OnInit, OnChanges {
+export class TeamAddEditComponent implements OnInit {
 
   submited = false;
 
@@ -28,7 +28,7 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   leagueList: League[];
   leagueName = '';
 
-  selectedLogoFile: File = new File([""], "nologo");
+  selectedLogoFile: File | undefined = new File([""], "nologo");
   maxFileSize = 4096000;
 
   constructor(
@@ -40,16 +40,13 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   ) {
   }
 
-  ngOnChanges() {
-  }
-
   ngOnInit(): void {
     this.loadData();
     this.initForm();
   }
 
   loadData() {
-    this.leagueService.getLeagueList().subscribe(res => {
+    this.leagueService.getAll().subscribe(res => {
       this.leagueList = res;
     });
   }
@@ -75,14 +72,15 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
       ),
       logo: new UntypedFormControl(null
       ),
-    }, { validators: [
-        TeamNameNotUsed('name', this.teamService, this.team ? this.team.name : null),
+    }, {
+      validators: [
+        TeamNameNotUsed('name', this.teamService, this.team?.name ?? null),
       ]
     });
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (<any>Object).values(this.form).forEach(control => {
+    (<any>Object).values(this.form).forEach((control: any) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -103,16 +101,16 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
     let newTeam = new Team();
     newTeam.name = this.form.name.value;
 
-    newTeam.league = !this.isEdit ? this.league : this.leagueList.find(l => l.name == this.form.league.value);
+    newTeam.league = !this.isEdit ? this.league : this.leagueList.find(l => l.name == this.form.league.value)!;
     newTeam.logoFile = logoFile;
-    newTeam.logo = this.selectedLogoFile.name;
+    newTeam.logo = this.selectedLogoFile?.name!;
     return newTeam;
   }
 
   addTeam() {
     this.markFormGroupTouched(this.formGroup);
     if (!this.formGroup.invalid) {
-      this.teamService.createTeam(this.getNewTeam(this.selectedLogoFile)).subscribe(event => {
+      this.teamService.createTeam(this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
         if (event instanceof HttpResponse) {
 
           this.activeModal.close('confirm');
@@ -123,9 +121,9 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
             'bottom-end',
             6000);
         }
-        },
+      },
         error => {
-        console.log(error);
+          console.log(error);
           this.selectedLogoFile = new File([""], "nologo");
           this.form.logo.setValue(null);
           this.showToast('Drużyna nie została dodana',
@@ -149,21 +147,21 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
   editTeam() {
     this.markFormGroupTouched(this.formGroup);
     if (!this.formGroup.invalid) {
-      this.teamService.updateTeam(this.team.id, this.getNewTeam(this.selectedLogoFile)).subscribe(event => {
-          if (event instanceof HttpResponse) {
+      this.teamService.updateTeam(this.team.id, this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
+        if (event instanceof HttpResponse) {
 
-            this.activeModal.close('confirm');
-            this.showToast('Drużyna została zaktualizowana',
-              'Udało się!',
-              'success',
-              false,
-              'bottom-end',
-              6000);
-          }
-        },
+          this.activeModal.close('confirm');
+          this.showToast('Drużyna została zaktualizowana',
+            'Udało się!',
+            'success',
+            false,
+            'bottom-end',
+            6000);
+        }
+      },
         error => {
-        this.selectedLogoFile = new File([""], "nologo");
-        this.form.logo.setValue(null);
+          this.selectedLogoFile = new File([""], "nologo");
+          this.form.logo.setValue(null);
           this.showToast('Drużyna nie została zaktualizowana',
             'Coś poszło nie tak!',
             'danger',
@@ -181,15 +179,15 @@ export class TeamAddEditComponent implements OnInit, OnChanges {
     }
   }
 
-  showToast(message: string, title: string, status, preventDuplicates, position, duration) {
+  showToast(message: string, title: string, status: string, preventDuplicates: boolean, position: string, duration: number) {
     // this.nbToastrService.show(message, title,
     //   {status, preventDuplicates, position, duration});
   }
 
-  onFileSelected(event) {
+  onFileSelected(event: any) {
     this.selectedLogoFile = event.target.files[0];
-    if(this.selectedLogoFile.size > this.maxFileSize) {
-      this.form.logo.setErrors({fileSizeError: true});
+    if (this.selectedLogoFile?.size! > this.maxFileSize) {
+      this.form.logo.setErrors({ fileSizeError: true });
     }
   }
 
