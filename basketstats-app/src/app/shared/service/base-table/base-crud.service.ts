@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BaseCrudResource } from '../../model/base-crud-resource.model';
 import { Page } from '../../model/pageable';
-import { QueryParams } from '../../model/query-params';
+import { Param, QueryParams } from '../../model/query-params';
 import { QueryParamsService } from '../query-params/query-params.service';
 
 export abstract class BaseCrudService<T extends BaseCrudResource> {
@@ -27,8 +27,12 @@ export abstract class BaseCrudService<T extends BaseCrudResource> {
     );
   }
 
-  public getAll(): Observable<T[]> {
-    return this.http.get<T[]>(`${this.fullResourceUrl}/get-all`);
+  public getAll(params?: Param[]): Observable<T[]> {
+    return this.http.get<T[]>(
+      `${this.fullResourceUrl}/get-all`,
+      {
+        params: params && this.queryParamsService.buildHttpParamsFromArray(params)
+      });
   }
 
   public getById(id: number): Observable<T> {

@@ -1,10 +1,8 @@
-package reforged.marcin.krysiak.basketstats.security;
+package reforged.marcin.krysiak.basketstats.config.security;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,21 +10,19 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
+@Slf4j
 public class AuthAccessDeniedHandler implements AccessDeniedHandler {
-
-    public static final Logger LOG
-            = LoggerFactory.getLogger(AuthAccessDeniedHandler.class);
 
     @Override
     public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AccessDeniedException exc) throws IOException, ServletException {
+            AccessDeniedException exc) throws IOException {
 
         Authentication auth
                 = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            LOG.warn("User: " + auth.getName()
+            log.warn("User: " + auth.getName()
                     + " attempted to access the protected URL: "
                     + request.getRequestURI());
         }

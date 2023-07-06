@@ -6,10 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class TeamWithLogoDTO {
+public class TeamWithImageDTO {
     private String name;
-    private String logo;
+    private String imageName;
     private Long leagueId;
-    private MultipartFile logoFile;
+    private MultipartFile imageFile;
 }
 

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FieldValuePipe implements PipeTransform {
 
   transform(value: any, columneName: string): any {
-    return value[columneName];
+    return columneName ? value[columneName] : value;
   }
 
 }

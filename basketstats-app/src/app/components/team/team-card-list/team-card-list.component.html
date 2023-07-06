@@ -1,18 +1,35 @@
-<mat-paginator [length]="teamList?.length"
-               [pageSize]="adminView ? 12 : 6"
-               [pageSizeOptions]="adminView ? [12, 24, 48] : [3, 6, 9, 12]"
-               (page)="getPaginatorData($event)">
+<mat-paginator
+  [length]="teamList?.length"
+  [pageSize]="adminView ? 12 : 6"
+  [pageSizeOptions]="adminView ? [12, 24, 48] : [3, 6, 9, 12]"
+  (page)="getPaginatorData($event)"
+>
 </mat-paginator>
 
 <ng-container *ngIf="!adminView">
-  <div *ngIf=" teamList && teamList.length > 0" class="row text-center team-cards">
-    <div *ngFor="let team of teamList | slice: lowIndex : highIndex" class="col-sm-4 p-3 card-div">
+  <div
+    *ngIf="teamList && teamList.length > 0"
+    class="row text-center team-cards"
+  >
+    <div
+      *ngFor="let team of teamList | slice : lowIndex : highIndex"
+      class="col-sm-4 p-3 card-div"
+    >
       <div class="card" [routerLink]="['/teams', 'info', team.id]" matRipple>
-        <img *ngIf="team.logo else defaultLogo" class="card-img-top" src="{{apiUrl}}/team/logo/{{team.id}}"
-             height="325" alt="{{team.name}} logo">
+        <img
+          *ngIf="team.imageName; else defaultLogo"
+          class="card-img-top"
+          src="{{ apiUrl }}/team/logo/{{ team.id }}"
+          height="325"
+          alt="{{ team.name }} logo"
+        />
         <ng-template #defaultLogo>
-          <img class="card-img-top" src="/assets/images/teams/team.png"
-               height="325" alt="no team logo">
+          <img
+            class="card-img-top"
+            src="/assets/images/teams/team.png"
+            height="325"
+            alt="no team logo"
+          />
         </ng-template>
         <div class="card-body">
           <h5 class="card-title">{{ team.name }}</h5>
@@ -23,14 +40,34 @@
 </ng-container>
 
 <ng-container *ngIf="adminView">
-  <div *ngIf=" teamList && teamList.length > 0" class="row text-center team-cards-small">
-    <div *ngFor="let team of teamList | slice: lowIndex : highIndex" class="col-sm-2 p-1 card-div-small">
-      <div class="card" [routerLink]="['/teams', 'info', team.id]" (contextmenu)="onContextMenu($event, team)" matRipple>
-        <img *ngIf="team.logo else defaultLogo" class="card-img-top" src="{{apiUrl}}/team/logo/{{team.id}}"
-             height="170" alt="{{team.name}} logo">
+  <div
+    *ngIf="teamList && teamList.length > 0"
+    class="row text-center team-cards-small"
+  >
+    <div
+      *ngFor="let team of teamList | slice : lowIndex : highIndex"
+      class="col-sm-2 p-1 card-div-small"
+    >
+      <div
+        class="card"
+        [routerLink]="['/teams', 'info', team.id]"
+        (contextmenu)="onContextMenu($event, team)"
+        matRipple
+      >
+        <img
+          *ngIf="team.imageName; else defaultLogo"
+          class="card-img-top"
+          src="{{ apiUrl }}/team/logo/{{ team.id }}"
+          height="170"
+          alt="{{ team.name }} logo"
+        />
         <ng-template #defaultLogo>
-          <img class="card-img-top" src="/assets/images/teams/team.png"
-               height="170" alt="no team logo">
+          <img
+            class="card-img-top"
+            src="/assets/images/teams/team.png"
+            height="170"
+            alt="no team logo"
+          />
         </ng-template>
         <div class="card-body">
           <h5 class="card-title-small">{{ team.name }}</h5>
@@ -40,12 +77,19 @@
   </div>
 </ng-container>
 
-<div *ngIf=" !teamList || teamList.length == 0" class="text-center team-cards-small">
+<div
+  *ngIf="!teamList || teamList.length == 0"
+  class="text-center team-cards-small"
+>
   <div *ngIf="adminView">
     <div class="col-sm-2 p-1 card-div-small">
       <div class="card" (click)="addTeam()" matRipple>
-        <img class="card-img-top p-5" src="/assets/images/plus.png"
-             height="170" alt="no team logo">
+        <img
+          class="card-img-top p-5"
+          src="/assets/images/plus.png"
+          height="170"
+          alt="no team logo"
+        />
         <div class="card-body">
           <h5 class="card-title-small">Dodaj drużynę</h5>
         </div>
@@ -58,11 +102,12 @@
 </div>
 
 <ng-container *ngIf="adminView">
-  <div style="visibility: hidden; position: fixed"
-       [style.left]="contextMenuPosition.x"
-       [style.top]="contextMenuPosition.y"
-       [matMenuTriggerFor]="contextMenu">
-  </div>
+  <div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="contextMenu"
+  ></div>
   <mat-menu #contextMenu="matMenu">
     <ng-template matMenuContent let-item="team">
       <button mat-menu-item class="option-button" (click)="addTeam()">
@@ -73,7 +118,11 @@
         <mat-icon class="option-button">edit</mat-icon>
         Edytuj
       </button>
-      <button mat-menu-item class="option-button" (click)="deleteTeam(item.name, item.id)">
+      <button
+        mat-menu-item
+        class="option-button"
+        (click)="deleteTeam(item.name, item.id)"
+      >
         <mat-icon class="option-button">delete</mat-icon>
         Usuń
       </button>

@@ -39,7 +39,6 @@ export const selectLeaguesViewModel = createSelector(
     }
 );
 
-//Factory selector for passing props like ID
 export const entityExistsInStore = (id: number) => createSelector(
     selectAllEntities,
     (entities): boolean => {

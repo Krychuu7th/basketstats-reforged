@@ -38,7 +38,7 @@ public class MatchQuarterServiceImpl implements MatchQuarterService {
     @Override
     public MatchQuarter saveMatchQuarterStats(MatchQuarterStatsSaveRequestDTO request) {
 
-        Match match = matchRepository.getOne(request.getMatchId());
+        Match match = matchRepository.findById(request.getMatchId()).orElse(null);
         PlayerStats[] mergedTeamStats = ArrayUtils.addAll(request.getTeamAStats(), request.getTeamBStats());
         List<PlayerStats> matchStatsList = Arrays.asList(mergedTeamStats);
         if (matchStatsList.size() == 0) {

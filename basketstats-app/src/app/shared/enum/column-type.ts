@@ -3,6 +3,7 @@ export enum ColumnType {
     NUMBER,
     ORDINAL,
     DATE,
+    IMAGE,
     OBJECT,
     OPTIONS
 }

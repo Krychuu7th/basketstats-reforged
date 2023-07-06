@@ -25,8 +25,8 @@ public class LeagueServiceImpl implements LeagueService {
     }
 
     @Override
-    public List<League> getAll() {
-        return leagueRepository.findAllByOrderByIdDesc();
+    public List<League> getAll(Specification<League> spec) {
+        return leagueRepository.findAll(spec);
     }
 
     @Override

@@ -1,85 +1,117 @@
 package reforged.marcin.krysiak.basketstats.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reforged.marcin.krysiak.basketstats.dto.TeamWithLogoDTO;
+import reforged.marcin.krysiak.basketstats.dto.TeamDto;
+import reforged.marcin.krysiak.basketstats.dto.TeamWithImageDTO;
 import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
+import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
+import reforged.marcin.krysiak.basketstats.mapper.TeamMapper;
 import reforged.marcin.krysiak.basketstats.models.Team;
+import reforged.marcin.krysiak.basketstats.providers.UserProvider;
 import reforged.marcin.krysiak.basketstats.repositories.LeagueRepository;
 import reforged.marcin.krysiak.basketstats.repositories.TeamRepository;
 import reforged.marcin.krysiak.basketstats.service.TeamService;
+import reforged.marcin.krysiak.basketstats.utils.SpecificationUtils;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private LeagueRepository leagueRepository;
+    private final TeamRepository teamRepository;
+    private final LeagueRepository leagueRepository;
+    private final TeamMapper mapper;
+    private final SpecificationUtils<Team> specificationUtils;
+    private final UserProvider userProvider;
 
     @Override
-    public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+    public Page<TeamDto> getAllBySpec(Specification<Team> spec, Pageable pageable) {
+        return teamRepository.findAll(spec, pageable).map(mapper::toDto);
     }
 
     @Override
-    public List<Team> getAllTeamsByLeague(Long id) {
-        return teamRepository.findAllByLeagueId(id);
+    public Page<TeamDto> getAllForLeagueBySpec(Long leagueId, Specification<Team> spec, Pageable pageable) {
+        return teamRepository.findAll(specificationUtils.getAndSpec(spec, leagueIdEqualSpec(leagueId)), pageable).map(mapper::toDto);
     }
 
     @Override
-    public Optional<Team> getTeamById(Long id) {
-        return teamRepository.findById(id);
+    public List<TeamDto> getAll(Specification<Team> spec) {
+        return mapper.toDtoList(teamRepository.findAll(spec));
     }
 
     @Override
-    public Team getTeamByName(String name) {
-        return teamRepository.findByName(name);
+    public TeamDto getById(Long id) {
+        return mapper.toDto(teamRepository.findById(id).orElseThrow(TeamNotFoundException::new));
     }
 
     @Override
-    public Team createTeam(TeamWithLogoDTO team) throws Exception {
-        Team newTeam = new Team();
-        newTeam.setName(team.getName());
-        newTeam.setLeague(leagueRepository.findById(team.getLeagueId())
-                .orElseThrow(LeagueNotFoundException::new));
-        if(team.getLogoFile().getContentType() != null && team.getLogoFile().getContentType().contains("image")) {
-            newTeam.setLogo(team.getLogoFile().getOriginalFilename());
-            newTeam.setData(team.getLogoFile().getBytes());
-            newTeam.setType(team.getLogoFile().getContentType());
-        }
-
-        return teamRepository.save(newTeam);
+    public Team getEntityById(Long id) {
+        return this.findById(id);
     }
 
     @Override
-    public void updateTeam(Long id, TeamWithLogoDTO team) throws Exception{
-        if (this.teamRepository.findById(id).isPresent()) {
+    public TeamDto getByName(String name) {
+        return mapper.toDto(teamRepository.findByName(name));
+    }
 
-            Team newTeam = this.teamRepository.findById(id).get();
-            newTeam.setName(team.getName());
-            newTeam.setLeague(leagueRepository.findById(team.getLeagueId())
-                    .orElseThrow(LeagueNotFoundException::new));
-            if(team.getLogoFile().getContentType() != null && team.getLogoFile().getContentType().contains("image")) {
-                newTeam.setLogo(team.getLogoFile().getOriginalFilename());
-                newTeam.setData(team.getLogoFile().getBytes());
-                newTeam.setType(team.getLogoFile().getContentType());
+    @Override
+    @Transactional
+    public TeamDto create(TeamWithImageDTO teamDto) {
+        Team newTeam = mapper.toEntity(teamDto);
+        setTeamImage(teamDto, newTeam);
+        return mapper.toDto(teamRepository.save(newTeam));
+    }
+
+    private void setTeamImage(TeamWithImageDTO teamDto, Team newTeam) {
+        if (hasValidImage(teamDto)) {
+            newTeam.setImageName(teamDto.getImageFile().getOriginalFilename());
+            try {
+                newTeam.setImageFile(teamDto.getImageFile().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            teamRepository.save(newTeam);
-        } else {
-            throw new RuntimeException("User with id " + id + " doesn't exists");
+            newTeam.setType(teamDto.getImageFile().getContentType());
         }
     }
 
     @Override
-    public void deleteTeam(Long id) {
+    @Transactional
+    public TeamDto update(Long id, TeamWithImageDTO teamDto) {
+        Team team = this.findById(id);
+        team.setName(teamDto.getName());
+        team.setLeague(leagueRepository.findById(teamDto.getLeagueId())
+                .orElseThrow(LeagueNotFoundException::new));
+        setTeamImage(teamDto, team);
+
+        return mapper.toDto(teamRepository.save(team));
+    }
+
+    @Override
+    public void delete(Long id) {
         teamRepository.deleteById(id);
+    }
+
+    private Specification<Team> leagueIdEqualSpec(Long leagueId) {
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("league").get("id"), leagueId);
+    }
+
+    private Team findById(Long id) {
+        return this.teamRepository.findById(id).orElseThrow(TeamNotFoundException::new);
+    }
+
+    private boolean hasValidImage(TeamWithImageDTO teamDto) {
+        return Objects.nonNull(teamDto.getImageFile())
+                && Objects.nonNull(teamDto.getImageFile().getContentType())
+                && teamDto.getImageFile().getContentType().contains("image");
     }
 }

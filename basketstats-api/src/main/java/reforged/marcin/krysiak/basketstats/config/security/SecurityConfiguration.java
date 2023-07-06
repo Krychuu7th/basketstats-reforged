@@ -5,25 +5,26 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
-import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import reforged.marcin.krysiak.basketstats.security.AudienceValidator;
-import reforged.marcin.krysiak.basketstats.security.AuthAccessDeniedHandler;
 
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -33,12 +34,15 @@ public class SecurityConfiguration {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuer;
 
+    private static final String[] PUBLIC_ENDPOINTS = {
+            "/api/team/logo/**"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .requestMatchers(HttpMethod.GET, "/api/messages").permitAll() // GET requests don't need auth
-                .anyRequest()
-                .authenticated()
+        http.authorizeHttpRequests()
+                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .cors()
                 .configurationSource(this.corsConfigurationSource())
@@ -69,15 +73,11 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        /*
-        By default, Spring Security does not validate the "aud" claim of the token, to ensure that this token is
-        indeed intended for our app. Adding our own validator is easy to do:
-        */
         final var jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(this.issuer);
 
         final var audienceValidator = new AudienceValidator(this.audience);
         final var withIssuer = JwtValidators.createDefaultWithIssuer(this.issuer);
-        final var withAudience = new DelegatingOAuth2TokenValidator<Jwt>(audienceValidator, withIssuer);
+        final var withAudience = new DelegatingOAuth2TokenValidator<>(audienceValidator, withIssuer);
 
         jwtDecoder.setJwtValidator(withAudience);
 

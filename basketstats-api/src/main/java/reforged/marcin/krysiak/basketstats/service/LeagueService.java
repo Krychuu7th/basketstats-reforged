@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface LeagueService {
     Page<League> getAllBySpec(Specification<League> spec, Pageable pageable);
-    List<League> getAll();
+    List<League> getAll(Specification<League> spec);
     Optional<League> getById(Long id);
     Optional<League> getByNane(String name);
     League create(League league);

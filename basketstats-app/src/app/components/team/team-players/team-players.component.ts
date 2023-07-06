@@ -58,7 +58,7 @@ export class TeamPlayersComponent implements OnInit {
     this.isLoading = true;
     this.activatedRoute.params.pipe(delay(300))
       .subscribe((queryParams: Params) => {
-        this.teamService.getTeamById(queryParams['id']).subscribe(res => {
+        this.teamService.getById(queryParams['id']).subscribe(res => {
           this.team = res;
         });
 

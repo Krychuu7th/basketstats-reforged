@@ -1,0 +1,39 @@
+auth0:
+  audience: http://localhost:8080/api
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        format_sql: 'true'
+    show-sql: 'false'
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    password: SoCYxscGnW5Pjq8trzrK
+    username: admin
+    url: jdbc:sqlserver://localhost:1433;databaseName=basketstats-reforged;encrypt=true;trustServerCertificate=true;
+  devtools:
+    restart:
+      enabled: 'true'
+      log-condition-evaluation-delta: 'false'
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      enabled: 'true'
+      max-request-size: 4MB
+      resolve-lazily: 'true'
+  liquibase:
+    change-log: classpath:db/liquibase-changelog.xml
+  banner:
+    location: classpath:banner.txt
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://basketstats.eu.auth0.com/
+application:
+  title: Basketstats
+  creator: Marcin Krysiak
+server:
+  error:
+    include-stacktrace: never

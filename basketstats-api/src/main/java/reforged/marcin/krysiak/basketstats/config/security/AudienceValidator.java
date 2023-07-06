@@ -1,4 +1,4 @@
-package reforged.marcin.krysiak.basketstats.security;
+package reforged.marcin.krysiak.basketstats.config.security;
 
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;

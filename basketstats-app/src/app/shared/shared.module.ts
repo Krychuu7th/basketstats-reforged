@@ -21,6 +21,8 @@ import { BaseTableComponent } from './component/base-table/base-table.component'
 import { ConfirmDeleteModalComponent } from './component/confirm-delete-modal/confirm-delete-modal.component';
 import { FieldValuePipe } from './pipe/field-value/field-value.pipe';
 import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
+import { TeamsByLeaguePipe } from './pipe/teams-by-league/teams-by-league.pipe';
+import { FileDropzoneInputComponent } from './component/file-dropzone-input/file-dropzone-input.component';
 
 
 
@@ -30,7 +32,9 @@ import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
     FieldValuePipe,
     TableIndexPipe,
     BaseAddEditFormComponent,
-    ConfirmDeleteModalComponent
+    ConfirmDeleteModalComponent,
+    TeamsByLeaguePipe,
+    FileDropzoneInputComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,9 @@ import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
   ],
   exports: [
     BaseTableComponent,
-    FieldValuePipe
+    BaseAddEditFormComponent,
+    FieldValuePipe,
+    TeamsByLeaguePipe
   ]
 })
 export class SharedModule { }

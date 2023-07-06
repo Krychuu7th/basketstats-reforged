@@ -46,7 +46,8 @@ export class MatchAddComponent implements OnInit {
   }
 
   loadTeams() {
-    this.teamService.getTeamByLeagueId(this.league.id).subscribe(res => {
+    this.league.id
+    this.teamService.getAll().subscribe(res => {
       this.teamList = res;
       this.teamAList = res;
       this.teamBList = res;

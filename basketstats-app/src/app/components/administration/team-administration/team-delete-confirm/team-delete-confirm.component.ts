@@ -19,7 +19,7 @@ export class TeamDeleteConfirmComponent {
   ) { }
 
   deleteUser() {
-    this.teamService.deleteTeam(this.teamId).subscribe(
+    this.teamService.delete(this.teamId).subscribe(
       res => {
         this.activeModal.close('confirm');
         this.showToast('Drużyna została usunięta',

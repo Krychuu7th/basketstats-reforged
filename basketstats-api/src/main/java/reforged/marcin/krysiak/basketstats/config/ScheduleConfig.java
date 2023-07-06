@@ -1,15 +1,13 @@
 package reforged.marcin.krysiak.basketstats.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-public class ScheduleConfiguration {
-
-    private static final Logger logger = LoggerFactory.getLogger(ScheduleConfiguration.class);
+@Slf4j
+public class ScheduleConfig {
 
 //    @Transactional
 //    @Scheduled(cron = "0 13 * * 1 ?") // every monday at 1:00

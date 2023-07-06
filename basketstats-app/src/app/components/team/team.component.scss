@@ -3,6 +3,23 @@
   width: 100%;
 }
 
-.color-red {
-  color: red;
+:host ::ng-deep {
+  .mat-tab-group {
+    height: 100%;
+  }
+
+  .mat-tab-body-wrapper {
+    padding-bottom: 35px;
+    height: 100%;
+  }
+  .mat-tab-body {
+    overflow: visible !important;
+  }
+  .mat-tab-body-content {
+    overflow: visible !important;
+  }
+
+  .mat-column-logo {
+    width: 80px;
+  }
 }

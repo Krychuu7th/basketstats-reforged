@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 import * as LeagueActions from 'src/app/components/league/state/league.actions';
+import * as TeamActions from 'src/app/components/team/state/team.actions';
 import { LoaderService } from '../../service/loader/loader.service';
 
 
@@ -18,7 +19,8 @@ export class LoaderEffects {
         LeagueActions.loadLeague,
         LeagueActions.addLeague,
         LeagueActions.upsertLeague,
-        LeagueActions.deleteLeague
+        LeagueActions.deleteLeague,
+        TeamActions.loadTeams,
       ),
       tap(() =>
         this.loaderService.show()
@@ -43,6 +45,8 @@ export class LoaderEffects {
         LeagueActions.upsertLeagueFailure,
         LeagueActions.deleteLeagueSuccess,
         LeagueActions.deleteLeagueFailure,
+        TeamActions.loadTeamsSuccess,
+        TeamActions.loadTeamsFailure,
       ),
       tap(() =>
         this.loaderService.hide()

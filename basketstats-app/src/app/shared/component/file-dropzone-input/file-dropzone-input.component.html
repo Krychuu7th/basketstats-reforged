@@ -1,0 +1,29 @@
+<div *ngIf="!readonly" class="col-12">
+  <div #fileDropzone class="dropzone-wrapper">
+    <div class="file-dropzone">
+      <input
+        type="file"
+        class="custom-file-input"
+        [accept]="fileType"
+        [id]="formFieldDefName"
+        [name]="formFieldDefName"
+        (change)="fileChange($event.target.files)"
+        (dragover)="dragOverFileDropzone($event)"
+        (dragleave)="dragLeaveFileDropzone($event)"
+        (drop)="dropOnFileDropzone($event)"
+      />
+      <div class="dropzone-placeholder">
+        <mat-icon *ngIf="!fileUrl">image</mat-icon>
+        <img class="preview" *ngIf="fileUrl" [src]="fileUrl" />
+        <span *ngIf="!control.value; else fileName">
+          {{ isDraggedOver ? draggedOverPlaceholder : placeholder }}
+        </span>
+        <ng-template #fileName>
+          <span>
+            {{ control.value?.name }}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

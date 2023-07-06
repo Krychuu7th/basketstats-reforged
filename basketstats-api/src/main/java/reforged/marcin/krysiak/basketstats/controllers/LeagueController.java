@@ -25,7 +25,7 @@ public class LeagueController {
 
     @GetMapping
     public ResponseEntity<Page<League>> getLeaguesBySpec(
-            @Spec(path = "name", params = "nameLike", spec = LikeIgnoreCase.class)
+            @Spec(path = "name", params = "searchLike", spec = LikeIgnoreCase.class)
             Specification<League> spec,
             Pageable pageable
     ) {
@@ -33,8 +33,11 @@ public class LeagueController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<League>> getAllLeagues() {
-        return ResponseEntity.ok(leagueService.getAll());
+    public ResponseEntity<List<League>> getAllLeagues(
+            @Spec(path = "name", params = "searchLike", spec = LikeIgnoreCase.class)
+            Specification<League> spec
+    ) {
+        return ResponseEntity.ok(leagueService.getAll(spec));
     }
 
     @GetMapping("/{id}")
