@@ -1,16 +1,16 @@
 package reforged.marcin.krysiak.basketstats.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 import reforged.marcin.krysiak.basketstats.dto.MatchStatsDTO;
 import reforged.marcin.krysiak.basketstats.dto.MatchWithScoreDTO;
+import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 import reforged.marcin.krysiak.basketstats.exceptions.MatchIsFinishedException;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.Match;
 import reforged.marcin.krysiak.basketstats.models.MatchQuarter;
 import reforged.marcin.krysiak.basketstats.models.PlayerStats;
+import reforged.marcin.krysiak.basketstats.providers.UserProvider;
 import reforged.marcin.krysiak.basketstats.repositories.MatchQuarterRepository;
 import reforged.marcin.krysiak.basketstats.repositories.MatchRepository;
 import reforged.marcin.krysiak.basketstats.repositories.custom.MatchStatsRepositoryCustom;
@@ -21,17 +21,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
 
-    @Autowired
-    private MatchRepository matchRepository;
-
-    @Autowired
-    private MatchQuarterRepository matchQuarterRepository;
-
-    @Autowired
-    private MatchStatsRepositoryCustom matchStatsRepositoryCustom;
+    private final MatchRepository matchRepository;
+    private final MatchQuarterRepository matchQuarterRepository;
+    private final MatchStatsRepositoryCustom matchStatsRepositoryCustom;
+    private final UserProvider userProvider;
 
     @Override
     public List<MatchWithScoreDTO> getAllMatches() {
@@ -53,7 +49,8 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<MatchWithScoreDTO> getAllMatchesByLeagueIdAndUserId(Long leagueId, Long userId) {
-        List<Match> matchList = matchRepository.findMatchesByLeagueIdAndUserId(leagueId, userId);
+//        List<Match> matchList = matchRepository.findMatchesByLeagueIdAndUserId(leagueId, userId);
+        List<Match> matchList = matchRepository.findMatchesByLeagueId(leagueId);
         return convertMatchListToMatchWithScoreDTOList(matchList);
     }
 
@@ -83,7 +80,7 @@ public class MatchServiceImpl implements MatchService {
 
                 newMatch.setMatchDate(match.getMatchDate());
                 newMatch.setPlace(match.getPlace());
-                newMatch.setUser(match.getUser());
+                newMatch.setCreatedBy(userProvider.getUserEmail());
                 if(match.getMatchStatus() == MatchStatus.PLANNED || match.getMatchStatus() == null) {
                     newMatch.setMatchStatus(MatchStatus.PLANNED);
                 } else {
@@ -127,11 +124,11 @@ public class MatchServiceImpl implements MatchService {
             }
             matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
                     match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
-                    teamAScore, teamBScore, match.getUser());
+                    teamAScore, teamBScore);
         } else {
             matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
                     match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
-                    0, 0, match.getUser());
+                    0, 0);
         }
 
         return matchWithScoreDTO;
@@ -157,12 +154,12 @@ public class MatchServiceImpl implements MatchService {
 
                 MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
                         match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
-                        teamAScore, teamBScore, match.getUser());
+                        teamAScore, teamBScore);
                 matchWithScoreDTOList.add(matchWithScoreDTO);
             } else {
                 MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
                         match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
-                        0, 0, match.getUser());
+                        0, 0);
                 matchWithScoreDTOList.add(matchWithScoreDTO);
             }
         }

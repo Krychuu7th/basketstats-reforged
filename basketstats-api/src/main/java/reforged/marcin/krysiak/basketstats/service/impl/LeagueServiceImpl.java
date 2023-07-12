@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reforged.marcin.krysiak.basketstats.dto.LeagueDto;
+import reforged.marcin.krysiak.basketstats.mapper.LeagueMapper;
 import reforged.marcin.krysiak.basketstats.models.League;
 import reforged.marcin.krysiak.basketstats.repositories.LeagueRepository;
 import reforged.marcin.krysiak.basketstats.service.LeagueService;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class LeagueServiceImpl implements LeagueService {
 
     private final LeagueRepository leagueRepository;
+    private final LeagueMapper leagueMapper;
 
     @Override
     public Page<League> getAllBySpec(Specification<League> spec, Pageable pageable) {
@@ -41,18 +44,18 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     @Transactional
-    public League create(League league) {
-        return leagueRepository.save(league);
+    public LeagueDto create(LeagueDto league) {
+        return this.leagueMapper.toDto(this.leagueRepository.save(this.leagueMapper.toEntity(league)));
     }
 
     @Override
     @Transactional
-    public void update(Long id, League league) {
+    public LeagueDto update(Long id, LeagueDto league) {
         if (this.leagueRepository.findById(id).isPresent()) {
             League newLeague = this.leagueRepository.findById(id).get();
             newLeague.setName(league.getName());
 
-            this.leagueRepository.save(newLeague);
+            return this.leagueMapper.toDto(this.leagueRepository.save(newLeague));
 
         } else {
             throw new RuntimeException("League with id " + id + " doesn't exists");

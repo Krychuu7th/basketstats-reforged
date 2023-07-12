@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
+import reforged.marcin.krysiak.basketstats.models.base.AuditEntity;
 
 import java.time.LocalDateTime;
 
@@ -16,12 +17,11 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "matches")
-public class Match {
+public class Match extends AuditEntity {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "matches_id_seq", sequenceName = "matches_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matches_id_seq")
-    @Column(name = "id")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -34,39 +34,18 @@ public class Match {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @Column(name = "match_date")
     private LocalDateTime matchDate;
 
-    @Column(name = "place")
     private String place;
 
-    @Column(name = "match_status")
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    public Match(Team teamA, Team teamB, LocalDateTime matchDate, String place, MatchStatus matchStatus, User user) {
+    public Match(Team teamA, Team teamB, LocalDateTime matchDate, String place, MatchStatus matchStatus) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.matchDate = matchDate;
         this.place = place;
         this.matchStatus = matchStatus;
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Match{" +
-                "id=" + id +
-                ", teamA=" + teamA +
-                ", teamB=" + teamB +
-                ", matchDate=" + matchDate +
-                ", place='" + place + '\'' +
-                ", match_status=" + matchStatus +
-                ", user=" + user +
-                '}';
     }
 }

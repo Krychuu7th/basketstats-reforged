@@ -3,7 +3,6 @@ package reforged.marcin.krysiak.basketstats.service.impl;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reforged.marcin.krysiak.basketstats.dto.MatchQuarterStatsSaveRequestDTO;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamStatsCannotBeEmpty;
 import reforged.marcin.krysiak.basketstats.models.Match;
@@ -18,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-@Transactional
 public class MatchQuarterServiceImpl implements MatchQuarterService {
 
     @Autowired

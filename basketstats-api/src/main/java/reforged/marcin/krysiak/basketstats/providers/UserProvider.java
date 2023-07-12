@@ -21,6 +21,11 @@ public class UserProvider {
         return authorizationHeader != null ? this.userInfo.getUsernameValue(authorizationHeader) : null;
     }
 
+    public String getUserEmail() {
+        final String authorizationHeader = getAuthorizationHeader();
+        return authorizationHeader != null ? this.userInfo.getEmailValue(authorizationHeader) : null;
+    }
+
     public LinkedHashMap<String, String> getUserInfoMap() {
         final String authorizationHeader = getAuthorizationHeader();
         return authorizationHeader != null ? this.userInfo.getUserInfoMap(authorizationHeader) : null;

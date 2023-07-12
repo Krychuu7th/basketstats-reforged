@@ -19,9 +19,16 @@
             <column name="name" type="varchar(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
+
+            <column name="created_by" type="varchar(254)"/>
+            <column name="updated_by" type="varchar(254)"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
     </changeSet>
-    
+
     <changeSet id="003-create-leagues-table-sequence" author="krysiakm">
         <preConditions onFail="MARK_RAN">
             <not>

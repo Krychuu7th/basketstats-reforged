@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="12072023-2032-insert-teams" author="krysiakm">
+        <sqlFile path="db/sql/insert_teams.sql" endDelimiter="/"/>
+    </changeSet>
+</databaseChangeLog>

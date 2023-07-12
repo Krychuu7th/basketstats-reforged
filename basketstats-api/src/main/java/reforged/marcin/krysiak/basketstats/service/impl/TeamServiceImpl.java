@@ -12,7 +12,6 @@ import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
 import reforged.marcin.krysiak.basketstats.mapper.TeamMapper;
 import reforged.marcin.krysiak.basketstats.models.Team;
-import reforged.marcin.krysiak.basketstats.providers.UserProvider;
 import reforged.marcin.krysiak.basketstats.repositories.LeagueRepository;
 import reforged.marcin.krysiak.basketstats.repositories.TeamRepository;
 import reforged.marcin.krysiak.basketstats.service.TeamService;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
@@ -31,7 +29,6 @@ public class TeamServiceImpl implements TeamService {
     private final LeagueRepository leagueRepository;
     private final TeamMapper mapper;
     private final SpecificationUtils<Team> specificationUtils;
-    private final UserProvider userProvider;
 
     @Override
     public Page<TeamDto> getAllBySpec(Specification<Team> spec, Pageable pageable) {

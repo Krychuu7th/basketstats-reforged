@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Arrays;
+import reforged.marcin.krysiak.basketstats.models.base.AuditEntity;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import java.util.Arrays;
 @Table(name = "teams")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Team {
+public class Team extends AuditEntity {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "teams_id_seq", sequenceName = "teams_id_seq")
@@ -43,16 +42,5 @@ public class Team {
         this.name = name;
         this.imageName = imageName;
         this.league = league;
-    }
-    @Override
-    public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", logo='" + imageName + '\'' +
-                ", data=" + Arrays.toString(imageFile) +
-                ", type='" + type + '\'' +
-                ", league=" + league +
-                '}';
     }
 }

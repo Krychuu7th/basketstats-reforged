@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 import reforged.marcin.krysiak.basketstats.models.Team;
-import reforged.marcin.krysiak.basketstats.models.User;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +28,5 @@ public class MatchWithScoreDTO {
     private int teamAScore;
 
     private int teamBScore;
-
-    private User user;
 
 }

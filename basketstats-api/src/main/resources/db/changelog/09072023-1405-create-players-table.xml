@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="005-create-players-table" author="krysiakm">
         <createTable tableName="players">
@@ -13,34 +11,40 @@
             </column>
 
             <column name="first_name" type="varchar(50)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="last_name" type="varchar(50)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="number" type="int">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <column name="team_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_players_team_id" references="teams(id)" />
+                <constraints nullable="false" foreignKeyName="fk_players_team_id" references="teams(id)"/>
             </column>
 
             <column name="position" type="varchar(50)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="captain" type="boolean">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
+            <column name="created_by" type="varchar(254)"/>
+            <column name="updated_by" type="varchar(254)"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
 
         <createSequence schemaName="dbo" sequenceName="players_id_seq"
                         startValue="1" incrementBy="1"/>
 
-        <addDefaultValue tableName="players" columnName="captain" columnDataType="boolean" defaultValueBoolean="false" />
+        <addDefaultValue tableName="players" columnName="captain" columnDataType="boolean" defaultValueBoolean="false"/>
     </changeSet>
 </databaseChangeLog>

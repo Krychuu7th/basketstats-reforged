@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import reforged.marcin.krysiak.basketstats.models.base.AuditEntity;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "leagues")
-public class League {
+public class League extends AuditEntity {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "leagues_id_seq", sequenceName = "leagues_id_seq")

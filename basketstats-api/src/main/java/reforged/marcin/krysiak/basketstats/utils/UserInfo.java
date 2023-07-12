@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import reforged.marcin.krysiak.basketstats.constants.CacheKeys;
 
 import java.util.LinkedHashMap;
 
@@ -13,12 +14,17 @@ import java.util.LinkedHashMap;
 public class UserInfo {
     private final static String AUTHORIZATION_HEADER = "Authorization";
 
-    @Cacheable("username")
+    @Cacheable(CacheKeys.USER_NAME)
     public String getUsernameValue(String authorizationHeader) {
         return this.getUserInfoMap(authorizationHeader).get("nickname");
     }
 
-    @Cacheable("userInfoMap")
+    @Cacheable(CacheKeys.USER_EMAIL)
+    public String getEmailValue(String authorizationHeader) {
+        return this.getUserInfoMap(authorizationHeader).get("email");
+    }
+
+    @Cacheable(CacheKeys.USER_INFO_MAP)
     public LinkedHashMap<String, String> getUserInfoMap(String authorizationHeader) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();

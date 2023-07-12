@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reforged.marcin.krysiak.basketstats.dto.LeagueDto;
 import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.League;
 import reforged.marcin.krysiak.basketstats.service.LeagueService;
@@ -59,15 +60,14 @@ public class LeagueController {
     }
 
     @PostMapping
-    public ResponseEntity<League> createLeague(@Valid @RequestBody League league) {
-        return ResponseEntity.ok().body(leagueService.create(league));
+    public ResponseEntity<LeagueDto> createLeague(@Valid @RequestBody LeagueDto league) {
+        return ResponseEntity.ok(leagueService.create(league));
     }
 
     @PutMapping("/{id}")
-    public Object updateUser(@Valid @RequestBody League league, @PathVariable Long id) {
+    public ResponseEntity<LeagueDto> updateUser(@Valid @RequestBody LeagueDto league, @PathVariable Long id) {
 
-        leagueService.update(id, league);
-        return true;
+        return ResponseEntity.ok(leagueService.update(id, league));
     }
 
     @DeleteMapping("/{id}")

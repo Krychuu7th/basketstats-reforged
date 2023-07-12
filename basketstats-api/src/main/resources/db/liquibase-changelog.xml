@@ -3,18 +3,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="db/changelog/001-create-users-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/002-create-roles-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/003-create-leagues-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/004-create-teams-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/005-create-jwt-blacklist-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/006-create-players-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/007-create-matches-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/008-create-players-stats-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/009-create-matches-quarters-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/010-create-players-quarters-stats-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/011-add-upload-columns-to-teams-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/012-add-user-foreign-key-to-matches-table.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/013-change-finished-to-match-status-in-matches-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1402-create-leagues-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1403-create-teams-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1405-create-players-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1406-create-matches-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1407-create-players-stats-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1408-create-matches-quarters-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/09072023-1409-create-players-quarters-stats-table.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/12072023-2031-insert-leagues.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
