@@ -68,18 +68,6 @@ public class TeamServiceImpl implements TeamService {
         return mapper.toDto(teamRepository.save(newTeam));
     }
 
-    private void setTeamImage(TeamWithImageDTO teamDto, Team newTeam) {
-        if (hasValidImage(teamDto)) {
-            newTeam.setImageName(teamDto.getImageFile().getOriginalFilename());
-            try {
-                newTeam.setImageFile(teamDto.getImageFile().getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            newTeam.setType(teamDto.getImageFile().getContentType());
-        }
-    }
-
     @Override
     @Transactional
     public TeamDto update(Long id, TeamWithImageDTO teamDto) {
@@ -104,6 +92,18 @@ public class TeamServiceImpl implements TeamService {
 
     private Team findById(Long id) {
         return this.teamRepository.findById(id).orElseThrow(TeamNotFoundException::new);
+    }
+
+    private void setTeamImage(TeamWithImageDTO teamDto, Team newTeam) {
+        if (hasValidImage(teamDto)) {
+            newTeam.setImageName(teamDto.getImageFile().getOriginalFilename());
+            try {
+                newTeam.setImageFile(teamDto.getImageFile().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            newTeam.setType(teamDto.getImageFile().getContentType());
+        }
     }
 
     private boolean hasValidImage(TeamWithImageDTO teamDto) {

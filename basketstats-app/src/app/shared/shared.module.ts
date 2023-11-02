@@ -13,16 +13,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EffectsModule } from '@ngrx/effects';
 import { BaseAddEditFormComponent } from './component/base-add-edit-form/base-add-edit-form.component';
 import { BaseTableComponent } from './component/base-table/base-table.component';
 import { ConfirmDeleteModalComponent } from './component/confirm-delete-modal/confirm-delete-modal.component';
+import { FileDropzoneInputComponent } from './component/file-dropzone-input/file-dropzone-input.component';
 import { FieldValuePipe } from './pipe/field-value/field-value.pipe';
 import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
 import { TeamsByLeaguePipe } from './pipe/teams-by-league/teams-by-league.pipe';
-import { FileDropzoneInputComponent } from './component/file-dropzone-input/file-dropzone-input.component';
 
 
 
@@ -51,10 +49,8 @@ import { FileDropzoneInputComponent } from './component/file-dropzone-input/file
     MatMenuModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatTabsModule,
     MatRippleModule,
-    MatSelectModule,
-    EffectsModule.forFeature([])
+    MatSelectModule
   ],
   exports: [
     BaseTableComponent,

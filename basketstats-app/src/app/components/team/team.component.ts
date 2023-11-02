@@ -181,6 +181,10 @@ export class TeamComponent implements OnInit {
     });
   }
 
+  public navigateToPreview(): void {
+    //TODO: navigate to preview site instead of open preview form modal
+  }
+
   public delete(leagueId: number, teamId: number): void {
     this.store.dispatch(TeamsActions.deleteTeam({ leagueId, teamId }));
   }

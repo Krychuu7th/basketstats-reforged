@@ -9,7 +9,7 @@ spring:
     show-sql: 'false'
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    password: SoCYxscGnW5Pjq8trzrK
+    password: S1jWMTYSz7km8c4PSKXe
     username: admin
     url: jdbc:sqlserver://localhost:1433;databaseName=basketstats-reforged;encrypt=true;trustServerCertificate=true;
   devtools:

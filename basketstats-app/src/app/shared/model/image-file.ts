@@ -1,4 +1,4 @@
 export class ImageFile {
-    imageFile: Blob;
+    imageFile: File;
     imageName: string;
 } 
