@@ -75,11 +75,18 @@
 			<version>${auth0-jwt.version}</version>
 		</dependency>
 
-		<!-- DB  -->
+		<!-- DB - MS SQL SERVER -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- DB - POSTGRES -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
 		</dependency>
 
 		<!-- LIQUIBASE -->

@@ -87,26 +87,26 @@
             </column>
         </createTable>
 
-        <createSequence schemaName="dbo" sequenceName="players_stats_id_seq"
+        <createSequence sequenceName="players_stats_id_seq"
                         startValue="1" incrementBy="1"/>
 
-        <addDefaultValue tableName="players_stats" columnName="pts" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="pm2" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="pa2" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="pm3" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="pa3" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="ftm" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="fta" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="ast" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="blkm" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="blkg" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="offr" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="defr" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="to" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="stl" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="pf" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="fd" columnDataType="int" defaultValueBoolean="0"/>
-        <addDefaultValue tableName="players_stats" columnName="eff" columnDataType="int" defaultValueBoolean="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pts" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pm2" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pa2" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pm3" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pa3" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="ftm" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="fta" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="ast" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="blkm" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="blkg" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="offr" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="defr" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="to" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="stl" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="pf" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="fd" columnDataType="int" defaultValueNumeric="0"/>
+        <addDefaultValue tableName="players_stats" columnName="eff" columnDataType="int" defaultValueNumeric="0"/>
 
     </changeSet>
 </databaseChangeLog>
