@@ -8,10 +8,14 @@ spring:
         format_sql: 'true'
     show-sql: 'false'
   datasource:
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    password: S1jWMTYSz7km8c4PSKXe
-    username: admin
-    url: jdbc:sqlserver://localhost:1433;databaseName=basketstats-reforged;encrypt=true;trustServerCertificate=true;
+    driverClassName: ${DATASOURCE_DRIVER_CLASS_NAME:com.microsoft.sqlserver.jdbc.SQLServerDriver}
+    password: ${DATASOURCE_PASSWORD:S1jWMTYSz7km8c4PSKXe}
+    username: ${DATASOURCE_USERNAME:admin}
+    url: ${DATASOURCE_URL:jdbc:sqlserver://localhost:1433;databaseName=basketstats-reforged;encrypt=true;trustServerCertificate=true;}
+#    driver-class-name: org.postgresql.Driver
+#    password: postgres
+#    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:5433/postgres
+#    username: postgres
   devtools:
     restart:
       enabled: 'true'

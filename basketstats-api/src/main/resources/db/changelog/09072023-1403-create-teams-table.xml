@@ -36,7 +36,7 @@
             <column name="updated_at" type="timestamp"/>
         </createTable>
 
-        <createSequence schemaName="dbo" sequenceName="teams_id_seq"
+        <createSequence sequenceName="teams_id_seq"
                         startValue="1" incrementBy="1"/>
 
     </changeSet>

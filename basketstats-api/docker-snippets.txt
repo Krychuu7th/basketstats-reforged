@@ -1,0 +1,4 @@
+docker build --build-arg JAR_FILE=target/*.jar -t basketstats/basketstats-api .
+docker run --name basketstats-postgres -d -p 5433:5432 -e POSTGRES_PASSWORD=postgres postgres
+docker run -p 8080:8080 basketstats/basketstats-api
+docker inspect -f '{{ .NetworkSettings.Gateway }}' basketstats-postgres

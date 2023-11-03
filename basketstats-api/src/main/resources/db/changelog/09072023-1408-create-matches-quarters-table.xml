@@ -31,7 +31,7 @@
             <column name="updated_at" type="timestamp"/>
         </createTable>
 
-        <createSequence schemaName="dbo" sequenceName="matches_quarters_stats_id_seq"
+        <createSequence sequenceName="matches_quarters_stats_id_seq"
                         startValue="1" incrementBy="1"/>
     </changeSet>
 </databaseChangeLog>
