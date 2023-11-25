@@ -7,17 +7,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reforged.marcin.krysiak.basketstats.dto.TeamDto;
-import reforged.marcin.krysiak.basketstats.dto.TeamWithImageDTO;
-import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
+import reforged.marcin.krysiak.basketstats.dto.TeamFormDTO;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
 import reforged.marcin.krysiak.basketstats.mapper.TeamMapper;
 import reforged.marcin.krysiak.basketstats.models.Team;
 import reforged.marcin.krysiak.basketstats.repositories.LeagueRepository;
 import reforged.marcin.krysiak.basketstats.repositories.TeamRepository;
 import reforged.marcin.krysiak.basketstats.service.TeamService;
+import reforged.marcin.krysiak.basketstats.service.ftp.FtpService;
 import reforged.marcin.krysiak.basketstats.utils.SpecificationUtils;
 
-import java.io.IOException;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,10 +25,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
+    private final String TEAMS_FTP_DIRECTORY = "/teams";
     private final TeamRepository teamRepository;
     private final LeagueRepository leagueRepository;
     private final TeamMapper mapper;
     private final SpecificationUtils<Team> specificationUtils;
+    private final FtpService ftpService;
 
     @Override
     public Page<TeamDto> getAllBySpec(Specification<Team> spec, Pageable pageable) {
@@ -62,22 +64,23 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public TeamDto create(TeamWithImageDTO teamDto) {
-        Team newTeam = mapper.toEntity(teamDto);
-        setTeamImage(teamDto, newTeam);
-        return mapper.toDto(teamRepository.save(newTeam));
+    public TeamDto create(TeamFormDTO teamDto) {
+        if (Objects.nonNull(teamDto.getFileContent())) {
+            return mapper.toDto(teamRepository.save(mapWithFile(teamDto, null)));
+        }
+
+        return mapper.toDto(teamRepository.save(mapper.toEntity(teamDto)));
     }
 
     @Override
     @Transactional
-    public TeamDto update(Long id, TeamWithImageDTO teamDto) {
-        Team team = this.findById(id);
-        team.setName(teamDto.getName());
-        team.setLeague(leagueRepository.findById(teamDto.getLeagueId())
-                .orElseThrow(LeagueNotFoundException::new));
-        setTeamImage(teamDto, team);
+    public TeamDto update(Long id, TeamFormDTO teamDto) {
+        Team team = findById(id);
+        if (Objects.nonNull(teamDto.getFileContent())) {
+            return mapper.toDto(teamRepository.save(mapWithFile(teamDto, team)));
+        }
 
-        return mapper.toDto(teamRepository.save(team));
+        return mapper.toDto(teamRepository.save(mapper.toEntity(teamDto)));
     }
 
     @Override
@@ -94,21 +97,25 @@ public class TeamServiceImpl implements TeamService {
         return this.teamRepository.findById(id).orElseThrow(TeamNotFoundException::new);
     }
 
-    private void setTeamImage(TeamWithImageDTO teamDto, Team newTeam) {
-        if (hasValidImage(teamDto)) {
-            newTeam.setImageName(teamDto.getImageFile().getOriginalFilename());
-            try {
-                newTeam.setImageFile(teamDto.getImageFile().getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            newTeam.setType(teamDto.getImageFile().getContentType());
+    private Team mapWithFile(TeamFormDTO teamDto, @Nullable Team savedTeam) {
+        Team team = mapper.toEntity(teamDto);
+        team.setFilePath(ftpService.uploadFile(teamDto.getFileContent(), TEAMS_FTP_DIRECTORY));
+        team.setFileName(teamDto.getFileName());
+
+        if (Objects.nonNull(savedTeam)) {
+            deleteTeamFile(savedTeam);
         }
+
+        return team;
     }
 
-    private boolean hasValidImage(TeamWithImageDTO teamDto) {
-        return Objects.nonNull(teamDto.getImageFile())
-                && Objects.nonNull(teamDto.getImageFile().getContentType())
-                && teamDto.getImageFile().getContentType().contains("image");
+    private void deleteTeamFile(Team team) {
+        ftpService.deleteFile(team.getFilePath());
+    }
+
+    private boolean hasValidImage(TeamFormDTO teamDto) {
+        return Objects.nonNull(teamDto.getFileContent())
+                && Objects.nonNull(teamDto.getFileContent().getContentType())
+                && teamDto.getFileContent().getContentType().contains("image");
     }
 }

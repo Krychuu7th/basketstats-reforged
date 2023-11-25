@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
-    List<Player> getAllByTeamId(Long teamId);
+    List<Player> getByTeamId(Long teamId);
 }

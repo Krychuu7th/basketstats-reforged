@@ -6,6 +6,7 @@ import { FormViewType } from "../enum/form-view-type";
 export interface FormConfig {
     formFields: FormField[];
     headerTextMap?: Map<FormViewType, string>;
+    defaultValue?: any;
 }
 
 export interface FormField {
@@ -20,5 +21,5 @@ export interface FormField {
         isAsync?: boolean;
         multiple?: boolean;
         viewField?: string;
-    }
+    },
 }

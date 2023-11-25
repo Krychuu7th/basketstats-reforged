@@ -5,9 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="010-create-players-quarters-stats-table" author="krysiakm">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <tableExists tableName="players_stats"/>
             <tableExists tableName="matches_quarters"/>
+            <not>
+                <tableExists tableName="matches_stats"/>
+            </not>
         </preConditions>
 
         <createTable tableName="matches_stats">

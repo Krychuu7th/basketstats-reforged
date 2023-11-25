@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api: {
-    url : 'http://localhost:8080/api',
+    url: 'http://localhost:8080/api',
+    filesEndpoint: 'http://localhost:8080/api/file'
   },
   auth0: {
     domain: 'basketstats.eu.auth0.com',

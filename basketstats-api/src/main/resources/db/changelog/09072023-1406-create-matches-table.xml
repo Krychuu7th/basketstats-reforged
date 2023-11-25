@@ -5,6 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="007-create-matches-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="matches"/>
+            </not>
+        </preConditions>
+
         <createTable tableName="matches">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>

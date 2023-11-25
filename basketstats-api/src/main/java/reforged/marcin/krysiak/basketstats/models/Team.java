@@ -23,24 +23,13 @@ public class Team extends AuditEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(name = "logo")
-    private String imageName;
+    private String fileName;
 
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "data")
-    private byte[] imageFile;
+    private String filePath;
 
-    @Column(length = 100)
-    private String type;
+    private String fileType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id", nullable = false)
     private League league;
-
-    public Team(Long id, String name, String imageName, League league) {
-        this.id = id;
-        this.name = name;
-        this.imageName = imageName;
-        this.league = league;
-    }
 }

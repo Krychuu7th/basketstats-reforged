@@ -35,7 +35,7 @@ public class SecurityConfiguration {
     private String issuer;
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/api/team/logo/**"
+            "/api/file/**"
     };
 
     @Bean

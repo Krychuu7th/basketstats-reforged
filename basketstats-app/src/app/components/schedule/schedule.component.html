@@ -1,4 +1,4 @@
-<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<!-- <mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
 <div class="container">
   <div class="cards-container">
     <mat-tab-group *ngIf="leagueList">
@@ -9,4 +9,53 @@
       </ng-container>
     </mat-tab-group>
   </div>
+</div> -->
+
+<div class="container">
+  <mat-tab-group *ngIf="leagues$ | async as leagues">
+    <ng-container *ngFor="let league of leagues">
+      <mat-tab [label]="league.name" class="h-100">
+        <ng-template matTabContent>
+          <app-match-schedule-list
+            [matchList]="getMatchesOfLeague(league.id)"
+          ></app-match-schedule-list>
+          <!-- <div class="pt-1">
+            <app-base-table
+              *ngIf="
+                league.id
+                  | teamsByLeague : queryParams
+                  | async as teamsViewModel
+              "
+              id="{{ league.id }}"
+              [dataPage]="teamsViewModel.teamsPageMap[league.id]"
+              [queryParams]="
+                teamsViewModel.queryParamsMap[league.id] ?? queryParams
+              "
+              [tableConfig]="tableConfig"
+              [formConfig]="formConfig"
+              (queryParamsChange)="applyParamsAndFetch(league.id, $event)"
+              (formSubmit)="formSubmit($event)"
+              (rowPreview)="openModal(league.id, $event, formViewType.PREVIEW)"
+              (rowEdit)="openModal(league.id, $event, formViewType.EDIT)"
+              (rowDelete)="openModal(league.id, $event)"
+              (delete)="delete(league.id, $event)"
+            >
+              <ng-template #imageContent let-data="data">
+                <img
+                  *ngIf="data.alt"
+                  [src]="teamService.getLogoUrl(data.id)"
+                  [alt]="data.alt"
+                />
+                <img
+                  *ngIf="!data?.alt"
+                  src="/assets/images/teams/team.png"
+                  alt="no team image"
+                />
+              </ng-template>
+            </app-base-table>
+          </div> -->
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
 </div>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="create-stats-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="stats"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="stats">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="type"
+                    type="varchar(100)"/>
+
+            <column name="timestamp" type="timestamp"/>
+
+            <column name="match_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_stats_match_id" references="matches(id)"/>
+            </column>
+            <column name="match_quarter_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_stats_match_quarter_id" references="match_quarters(id)"/>
+            </column>
+            <column name="player_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_stats_player_id" references="players(id)"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="stats_id_seq"
+                        startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

@@ -18,7 +18,7 @@
       </div>
       <div class="col-3 logo-container">
         <img
-          *ngIf="team?.imageName; else defaultLogo"
+          *ngIf="team?.file.fileName; else defaultLogo"
           class="card-img-top"
           src="{{ apiUrl }}/team/logo/{{ team.id }}"
           alt="{{ team.name }} logo"

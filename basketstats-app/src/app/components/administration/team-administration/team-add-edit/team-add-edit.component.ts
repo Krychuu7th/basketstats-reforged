@@ -102,8 +102,8 @@ export class TeamAddEditComponent implements OnInit {
     newTeam.name = this.form.name.value;
 
     newTeam.league = !this.isEdit ? this.league : this.leagueList.find(l => l.name == this.form.league.value)!;
-    newTeam.imageFile = logoFile;
-    newTeam.imageName = this.selectedLogoFile?.name!;
+    newTeam.file.fileContent = logoFile;
+    newTeam.file.fileName = this.selectedLogoFile?.name!;
     return newTeam;
   }
 

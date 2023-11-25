@@ -17,7 +17,7 @@
     >
       <div class="card" [routerLink]="['/teams', 'info', team.id]" matRipple>
         <img
-          *ngIf="team.imageName; else defaultLogo"
+          *ngIf="team.fileName; else defaultLogo"
           class="card-img-top"
           src="{{ apiUrl }}/team/logo/{{ team.id }}"
           height="325"
@@ -55,7 +55,7 @@
         matRipple
       >
         <img
-          *ngIf="team.imageName; else defaultLogo"
+          *ngIf="team.fileName; else defaultLogo"
           class="card-img-top"
           src="{{ apiUrl }}/team/logo/{{ team.id }}"
           height="170"

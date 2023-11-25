@@ -48,7 +48,8 @@ export class TeamComponent implements OnInit {
       { name: 'name', type: ColumnType.STRING, translation: 'Nazwa' },
     ],
     pageSizeOptions: [5, 10, 20, 40],
-    tableOperations: [TableOperation.ADD, TableOperation.PREVIEW, TableOperation.EDIT, TableOperation.DELETE]
+    tableOperations: [TableOperation.ADD, TableOperation.PREVIEW, TableOperation.EDIT, TableOperation.DELETE],
+    previewRoute: '#/teams/info'
   };
 
   public formConfig: FormConfig = {
@@ -73,10 +74,10 @@ export class TeamComponent implements OnInit {
         validators: [Validators.required]
       },
       {
-        name: 'imageFile',
+        name: 'file',
         type: FieldType.IMAGE,
         label: 'Logo',
-        placeholder: 'Wprowadź logo...'
+        placeholder: 'Wprowadź plik z logo drużyny...',
       },
     ],
     headerTextMap: new Map(
@@ -167,7 +168,6 @@ export class TeamComponent implements OnInit {
     ).subscribe((res: Team) => {
       switch (formViewType) {
         case FormViewType.ADD:
-        case FormViewType.PREVIEW:
         case FormViewType.EDIT:
           this.getTableByLeague(leagueId).openFormModal(formViewType, res);
           break;
@@ -179,10 +179,6 @@ export class TeamComponent implements OnInit {
         }
       }
     });
-  }
-
-  public navigateToPreview(): void {
-    //TODO: navigate to preview site instead of open preview form modal
   }
 
   public delete(leagueId: number, teamId: number): void {

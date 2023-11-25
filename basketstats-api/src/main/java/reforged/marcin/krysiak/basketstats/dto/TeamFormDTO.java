@@ -6,10 +6,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class TeamWithImageDTO {
+public class TeamFormDTO {
+    private Long id;
     private String name;
-    private String imageName;
     private Long leagueId;
-    private MultipartFile imageFile;
+    private MultipartFile fileContent;
+    private String fileName;
 }
 

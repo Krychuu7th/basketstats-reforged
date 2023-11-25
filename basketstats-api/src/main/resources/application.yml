@@ -1,15 +1,16 @@
-auth0:
-  audience: http://localhost:8080/api
+application:
+  title: Basketstats
+  creator: Marcin Krysiak
 spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         format_sql: 'true'
     show-sql: 'false'
   datasource:
     driverClassName: ${DATASOURCE_DRIVER_CLASS_NAME:com.microsoft.sqlserver.jdbc.SQLServerDriver}
-    password: ${DATASOURCE_PASSWORD:S1jWMTYSz7km8c4PSKXe}
+    password: ${DATASOURCE_PASSWORD:FVIn2FzYbElP9pr835nt}
     username: ${DATASOURCE_USERNAME:admin}
     url: ${DATASOURCE_URL:jdbc:sqlserver://localhost:1433;databaseName=basketstats-reforged;encrypt=true;trustServerCertificate=true;}
 #    driver-class-name: org.postgresql.Driver
@@ -35,9 +36,15 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://basketstats.eu.auth0.com/
-application:
-  title: Basketstats
-  creator: Marcin Krysiak
 server:
   error:
     include-stacktrace: never
+ftp:
+  enabled: true
+  server:
+    host: localhost
+    port: 2121
+    username: admin
+    password: admin
+auth0:
+  audience: http://localhost:8080/api

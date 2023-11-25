@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import reforged.marcin.krysiak.basketstats.dto.TeamDto;
-import reforged.marcin.krysiak.basketstats.dto.TeamWithImageDTO;
+import reforged.marcin.krysiak.basketstats.dto.TeamFormDTO;
 import reforged.marcin.krysiak.basketstats.models.Team;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface TeamService {
     TeamDto getById(Long id);
     Team getEntityById(Long id);
     TeamDto getByName(String name);
-    TeamDto create(TeamWithImageDTO team);
-    TeamDto update(Long id, TeamWithImageDTO team);
+    TeamDto create(TeamFormDTO team);
+    TeamDto update(Long id, TeamFormDTO team);
     void delete(Long id);
 }

@@ -7,6 +7,7 @@ import reforged.marcin.krysiak.basketstats.dto.MatchWithScoreDTO;
 import reforged.marcin.krysiak.basketstats.enums.MatchStatus;
 import reforged.marcin.krysiak.basketstats.exceptions.MatchIsFinishedException;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
+import reforged.marcin.krysiak.basketstats.mapper.MatchMapper;
 import reforged.marcin.krysiak.basketstats.models.Match;
 import reforged.marcin.krysiak.basketstats.models.MatchQuarter;
 import reforged.marcin.krysiak.basketstats.models.PlayerStats;
@@ -28,30 +29,31 @@ public class MatchServiceImpl implements MatchService {
     private final MatchQuarterRepository matchQuarterRepository;
     private final MatchStatsRepositoryCustom matchStatsRepositoryCustom;
     private final UserProvider userProvider;
+    private final MatchMapper mapper;
 
     @Override
     public List<MatchWithScoreDTO> getAllMatches() {
         List<Match> matchList = matchRepository.findAll();
-        return convertMatchListToMatchWithScoreDTOList(matchList);
+        return mapWithScore(matchList);
     }
 
     @Override
     public List<MatchWithScoreDTO> getAllMatchesByTeamId(Long id) {
         List<Match> matchList = matchRepository.findMatchesByTeamId(id);
-        return convertMatchListToMatchWithScoreDTOList(matchList);
+        return mapWithScore(matchList);
     }
 
     @Override
     public List<MatchWithScoreDTO> getAllMatchesByLeagueId(Long id) {
         List<Match> matchList = matchRepository.findMatchesByLeagueId(id);
-        return convertMatchListToMatchWithScoreDTOList(matchList);
+        return mapWithScore(matchList);
     }
 
     @Override
     public List<MatchWithScoreDTO> getAllMatchesByLeagueIdAndUserId(Long leagueId, Long userId) {
 //        List<Match> matchList = matchRepository.findMatchesByLeagueIdAndUserId(leagueId, userId);
         List<Match> matchList = matchRepository.findMatchesByLeagueId(leagueId);
-        return convertMatchListToMatchWithScoreDTOList(matchList);
+        return mapWithScore(matchList);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public void updateMatch(Long id, Match match){
+    public void updateMatch(Long id, Match match) {
         if (matchRepository.findById(id).isPresent()) {
 
             Match newMatch = matchRepository.findById(id).get();
@@ -81,7 +83,7 @@ public class MatchServiceImpl implements MatchService {
                 newMatch.setMatchDate(match.getMatchDate());
                 newMatch.setPlace(match.getPlace());
                 newMatch.setCreatedBy(userProvider.getUserEmail());
-                if(match.getMatchStatus() == MatchStatus.PLANNED || match.getMatchStatus() == null) {
+                if (match.getMatchStatus() == MatchStatus.PLANNED || match.getMatchStatus() == null) {
                     newMatch.setMatchStatus(MatchStatus.PLANNED);
                 } else {
                     newMatch.setMatchStatus(match.getMatchStatus());
@@ -109,56 +111,50 @@ public class MatchServiceImpl implements MatchService {
 
     private MatchWithScoreDTO convertMatchToMatchWithScoreDTO(Match match) {
         MatchWithScoreDTO matchWithScoreDTO;
-        if(match.getMatchStatus() == MatchStatus.DONE) {
+        if (match.getMatchStatus() == MatchStatus.DONE) {
             int teamAScore = 0, teamBScore = 0;
             List<MatchQuarter> matchQuarterList = matchQuarterRepository.findAllByMatchOrderByQuarterAsc(match);
-            for (MatchQuarter matchQuarter: matchQuarterList) {
+            for (MatchQuarter matchQuarter : matchQuarterList) {
                 for (PlayerStats playerStats : matchQuarter.getPlayersStats()) {
-                    if(playerStats.getPlayer().getTeam() == match.getTeamA()) {
+                    if (playerStats.getPlayer().getTeam() == match.getTeamA()) {
                         teamAScore += playerStats.getPts();
-                    }
-                    else if(playerStats.getPlayer().getTeam() == match.getTeamB()) {
+                    } else if (playerStats.getPlayer().getTeam() == match.getTeamB()) {
                         teamBScore += playerStats.getPts();
                     }
                 }
             }
-            matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
-                    match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
+            matchWithScoreDTO = new MatchWithScoreDTO(mapper.toDto(match),
                     teamAScore, teamBScore);
         } else {
-            matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
-                    match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
+            matchWithScoreDTO = new MatchWithScoreDTO(mapper.toDto(match),
                     0, 0);
         }
 
         return matchWithScoreDTO;
     }
 
-    private List<MatchWithScoreDTO> convertMatchListToMatchWithScoreDTOList(List<Match> matchList) {
+    private List<MatchWithScoreDTO> mapWithScore(List<Match> matchList) {
         List<MatchWithScoreDTO> matchWithScoreDTOList = new ArrayList<>();
 
-        for (Match match: matchList) {
-            if(match.getMatchStatus() == MatchStatus.DONE) {
+        for (Match match : matchList) {
+            if (match.getMatchStatus() == MatchStatus.DONE) {
                 int teamAScore = 0, teamBScore = 0;
                 List<MatchQuarter> matchQuarterList = matchQuarterRepository.findAllByMatchOrderByQuarterAsc(match);
-                for (MatchQuarter matchQuarter: matchQuarterList) {
+                for (MatchQuarter matchQuarter : matchQuarterList) {
                     for (PlayerStats playerStats : matchQuarter.getPlayersStats()) {
-                        if(playerStats.getPlayer().getTeam() == match.getTeamA()) {
+                        if (playerStats.getPlayer().getTeam() == match.getTeamA()) {
                             teamAScore += playerStats.getPts();
-                        }
-                        else if(playerStats.getPlayer().getTeam() == match.getTeamB()) {
+                        } else if (playerStats.getPlayer().getTeam() == match.getTeamB()) {
                             teamBScore += playerStats.getPts();
                         }
                     }
                 }
 
-                MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
-                        match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
+                MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(mapper.toDto(match),
                         teamAScore, teamBScore);
                 matchWithScoreDTOList.add(matchWithScoreDTO);
             } else {
-                MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(match.getId(), match.getTeamA(),
-                        match.getTeamB(), match.getMatchDate(), match.getPlace(), match.getMatchStatus(),
+                MatchWithScoreDTO matchWithScoreDTO = new MatchWithScoreDTO(mapper.toDto(match),
                         0, 0);
                 matchWithScoreDTOList.add(matchWithScoreDTO);
             }

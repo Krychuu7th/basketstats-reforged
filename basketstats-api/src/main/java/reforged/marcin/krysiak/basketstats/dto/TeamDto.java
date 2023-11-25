@@ -6,8 +6,6 @@ import lombok.Data;
 public class TeamDto {
     private Long id;
     private String name;
-    private String imageName;
-    private String type;
     private LeagueDto league;
-
+    private FileDto file;
 }

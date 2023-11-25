@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, SecurityContext, ViewChild } from '@angul
 import { FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileType } from '../../enum/file-type';
+import { FileDetails } from '../../model/image-file';
 const draggedOnClassName = 'dragged-on';
 
 @Component({
@@ -36,10 +37,10 @@ export class FileDropzoneInputComponent {
 
   public fileChange(files: FileList | undefined): void {
     if (!!files?.length) {
-      const file = files[0];
-      if (file) {
-        this.control?.setValue(file);
-        this.readFilePreview(file);
+      const fileContent = files[0];
+      if (fileContent) {
+        this.control?.setValue({ fileContent, fileName: fileContent.name } as FileDetails);
+        this.readFilePreview(fileContent);
       }
     }
   }
@@ -75,6 +76,14 @@ export class FileDropzoneInputComponent {
     this.isDraggedOver = false;
     this.fileDropzone.nativeElement.classList.remove(draggedOnClassName);
     this.fileChange(event.dataTransfer?.files);
+  }
+
+  public get previewFilePath(): string {
+    return this.control?.value?.filePath;
+  }
+
+  public get previewFileName(): string {
+    return this.control?.value?.fileName;
   }
 
 }

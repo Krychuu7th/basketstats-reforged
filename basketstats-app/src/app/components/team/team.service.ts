@@ -41,11 +41,7 @@ export class TeamService extends BaseCrudService<Team> {
   }
 
   public override create(crudResource: Partial<Team>): Observable<Team> {
-    const formData = new FormData();
-    crudResource.imageFile && formData.append('imageFile', crudResource.imageFile);
-    crudResource.name && formData.append('name', crudResource.name);
-    crudResource.imageName && formData.append('imageName', crudResource.imageName);
-    crudResource.league && formData.append('leagueId', crudResource.league.id.toString());
+    const formData = this.buildFormData(crudResource);
 
     return this.http.post<Team>(
       this.fullResourceUrl,
@@ -57,11 +53,7 @@ export class TeamService extends BaseCrudService<Team> {
   }
 
   public override update(crudResource: Partial<Team>): Observable<Team> {
-    const formData = new FormData();
-    crudResource.imageFile && formData.append('logoFile', crudResource.imageFile);
-    crudResource.name && formData.append('name', crudResource.name);
-    crudResource.imageName && formData.append('logo', crudResource.imageName);
-    crudResource.league && formData.append('leagueId', crudResource.league.id.toString());
+    const formData = this.buildFormData(crudResource);
 
     return this.http.put<Team>(
       `${this.fullResourceUrl}/${crudResource.id}`,
@@ -72,15 +64,22 @@ export class TeamService extends BaseCrudService<Team> {
       });
   }
 
-  public getLogoUrl(id: number): string {
-    return `${this.fullResourceUrl}/logo/${id}`;
-  }
-
   hasMatches(id: number): Observable<any> {
     return this.http.get(`${this.fullResourceUrl}/hasMatches/${id}`);
   }
 
   hasPlayers(id: number): Observable<any> {
     return this.http.get(`${this.fullResourceUrl}/hasMatches/${id}`);
+  }
+
+  private buildFormData(crudResource: Partial<Team>): FormData {
+    const formData = new FormData();
+    crudResource.file?.fileContent && formData.append('fileContent', crudResource.file.fileContent);
+    crudResource.name && formData.append('name', crudResource.name);
+    crudResource.file?.fileName && formData.append('fileName', crudResource.file.fileName);
+    crudResource.league && formData.append('leagueId', crudResource.league.id.toString());
+    crudResource.id && formData.append('id', crudResource.id.toString());
+
+    return formData;
   }
 }

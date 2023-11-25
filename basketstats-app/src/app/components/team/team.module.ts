@@ -6,12 +6,14 @@ import { TeamPlayersComponent } from './team-players/team-players.component';
 import { TeamRoutingModule } from './team-routing.module';
 
 import { TeamComponent } from './team.component';
+import { TeamDetailsComponent } from './team-details/team-details.component';
 
 
 @NgModule({
   declarations: [
     TeamComponent,
-    TeamPlayersComponent
+    TeamPlayersComponent,
+    TeamDetailsComponent
   ],
   imports: [
     CommonModule,

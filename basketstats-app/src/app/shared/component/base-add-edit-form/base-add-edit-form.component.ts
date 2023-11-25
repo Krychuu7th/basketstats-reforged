@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FieldType } from '../../enum/field-type';
@@ -33,10 +33,11 @@ export class BaseAddEditFormComponent<T extends BaseCrudResource> implements OnI
   }
 
   private getInitForm(): FormGroup {
+    const { formFields, defaultValue } = this.formConfig || {};
     const group: any = {};
-    this.formConfig.formFields.forEach(formFieldDef => {
+    formFields.forEach(formFieldDef => {
       group[formFieldDef.name] = new UntypedFormControl(
-        (this.dataObject as any)?.[formFieldDef.name],
+        (this.dataObject as any)?.[formFieldDef.name] ?? defaultValue?.[formFieldDef.name],
         !!formFieldDef.validators ? [...formFieldDef.validators!] : []
       );
     });

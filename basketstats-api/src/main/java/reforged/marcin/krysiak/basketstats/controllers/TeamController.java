@@ -9,16 +9,16 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reforged.marcin.krysiak.basketstats.dto.PlayerStatsAvgForTeamDTO;
 import reforged.marcin.krysiak.basketstats.dto.TeamDto;
-import reforged.marcin.krysiak.basketstats.dto.TeamWithImageDTO;
+import reforged.marcin.krysiak.basketstats.dto.TeamFormDTO;
 import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.Team;
 import reforged.marcin.krysiak.basketstats.service.PlayerStatsService;
 import reforged.marcin.krysiak.basketstats.service.TeamService;
+import reforged.marcin.krysiak.basketstats.service.ftp.FtpService;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +33,9 @@ public class TeamController {
 
     @Autowired
     PlayerStatsService playerStatsService;
+
+    @Autowired
+    FtpService ftpService;
 
     @GetMapping
     public ResponseEntity<Page<TeamDto>> getTeamsBySpec(
@@ -81,17 +84,8 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity<TeamDto> create(@ModelAttribute("team") TeamWithImageDTO team) {
+    public ResponseEntity<TeamDto> create(@ModelAttribute("team") TeamFormDTO team) {
         return ResponseEntity.ok(teamService.create(team));
-    }
-
-    @GetMapping("/logo/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-        Team team = teamService.getEntityById(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + team.getImageName() + "\"")
-                .body(team.getImageFile());
     }
 
     @GetMapping("/isTeamWithNameExisting/{name}")
@@ -100,19 +94,9 @@ public class TeamController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TeamDto> update(@ModelAttribute("team") TeamWithImageDTO team, @PathVariable Long id) {
+    public ResponseEntity<TeamDto> update(@ModelAttribute("team") TeamFormDTO team, @PathVariable Long id) {
 
         return ResponseEntity.ok(teamService.update(id, team));
-//        String message = "";
-//        try {
-//            teamService.update(id, team);
-//
-//            message = "Drużyna została zaktualizowana pomyślnie wraz z obrazem: " + team.getImageFile().getName();
-//            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-//        } catch (Exception e) {
-//            message = "Drużyna nie została zaktualizowana, problem z obrazem: " + team.getImageFile().getName() + "!";
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-//        }
     }
 
     @DeleteMapping("/{id}")
@@ -125,4 +109,6 @@ public class TeamController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }

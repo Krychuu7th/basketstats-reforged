@@ -16,7 +16,9 @@
                 teamsViewModel.queryParamsMap[league.id] ?? queryParams
               "
               [tableConfig]="tableConfig"
-              [formConfig]="formConfig"
+              [formConfig]="
+                formConfig | withDefaultValues : { league: { id: league.id } }
+              "
               (queryParamsChange)="applyParamsAndFetch(league.id, $event)"
               (formSubmit)="formSubmit($event)"
               (rowPreview)="openModal(league.id, $event, formViewType.PREVIEW)"
@@ -24,18 +26,6 @@
               (rowDelete)="openModal(league.id, $event)"
               (delete)="delete(league.id, $event)"
             >
-              <ng-template #imageContent let-data="data">
-                <img
-                  *ngIf="data.alt"
-                  [src]="teamService.getLogoUrl(data.id)"
-                  [alt]="data.alt"
-                />
-                <img
-                  *ngIf="!data?.alt"
-                  src="/assets/images/teams/team.png"
-                  alt="no team image"
-                />
-              </ng-template>
             </app-base-table>
           </div>
         </ng-template>

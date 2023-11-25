@@ -1,7 +1,7 @@
 <div class="team-stats-container">
   <div class="team-logo">
     <img
-      *ngIf="matchQuarterStatsForTeam.team.imageName; else defaultLogo"
+      *ngIf="matchQuarterStatsForTeam.team.file.fileName; else defaultLogo"
       src="{{ apiUrl }}/team/logo/{{ matchQuarterStatsForTeam.team.id }}"
       alt="{{ matchQuarterStatsForTeam.team.name }}"
     />

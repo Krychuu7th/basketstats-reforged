@@ -22,7 +22,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> getAllPlayersByTeamId(Long teamId) {
-        return playerRepository.getAllByTeamId(teamId);
+        return playerRepository.getByTeamId(teamId);
     }
 
     @Override

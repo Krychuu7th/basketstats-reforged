@@ -5,8 +5,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="009-create-matches-quarters-table" author="krysiakm">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <tableExists tableName="matches"/>
+            <not>
+                <tableExists tableName="matches_quarters"/>
+            </not>
         </preConditions>
 
         <createTable tableName="matches_quarters">

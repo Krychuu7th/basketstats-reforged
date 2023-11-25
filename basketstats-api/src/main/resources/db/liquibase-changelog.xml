@@ -12,5 +12,6 @@
     <include file="db/changelog/09072023-1409-create-players-quarters-stats-table.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/12072023-2031-insert-leagues.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/12072023-2032-insert-teams.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/20231107-2000-add-file-columns-to-teams-table.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

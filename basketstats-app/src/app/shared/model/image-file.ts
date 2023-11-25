@@ -1,4 +1,5 @@
-export class ImageFile {
-    imageFile: File;
-    imageName: string;
+export class FileDetails {
+    fileContent: File;
+    fileName: any;
+    filePath: any;
 } 

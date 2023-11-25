@@ -2,6 +2,7 @@ import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateR
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { TeamService } from 'src/app/components/team/team.service';
@@ -61,6 +62,8 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
 
   constructor(
     private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute,
     public teamService: TeamService
   ) { }
 
@@ -165,6 +168,14 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
     this.searchInputFormControl.reset();
   }
 
+  public getFullPreviewRoute(id: number): string {
+    return `${this.tableConfig.previewRoute}/${id}`;
+  }
+
+  public getFullEditRoute(id: number): string {
+    return `${this.tableConfig.editRoute}/${id}`;
+  }
+
   public get tableColumns(): TableColumn[] {
     return this.tableConfig.tableColumns;
   }
@@ -183,6 +194,14 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
 
   public get searchPlaceholder(): string {
     return this.tableConfig.searchPlaceholder;
+  }
+
+  public get previewRoute(): string {
+    return this.tableConfig.previewRoute!;
+  }
+
+  public get editRoute(): string {
+    return this.tableConfig.editRoute!;
   }
 
   public get sortColumnName(): string {

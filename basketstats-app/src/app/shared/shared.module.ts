@@ -19,8 +19,10 @@ import { BaseTableComponent } from './component/base-table/base-table.component'
 import { ConfirmDeleteModalComponent } from './component/confirm-delete-modal/confirm-delete-modal.component';
 import { FileDropzoneInputComponent } from './component/file-dropzone-input/file-dropzone-input.component';
 import { FieldValuePipe } from './pipe/field-value/field-value.pipe';
+import { FileSrcPipe } from './pipe/file-src/file-src.pipe';
 import { TableIndexPipe } from './pipe/table-index/table-index.pipe';
 import { TeamsByLeaguePipe } from './pipe/teams-by-league/teams-by-league.pipe';
+import { WithDefaultValuesPipe } from './pipe/with-default-values/with-default-values.pipe';
 
 
 
@@ -32,7 +34,9 @@ import { TeamsByLeaguePipe } from './pipe/teams-by-league/teams-by-league.pipe';
     BaseAddEditFormComponent,
     ConfirmDeleteModalComponent,
     TeamsByLeaguePipe,
-    FileDropzoneInputComponent
+    FileDropzoneInputComponent,
+    FileSrcPipe,
+    WithDefaultValuesPipe
   ],
   imports: [
     CommonModule,
@@ -56,7 +60,9 @@ import { TeamsByLeaguePipe } from './pipe/teams-by-league/teams-by-league.pipe';
     BaseTableComponent,
     BaseAddEditFormComponent,
     FieldValuePipe,
-    TeamsByLeaguePipe
+    TeamsByLeaguePipe,
+    FileSrcPipe,
+    WithDefaultValuesPipe
   ]
 })
 export class SharedModule { }

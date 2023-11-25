@@ -5,6 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="004-create-teams-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="teams"/>
+            </not>
+        </preConditions>
+
         <createTable tableName="teams">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -13,16 +19,6 @@
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-
-            <column name="logo" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
-
-            <column name="data"
-                    type="blob"/>
-
-            <column name="type"
-                    type="varchar(100)"/>
 
             <column name="league_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_teams_league_id" references="leagues(id)"/>

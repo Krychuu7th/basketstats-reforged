@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20231107-2000-add-file-columns-to-teams-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="teams" columnName="file_name"/>
+                <columnExists tableName="teams" columnName="file_path"/>
+                <columnExists tableName="teams" columnName="file_type"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="teams">
+            <column name="file_name" type="varchar(128)"/>
+            <column name="file_path" type="varchar(256)"/>
+            <column name="file_type" type="varchar(128)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

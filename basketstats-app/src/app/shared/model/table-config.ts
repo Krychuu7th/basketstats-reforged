@@ -8,6 +8,8 @@ export interface TableConfig {
     addButtonTooltip: string;
     pageSizeOptions?: number[];
     tableOperations?: TableOperation[];
+    previewRoute?: string;
+    editRoute?: string;
 }
 
 export interface TableColumn {
