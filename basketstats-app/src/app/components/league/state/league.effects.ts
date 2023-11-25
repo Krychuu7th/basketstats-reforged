@@ -63,7 +63,6 @@ export class LeagueEffects {
   updateLeague$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LeagueActions.upsertLeague),
-
       mergeMap((action) =>
         this.leagueService.update(action.league).pipe(
           withLatestFrom(this.store),
@@ -79,7 +78,6 @@ export class LeagueEffects {
   deleteLeague$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LeagueActions.deleteLeague),
-
       mergeMap((action) =>
         this.leagueService.delete(action.id).pipe(
           withLatestFrom(this.store),

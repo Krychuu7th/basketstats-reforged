@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="009-create-matches-quarters-table" author="krysiakm">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="matches"/>
+            <not>
+                <tableExists tableName="matches_quarters"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="matches_quarters">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="match_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_matches_quarters_stats_match_id"
+                             references="matches(id)"/>
+            </column>
+
+            <column name="quarter" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_by" type="varchar(254)"/>
+            <column name="updated_by" type="varchar(254)"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+        </createTable>
+
+        <createSequence sequenceName="matches_quarters_stats_id_seq"
+                        startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

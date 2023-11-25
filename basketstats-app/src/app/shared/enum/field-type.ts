@@ -3,5 +3,6 @@ export enum FieldType {
     NUMBER,
     ORDINAL,
     DATE,
-    OBJECT
+    OBJECT,
+    IMAGE
 }

@@ -33,11 +33,12 @@ export class BaseAddEditFormComponent<T extends BaseCrudResource> implements OnI
   }
 
   private getInitForm(): FormGroup {
+    const { formFields, defaultValue } = this.formConfig || {};
     const group: any = {};
-    this.formConfig.formFields.forEach(formFieldDef => {
+    formFields.forEach(formFieldDef => {
       group[formFieldDef.name] = new UntypedFormControl(
-        (this.dataObject as any)?.[formFieldDef.name],
-        [...formFieldDef.validators!]
+        (this.dataObject as any)?.[formFieldDef.name] ?? defaultValue?.[formFieldDef.name],
+        !!formFieldDef.validators ? [...formFieldDef.validators!] : []
       );
     });
     return new FormGroup(group);
@@ -54,6 +55,10 @@ export class BaseAddEditFormComponent<T extends BaseCrudResource> implements OnI
         ...this.formGroup.getRawValue()
       }
     );
+  }
+
+  public compareWithId(object1: BaseCrudResource, object2: BaseCrudResource): boolean {
+    return !!object1?.id && !!object2?.id && object1.id === object2.id;
   }
 
   public get headerText(): string | undefined {

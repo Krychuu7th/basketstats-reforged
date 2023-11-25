@@ -12,7 +12,11 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
   <div class="modal-body pb-0">
     <div *ngFor="let formFieldDef of formConfig.formFields" class="form-group">
-      <mat-form-field class="col-12" appearance="fill">
+      <mat-form-field
+        *ngIf="formFieldDef.type !== fieldType.IMAGE; else imageFormField"
+        class="col-12"
+        appearance="fill"
+      >
         <mat-label for="{{ formFieldDef.name }}">{{
           formFieldDef.label
         }}</mat-label>
@@ -27,6 +31,35 @@
             [aria-describedby]="formFieldDef.label"
             [placeholder]="formFieldDef.placeholder"
           />
+          <mat-select
+            *ngSwitchCase="fieldType.OBJECT"
+            controlType="mat-select"
+            [formControlName]="formFieldDef.name"
+            [id]="formFieldDef.name"
+            [name]="formFieldDef.name"
+            [compareWith]="compareWithId"
+          >
+            <ng-container
+              *ngIf="
+                formFieldDef.selectOptions.isAsync &&
+                  formFieldDef.selectOptions.values | async as options;
+                else syncValues
+              "
+            >
+              {{ option }}
+              <mat-option *ngFor="let option of options" [value]="option">
+                {{ option | fieldValue : formFieldDef.selectOptions.viewField }}
+              </mat-option>
+            </ng-container>
+            <ng-template #syncValues>
+              <mat-option
+                *ngFor="let option of formFieldDef.selectOptions.values"
+                [value]="option"
+              >
+                {{ option | fieldValue : formFieldDef.selectOptions.viewField }}
+              </mat-option>
+            </ng-template>
+          </mat-select>
         </ng-container>
         <mat-hint *ngIf="formFieldDef.hint">
           {{ formFieldDef.hint }}
@@ -41,6 +74,17 @@
           </ng-container>
         </mat-error>
       </mat-form-field>
+      <ng-template #imageFormField>
+        <app-file-dropzone-input
+          [control]="formGroup.get(formFieldDef.name)"
+          [formFieldDefName]="formFieldDef.name"
+          [placeholder]="formFieldDef.placeholder"
+          [draggedOverPlaceholder]="'Upuść plik tutaj!'"
+          [fileType]="formFieldDef.type"
+          [readonly]="readonly"
+        >
+        </app-file-dropzone-input>
+      </ng-template>
     </div>
   </div>
   <div *ngIf="!readonly" class="modal-footer">

@@ -1,85 +1,121 @@
 package reforged.marcin.krysiak.basketstats.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reforged.marcin.krysiak.basketstats.dto.TeamWithLogoDTO;
-import reforged.marcin.krysiak.basketstats.exceptions.LeagueNotFoundException;
+import reforged.marcin.krysiak.basketstats.dto.TeamDto;
+import reforged.marcin.krysiak.basketstats.dto.TeamFormDTO;
+import reforged.marcin.krysiak.basketstats.exceptions.TeamNotFoundException;
+import reforged.marcin.krysiak.basketstats.mapper.TeamMapper;
 import reforged.marcin.krysiak.basketstats.models.Team;
 import reforged.marcin.krysiak.basketstats.repositories.LeagueRepository;
 import reforged.marcin.krysiak.basketstats.repositories.TeamRepository;
 import reforged.marcin.krysiak.basketstats.service.TeamService;
+import reforged.marcin.krysiak.basketstats.service.ftp.FtpService;
+import reforged.marcin.krysiak.basketstats.utils.SpecificationUtils;
 
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private LeagueRepository leagueRepository;
+    private final String TEAMS_FTP_DIRECTORY = "/teams";
+    private final TeamRepository teamRepository;
+    private final LeagueRepository leagueRepository;
+    private final TeamMapper mapper;
+    private final SpecificationUtils<Team> specificationUtils;
+    private final FtpService ftpService;
 
     @Override
-    public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+    public Page<TeamDto> getAllBySpec(Specification<Team> spec, Pageable pageable) {
+        return teamRepository.findAll(spec, pageable).map(mapper::toDto);
     }
 
     @Override
-    public List<Team> getAllTeamsByLeague(Long id) {
-        return teamRepository.findAllByLeagueId(id);
+    public Page<TeamDto> getAllForLeagueBySpec(Long leagueId, Specification<Team> spec, Pageable pageable) {
+        return teamRepository.findAll(specificationUtils.getAndSpec(spec, leagueIdEqualSpec(leagueId)), pageable).map(mapper::toDto);
     }
 
     @Override
-    public Optional<Team> getTeamById(Long id) {
-        return teamRepository.findById(id);
+    public List<TeamDto> getAll(Specification<Team> spec) {
+        return mapper.toDtoList(teamRepository.findAll(spec));
     }
 
     @Override
-    public Team getTeamByName(String name) {
-        return teamRepository.findByName(name);
+    public TeamDto getById(Long id) {
+        return mapper.toDto(teamRepository.findById(id).orElseThrow(TeamNotFoundException::new));
     }
 
     @Override
-    public Team createTeam(TeamWithLogoDTO team) throws Exception {
-        Team newTeam = new Team();
-        newTeam.setName(team.getName());
-        newTeam.setLeague(leagueRepository.findById(team.getLeagueId())
-                .orElseThrow(LeagueNotFoundException::new));
-        if(team.getLogoFile().getContentType() != null && team.getLogoFile().getContentType().contains("image")) {
-            newTeam.setLogo(team.getLogoFile().getOriginalFilename());
-            newTeam.setData(team.getLogoFile().getBytes());
-            newTeam.setType(team.getLogoFile().getContentType());
+    public Team getEntityById(Long id) {
+        return this.findById(id);
+    }
+
+    @Override
+    public TeamDto getByName(String name) {
+        return mapper.toDto(teamRepository.findByName(name));
+    }
+
+    @Override
+    @Transactional
+    public TeamDto create(TeamFormDTO teamDto) {
+        if (Objects.nonNull(teamDto.getFileContent())) {
+            return mapper.toDto(teamRepository.save(mapWithFile(teamDto, null)));
         }
 
-        return teamRepository.save(newTeam);
+        return mapper.toDto(teamRepository.save(mapper.toEntity(teamDto)));
     }
 
     @Override
-    public void updateTeam(Long id, TeamWithLogoDTO team) throws Exception{
-        if (this.teamRepository.findById(id).isPresent()) {
-
-            Team newTeam = this.teamRepository.findById(id).get();
-            newTeam.setName(team.getName());
-            newTeam.setLeague(leagueRepository.findById(team.getLeagueId())
-                    .orElseThrow(LeagueNotFoundException::new));
-            if(team.getLogoFile().getContentType() != null && team.getLogoFile().getContentType().contains("image")) {
-                newTeam.setLogo(team.getLogoFile().getOriginalFilename());
-                newTeam.setData(team.getLogoFile().getBytes());
-                newTeam.setType(team.getLogoFile().getContentType());
-            }
-
-            teamRepository.save(newTeam);
-        } else {
-            throw new RuntimeException("User with id " + id + " doesn't exists");
+    @Transactional
+    public TeamDto update(Long id, TeamFormDTO teamDto) {
+        Team team = findById(id);
+        if (Objects.nonNull(teamDto.getFileContent())) {
+            return mapper.toDto(teamRepository.save(mapWithFile(teamDto, team)));
         }
+
+        return mapper.toDto(teamRepository.save(mapper.toEntity(teamDto)));
     }
 
     @Override
-    public void deleteTeam(Long id) {
+    public void delete(Long id) {
         teamRepository.deleteById(id);
+    }
+
+    private Specification<Team> leagueIdEqualSpec(Long leagueId) {
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("league").get("id"), leagueId);
+    }
+
+    private Team findById(Long id) {
+        return this.teamRepository.findById(id).orElseThrow(TeamNotFoundException::new);
+    }
+
+    private Team mapWithFile(TeamFormDTO teamDto, @Nullable Team savedTeam) {
+        Team team = mapper.toEntity(teamDto);
+        team.setFilePath(ftpService.uploadFile(teamDto.getFileContent(), TEAMS_FTP_DIRECTORY));
+        team.setFileName(teamDto.getFileName());
+
+        if (Objects.nonNull(savedTeam)) {
+            deleteTeamFile(savedTeam);
+        }
+
+        return team;
+    }
+
+    private void deleteTeamFile(Team team) {
+        ftpService.deleteFile(team.getFilePath());
+    }
+
+    private boolean hasValidImage(TeamFormDTO teamDto) {
+        return Objects.nonNull(teamDto.getFileContent())
+                && Objects.nonNull(teamDto.getFileContent().getContentType())
+                && teamDto.getFileContent().getContentType().contains("image");
     }
 }

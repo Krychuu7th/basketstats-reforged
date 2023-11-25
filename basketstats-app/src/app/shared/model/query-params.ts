@@ -28,3 +28,18 @@ export const defaultQueryParams: QueryParams = {
     },
     params: []
 };
+
+export function getParamValue(queryParams: QueryParams, paramKey: string): string {
+    return queryParams.params?.find(p => p.key === paramKey)?.value!;
+}
+
+export function getCopyWithParamIfNotExists(queryParams: QueryParams, param: Param): QueryParams {
+    queryParams = {
+        ...queryParams,
+        params: !!queryParams.params ? queryParams.params?.filter(p => p.key !== param.key) : []
+    };
+    if (param.value !== null && param.value !== undefined && param.value !== '') {
+        queryParams.params?.push({ key: param.key, value: param.value });
+    }
+    return queryParams;
+}

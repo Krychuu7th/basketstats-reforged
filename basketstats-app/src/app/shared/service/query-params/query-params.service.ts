@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QueryParams } from '../../model/query-params';
+import { Param, QueryParams } from '../../model/query-params';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +20,24 @@ export class QueryParamsService {
     if (queryParams.sort) {
       httpParams = httpParams.set('sort', `${queryParams.sort.name},${queryParams.sort.direction ?? 'asc'}`);
     }
-    if (!!queryParams.params) {
-      for (let param of queryParams.params) {
+    httpParams = this.setParams(httpParams, queryParams.params!);
+
+    return httpParams;
+  }
+
+  public buildHttpParamsFromArray(params: Param[]): HttpParams {
+    let httpParams = new HttpParams();
+    this.setParams(httpParams, params);
+
+    return httpParams;
+  }
+
+  private setParams(httpParams: HttpParams, params: Param[]): HttpParams {
+    if (!!params) {
+      for (let param of params) {
         httpParams = httpParams.set(param.key, param.value);
       }
     }
-
     return httpParams;
   }
 

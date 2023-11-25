@@ -1,17 +1,34 @@
-<mat-progress-bar *ngIf="isLoading" class="w-100" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar
+  *ngIf="isLoading"
+  class="w-100"
+  mode="indeterminate"
+></mat-progress-bar>
 <div class="container">
   <div class="team-info-container">
     <div class="row">
       <div class="col-1">
-        <button mat-mini-fab color="primary" class="back-button" (click)="navigateBack()">
-          <mat-icon>keyboard_arrow_left</mat-icon>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="back-button"
+          (click)="navigateBack()"
+        >
+          <!-- <mat-icon>keyboard_arrow_left</mat-icon> -->
         </button>
       </div>
       <div class="col-3 logo-container">
-        <img *ngIf="team?.logo else defaultLogo" class="card-img-top" src="{{apiUrl}}/team/logo/{{ team.id }}"
-             alt="{{team.name}} logo">
+        <img
+          *ngIf="team?.file.fileName; else defaultLogo"
+          class="card-img-top"
+          src="{{ apiUrl }}/team/logo/{{ team.id }}"
+          alt="{{ team.name }} logo"
+        />
         <ng-template #defaultLogo>
-          <img class="card-img-top" src="/assets/images/teams/team.png" alt="no team logo">
+          <img
+            class="card-img-top"
+            src="/assets/images/teams/team.png"
+            alt="no team logo"
+          />
         </ng-template>
       </div>
       <div class="col-3 team-info">
@@ -23,12 +40,16 @@
         </div>
       </div>
       <div class="col-4 team-score">
-        <canvas *ngIf="winLoseChartData" baseChart height="220"
-                [data]="winLoseChartData"
-                [labels]="winLoseChartLabels"
-                [chartType]="winLoseChartType"
-                [colors]="winLoseChartColors"
-                [options]="winLoseChartOptions">
+        <canvas
+          *ngIf="winLoseChartData"
+          baseChart
+          height="220"
+          [data]="winLoseChartData"
+          [labels]="winLoseChartLabels"
+          [chartType]="winLoseChartType"
+          [colors]="winLoseChartColors"
+          [options]="winLoseChartOptions"
+        >
         </canvas>
         <div class="team-score-info h-100 w-100">
           <div class="col text-center mb-4">
@@ -39,27 +60,33 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
-      </div>
+      <div class="col-1"></div>
     </div>
 
     <mat-tab-group *ngIf="!isLoading">
       <mat-tab label="Zawodnicy">
-        <app-team-players-list [team]="team" [teamPlayers]="teamPlayers" (emitLoadData)="loadData()"></app-team-players-list>
+        <app-team-players-list
+          [team]="team"
+          [teamPlayers]="teamPlayers"
+          (emitLoadData)="loadData()"
+        ></app-team-players-list>
       </mat-tab>
 
       <mat-tab label="Statystyki zawodników">
-        <app-team-players-avg-stats-list [team]="team" [teamPlayers]="teamPlayers"
-                                         [teamPlayersAvgStats]="teamPlayersAvgStats">
-
+        <app-team-players-avg-stats-list
+          [team]="team"
+          [teamPlayers]="teamPlayers"
+          [teamPlayersAvgStats]="teamPlayersAvgStats"
+        >
         </app-team-players-avg-stats-list>
       </mat-tab>
 
       <mat-tab label="Mecze">
-        <app-match-schedule-list [team]="team" [matchList]="teamMatches"></app-match-schedule-list>
+        <app-match-schedule-list
+          [team]="team"
+          [matchList]="teamMatches"
+        ></app-match-schedule-list>
       </mat-tab>
     </mat-tab-group>
-
   </div>
 </div>
-

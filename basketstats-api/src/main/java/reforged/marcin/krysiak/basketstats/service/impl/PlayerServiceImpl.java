@@ -2,7 +2,6 @@ package reforged.marcin.krysiak.basketstats.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reforged.marcin.krysiak.basketstats.exceptions.PlayerNotFoundException;
 import reforged.marcin.krysiak.basketstats.models.Player;
 import reforged.marcin.krysiak.basketstats.repositories.PlayerRepository;
@@ -11,7 +10,6 @@ import reforged.marcin.krysiak.basketstats.service.PlayerService;
 import java.util.List;
 
 @Service
-@Transactional
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
@@ -24,7 +22,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> getAllPlayersByTeamId(Long teamId) {
-        return playerRepository.getAllByTeamId(teamId);
+        return playerRepository.getByTeamId(teamId);
     }
 
     @Override

@@ -1,16 +1,38 @@
 <div class="container">
-  <ng-container *ngIf="(isXSmall$ | async) === false else xSmallBlock">
+  <ng-container *ngIf="(isXSmall$ | async) === false; else xSmallBlock">
     <div class="navbar-container">
       <div class="logo-container">
         <a routerLink="">
-          <img class="logo" src="../../../../assets/images/basketstats.png" alt="Basketstats logo" height="128">
+          <img
+            class="logo"
+            src="../../../../assets/images/basketstats.png"
+            alt="Basketstats logo"
+            height="128"
+          />
         </a>
       </div>
       <div class="d-flex">
-        <button mat-flat-button routerLinkActive="active"
-                [routerLink]="['schedule/']">TERMINARZ</button>
-        <button mat-flat-button routerLinkActive="active"
-                [routerLink]="['teams/']">DRUŻYNY</button>
+        <button
+          mat-flat-button
+          routerLinkActive="active"
+          [routerLink]="['schedule/']"
+        >
+          TERMINARZ
+        </button>
+        <button
+          mat-flat-button
+          routerLinkActive="active"
+          [routerLink]="['leagues/']"
+        >
+          LIGI
+        </button>
+        <button
+          mat-flat-button
+          routerLinkActive="active"
+          [routerLink]="['teams/']"
+        >
+          DRUŻYNY
+        </button>
         <!-- *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticated" -->
         <app-auth-button></app-auth-button>
       </div>
@@ -19,22 +41,35 @@
   <ng-template #xSmallBlock>
     <div style="position: relative">
       <div>
-        <button mat-flat-button class="sidebar-button" (click)="sidebarEvent.emit()">
-        </button>
+        <button
+          mat-flat-button
+          class="sidebar-button"
+          (click)="sidebarEvent.emit()"
+        ></button>
       </div>
       <div class="w-100 center-div">
         <a routerLink="">
-          <img class="logo" src="../../../../assets/images/basketstats.png" alt="Basketstats logo" height="128">
+          <img
+            class="logo"
+            src="../../../../assets/images/basketstats.png"
+            alt="Basketstats logo"
+            height="128"
+          />
         </a>
       </div>
       <div class="w-100">
         <!-- *ngIf="!(accessChecker.isGranted('view', 'logout') | async) else authenticatedSmall" -->
-        <button 
-                mat-flat-button class="login-button" routerLink="auth/login">
-        </button>
+        <button
+          mat-flat-button
+          class="login-button"
+          routerLink="auth/login"
+        ></button>
         <ng-template #authenticatedSmall>
-          <button mat-flat-button class="login-button" routerLink="auth/logout">
-          </button>
+          <button
+            mat-flat-button
+            class="login-button"
+            routerLink="auth/logout"
+          ></button>
         </ng-template>
       </div>
     </div>

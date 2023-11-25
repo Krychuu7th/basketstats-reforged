@@ -102,15 +102,15 @@ export class TeamAddEditComponent implements OnInit {
     newTeam.name = this.form.name.value;
 
     newTeam.league = !this.isEdit ? this.league : this.leagueList.find(l => l.name == this.form.league.value)!;
-    newTeam.logoFile = logoFile;
-    newTeam.logo = this.selectedLogoFile?.name!;
+    newTeam.file.fileContent = logoFile;
+    newTeam.file.fileName = this.selectedLogoFile?.name!;
     return newTeam;
   }
 
   addTeam() {
     this.markFormGroupTouched(this.formGroup);
     if (!this.formGroup.invalid) {
-      this.teamService.createTeam(this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
+      this.teamService.create(this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
         if (event instanceof HttpResponse) {
 
           this.activeModal.close('confirm');
@@ -147,7 +147,7 @@ export class TeamAddEditComponent implements OnInit {
   editTeam() {
     this.markFormGroupTouched(this.formGroup);
     if (!this.formGroup.invalid) {
-      this.teamService.updateTeam(this.team.id, this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
+      this.teamService.update(this.getNewTeam(this.selectedLogoFile!)).subscribe(event => {
         if (event instanceof HttpResponse) {
 
           this.activeModal.close('confirm');

@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class BasketstatsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BasketstatsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(BasketstatsApplication.class, args);
+    }
 }

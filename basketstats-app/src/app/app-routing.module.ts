@@ -1,11 +1,9 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { HomepageComponent } from "./components/homepage/homepage.component";
-import { LeagueComponent } from "./components/league/league.component";
+import { NotFoundPageComponent } from "./components/not-found-page/not-found-page.component";
 import { MatchStatsComponent } from "./components/schedule/match-stats/match-stats.component";
 import { ScheduleComponent } from "./components/schedule/schedule.component";
-import { TeamPlayersComponent } from "./components/team/team-players/team-players.component";
-import { TeamComponent } from "./components/team/team.component";
 import { ViewType } from "./enums/view-type.enum";
 
 export const appRoutes: Routes = [
@@ -14,33 +12,13 @@ export const appRoutes: Routes = [
     path: '',
     component: HomepageComponent
   },
-
   {
-    path: 'leagues',
-    data: {
-      viewType: ViewType.LEAGUES
-    },
-    children: [
-      {
-        path: '', component: LeagueComponent,
-      }
-    ]
+    path: 'not-found',
+    component: NotFoundPageComponent
   },
 
-  {
-    path: 'teams',
-    data: {
-      viewType: ViewType.TEAMS
-    },
-    children: [
-      {
-        path: '', component: TeamComponent,
-      },
-      {
-        path: 'info/:id', component: TeamPlayersComponent
-      }
-    ]
-  },
+  { path: 'leagues', loadChildren: () => import('./components/league/league.module').then(m => m.LeagueModule) },
+  { path: 'teams', loadChildren: () => import('./components/team/team.module').then(m => m.TeamModule) },
 
   {
     path: 'schedule',
@@ -56,47 +34,8 @@ export const appRoutes: Routes = [
       }
     ]
   },
-
-  // {
-  //   path: 'auth',
-  //   component: AuthComponent,
-  //   data: {
-  //     viewType: ViewType.AUTH
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: LoginComponent,
-  //       data: {
-  //         roles: ['ROLE_GUEST']
-  //       },
-  //     },
-  //     {
-  //       path: 'login',
-  //       component: LoginComponent,
-  //       data: {
-  //         roles: ['ROLE_GUEST']
-  //       },
-  //     },
-  //     {
-  //       path: 'logout',
-  //       component: LogoutComponent,
-  //       canActivate: [AuthGuard]
-  //     },
-  //     {
-  //       path: 'request-password',
-  //       redirectTo: 'login'
-  //       // component: NbRequestPasswordComponent,
-  //     },
-  //     {
-  //       path: 'reset-password',
-  //       redirectTo: 'login'
-  //       // component: NbResetPasswordComponent,
-  //     },
-  //   ],
-  // },
   { path: '', redirectTo: '', pathMatch: 'full' },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({

@@ -17,7 +17,7 @@ public class MatchQuarter {
 
     @Id
     @SequenceGenerator(allocationSize = 1, name = "matches_quarters_id_seq", sequenceName = "matches_quarters_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matches_quarters_id_seq")
     @Column(name = "id")
     private Long id;
 

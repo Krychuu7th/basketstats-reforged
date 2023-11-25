@@ -1,8 +1,10 @@
 package reforged.marcin.krysiak.basketstats.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import reforged.marcin.krysiak.basketstats.models.PlayerStats;
 
+@Repository
 public interface PlayerStatsRepository extends JpaRepository<PlayerStats, Long> {
 
 //    @Query("SELECT player_id, AVG(CAST (ptsa AS DECIMAL(10,1))) AS ptsa, AVG(CAST (pm2a AS DECIMAL(10,1))) AS pm2a, AVG(CAST (pa2a AS DECIMAL(10,1))) AS pa2a, AVG(CAST (pm3a AS DECIMAL(10,1))) AS pm3a, " +

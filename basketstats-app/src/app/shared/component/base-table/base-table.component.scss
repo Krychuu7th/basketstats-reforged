@@ -18,3 +18,29 @@
   width: 200px;
   text-align: end;
 }
+
+.ordinal-column {
+  width: 100px;
+}
+
+.create-button-box {
+  justify-content: flex-end;
+  button {
+    margin-right: 4px;
+  }
+}
+
+@media (min-width: 768px) {
+  .search-box {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+  .pagination-box {
+    flex: 0 0 65%;
+    max-width: 65%;
+  }
+  .create-button-box {
+    flex: 0 0 15%;
+    max-width: 15%;
+  }
+}

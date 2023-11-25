@@ -1,79 +1,85 @@
-import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
+import { Page } from "src/app/shared/model/pageable";
+import { QueryParams } from "src/app/shared/model/query-params";
+import { BaseCrudService } from "src/app/shared/service/base-table/base-crud.service";
+import { QueryParamsService } from "src/app/shared/service/query-params/query-params.service";
 import { Team } from "../../models/team";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService {
+export class TeamService extends BaseCrudService<Team> {
 
-  private baseApiUrl = `${environment.api.url}/team`;
-
-  constructor(private http: HttpClient) { }
-
-  getTeamList(): Observable<Team[]> {
-    return this.http.get<Team[]>(`${this.baseApiUrl}/list`);
+  constructor(
+    http: HttpClient,
+    queryParamsService: QueryParamsService
+  ) {
+    super(
+      http,
+      queryParamsService,
+      '/team'
+    );
   }
 
-  getTeamById(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/${id}`);
+  public getForLeague(leagueId: number, queryParams: QueryParams): Observable<Page<Team>> {
+    return this.http.get<Page<Team>>(
+      `${this.fullResourceUrl}/league-id/${leagueId}`,
+      {
+        params: this.queryParamsService.buildHttpParams(queryParams)
+      }
+    );
   }
 
   isTeamWithNameExisting(name: string): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/isTeamWithNameExisting/${name}`);
-  }
-
-  getTeamByLeagueId(id: number): Observable<Team[]> {
-    return this.http.get<Team[]>(`${this.baseApiUrl}/leagueList/${id}`);
+    return this.http.get(`${this.fullResourceUrl}/isTeamWithNameExisting/${name}`);
   }
 
   getAllPlayerAvgStatsByTeamId(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/playersAvgStats/${id}`);
+    return this.http.get(`${this.fullResourceUrl}/playersAvgStats/${id}`);
   }
 
-  createTeam(team: Team): Observable<HttpEvent<any>> {
+  public override create(crudResource: Partial<Team>): Observable<Team> {
+    const formData = this.buildFormData(crudResource);
 
-    const formData = new FormData();
-    formData.append('logoFile', team.logoFile);
-    formData.append('name', team.name);
-    formData.append('logo', team.logo);
-    formData.append('leagueId', team.league.id.toString());
-
-    const req = new HttpRequest('POST', `${this.baseApiUrl}/create`, formData, {
-      reportProgress: true,
-      responseType: 'json'
-    });
-
-    return this.http.request(req);
+    return this.http.post<Team>(
+      this.fullResourceUrl,
+      formData,
+      {
+        reportProgress: true,
+        responseType: 'json'
+      });
   }
 
-  updateTeam(id: number, team: Team): Observable<HttpEvent<any>> {
-    const formData = new FormData();
-    formData.append('logoFile', team.logoFile);
-    formData.append('name', team.name);
-    formData.append('logo', team.logo);
-    console.log(team.league);
-    formData.append('leagueId', team.league.id.toString());
+  public override update(crudResource: Partial<Team>): Observable<Team> {
+    const formData = this.buildFormData(crudResource);
 
-    const req = new HttpRequest('PUT', `${this.baseApiUrl}/update/${id}`, formData, {
-      reportProgress: true,
-      responseType: 'json'
-    });
-
-    return this.http.request(req);
-  }
-
-  deleteTeam(id: number): Observable<any> {
-    return this.http.delete(`${this.baseApiUrl}/delete/${id}`);
+    return this.http.put<Team>(
+      `${this.fullResourceUrl}/${crudResource.id}`,
+      formData,
+      {
+        reportProgress: true,
+        responseType: 'json'
+      });
   }
 
   hasMatches(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/hasMatches/${id}`);
+    return this.http.get(`${this.fullResourceUrl}/hasMatches/${id}`);
   }
 
   hasPlayers(id: number): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/hasMatches/${id}`);
+    return this.http.get(`${this.fullResourceUrl}/hasMatches/${id}`);
+  }
+
+  private buildFormData(crudResource: Partial<Team>): FormData {
+    const formData = new FormData();
+    crudResource.file?.fileContent && formData.append('fileContent', crudResource.file.fileContent);
+    crudResource.name && formData.append('name', crudResource.name);
+    crudResource.file?.fileName && formData.append('fileName', crudResource.file.fileName);
+    crudResource.league && formData.append('leagueId', crudResource.league.id.toString());
+    crudResource.id && formData.append('id', crudResource.id.toString());
+
+    return formData;
   }
 }

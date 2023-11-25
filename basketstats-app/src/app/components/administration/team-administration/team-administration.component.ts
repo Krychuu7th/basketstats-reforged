@@ -38,7 +38,7 @@ export class TeamAdministrationComponent implements OnInit {
 
   loadData() {
     this.loadLeagues();
-    this.teamService.getTeamList().pipe(delay(100)).subscribe(data => {
+    this.teamService.getAll().pipe(delay(100)).subscribe(data => {
       this.teamList = data;
       this.isLoading = false;
     });

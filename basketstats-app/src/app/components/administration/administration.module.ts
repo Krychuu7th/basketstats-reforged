@@ -89,7 +89,7 @@ import { UserListComponent } from "./user-list/user-list.component";
     MatRippleModule,
     MatSelectModule,
     StoreModule.forFeature(fromLeague.leaguesFeatureKey, fromLeague.reducer),
-    EffectsModule.forFeature([LeagueEffects])
+    EffectsModule.forFeature([])
   ]
 })
 export class AdministrationModule { }

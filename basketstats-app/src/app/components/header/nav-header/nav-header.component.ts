@@ -31,14 +31,6 @@ export class NavHeaderComponent implements OnDestroy {
     public router: Router) {
   }
 
-  // ngOnInit() {
-  //   this.router.events.pipe(
-  //       filter((event: RouterEvent) => event instanceof NavigationEnd)
-  //     ).subscribe(() => {
-  //     this.isAuthenticated();
-  //     });
-  // }
-
   isAuthenticated() {
     // this.authService.isAuthenticated().subscribe((result => {
     //   this.isLoggedIn = result;

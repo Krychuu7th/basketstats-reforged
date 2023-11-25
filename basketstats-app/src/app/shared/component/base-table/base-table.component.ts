@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { TeamService } from 'src/app/components/team/team.service';
+import { environment } from 'src/environments/environment';
 import { ColumnType } from '../../enum/column-type';
 import { FormViewType } from '../../enum/form-view-type';
 import { ModificationViewType } from '../../enum/modification-view-type';
@@ -11,8 +14,8 @@ import { TableOperation } from '../../enum/table-operation';
 import { BaseCrudResource } from '../../model/base-crud-resource.model';
 import { FormConfig } from '../../model/form-config';
 import { Page } from '../../model/pageable';
-import { QueryParams } from '../../model/query-params';
-import { TableColumn, TableConfig } from '../../model/table-config';
+import { getCopyWithParamIfNotExists, getParamValue, QueryParams } from '../../model/query-params';
+import { getCopyWithColumnIfNotExists, TableColumn, TableConfig } from '../../model/table-config';
 import { BaseAddEditFormComponent } from '../base-add-edit-form/base-add-edit-form.component';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 
@@ -23,7 +26,7 @@ import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-del
   styleUrls: ['./base-table.component.scss']
 })
 export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
-
+  @Input() id!: number;
   @Input()
   dataPage: Page<T>;
   @Input()
@@ -48,33 +51,39 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
   @Output()
   delete = new EventEmitter<number>();
 
+  @ContentChild('imageContent') imageContent: TemplateRef<any>;
+
   public searchInputFormControl = new FormControl();
   public columnType = ColumnType;
   public formViewType = FormViewType;
   public tableOperation = TableOperation;
+  public apiUrl = environment.api.url;
   private tableOptionOperations = [TableOperation.PREVIEW, TableOperation.EDIT];
 
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute,
+    public teamService: TeamService
   ) { }
 
   ngOnInit(): void {
-    this.tableConfig.tableColumns = [
+    this.tableConfig.tableColumns = getCopyWithColumnIfNotExists(
+      this.tableConfig.tableColumns,
       {
         name: 'ordinal',
         type: ColumnType.ORDINAL
       },
-      ...this.tableConfig.tableColumns
-    ];
+      true);
     if (this.hasAnyTableOptionOperation()) {
-      this.tableConfig.tableColumns = [
-        ...this.tableConfig.tableColumns,
+      this.tableConfig.tableColumns = getCopyWithColumnIfNotExists(
+        this.tableConfig.tableColumns,
         {
           name: 'options',
           type: ColumnType.OPTIONS
-        }
-      ];
+        });
     }
+    this.searchInputFormControl.setValue(getParamValue(this.queryParams, 'searchLike'));
     this.searchInputFormControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -120,16 +129,16 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
     return !!this.tableConfig.tableOperations?.includes(operation);
   }
 
+  public hasTableColumnType(columnType: ColumnType): boolean {
+    return this.tableConfig.tableColumns?.some(column => column.type === columnType);
+  }
+
   private hasAnyTableOptionOperation(): boolean {
     return !!this.tableConfig.tableOperations?.some(operation => this.tableOptionOperations.includes(operation));
   }
 
   public applySearchInputChange(value: string): void {
-    this.queryParams = {
-      ...this.queryParams,
-      params: this.queryParams.params?.filter(param => param.key !== 'nameLike')
-    };
-    value && this.queryParams.params?.push({ key: 'nameLike', value });
+    this.queryParams = getCopyWithParamIfNotExists(this.queryParams, { key: 'searchLike', value });
     this.queryParamsChange.emit(this.queryParams);
   }
 
@@ -159,6 +168,14 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
     this.searchInputFormControl.reset();
   }
 
+  public getFullPreviewRoute(id: number): string {
+    return `${this.tableConfig.previewRoute}/${id}`;
+  }
+
+  public getFullEditRoute(id: number): string {
+    return `${this.tableConfig.editRoute}/${id}`;
+  }
+
   public get tableColumns(): TableColumn[] {
     return this.tableConfig.tableColumns;
   }
@@ -168,7 +185,7 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
   }
 
   public get headerText(): string {
-    return this.tableConfig.headerText;
+    return this.tableConfig.headerText!;
   }
 
   public get addButtonTooltip(): string {
@@ -177,6 +194,14 @@ export class BaseTableComponent<T extends BaseCrudResource> implements OnInit {
 
   public get searchPlaceholder(): string {
     return this.tableConfig.searchPlaceholder;
+  }
+
+  public get previewRoute(): string {
+    return this.tableConfig.previewRoute!;
+  }
+
+  public get editRoute(): string {
+    return this.tableConfig.editRoute!;
   }
 
   public get sortColumnName(): string {

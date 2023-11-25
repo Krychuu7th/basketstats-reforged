@@ -31,18 +31,18 @@ export const reducer = createReducer(
   on(LeagueActions.upsertLeagueSuccess,
     (state, action) => adapter.upsertOne(action.league, state)
   ),
-  // on(LeagueActions.addLeagues,
-  //   (state, action) => adapter.addMany(action.leagues, state)
-  // ),
-  // on(LeagueActions.upsertLeagues,
-  //   (state, action) => adapter.upsertMany(action.leagues, state)
-  // ),
-  // on(LeagueActions.updateLeague,
-  //   (state, action) => adapter.updateOne(action.league, state)
-  // ),
-  // on(LeagueActions.updateLeagues,
-  //   (state, action) => adapter.updateMany(action.leagues, state)
-  // ),
+  on(LeagueActions.addLeagues,
+    (state, action) => adapter.addMany(action.leagues, state)
+  ),
+  on(LeagueActions.upsertLeagues,
+    (state, action) => adapter.upsertMany(action.leagues, state)
+  ),
+  on(LeagueActions.updateLeague,
+    (state, action) => adapter.updateOne(action.league, state)
+  ),
+  on(LeagueActions.updateLeagues,
+    (state, action) => adapter.updateMany(action.leagues, state)
+  ),
   on(LeagueActions.deleteLeague,
     (state, action) => adapter.removeOne(action.id, state)
   ),

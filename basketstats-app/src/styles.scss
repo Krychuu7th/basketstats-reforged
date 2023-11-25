@@ -305,6 +305,10 @@ mat-error {
   padding-top: 1px;
 }
 
+.cdk-overlay-container {
+  z-index: 1056 !important;
+}
+
 /* NGBOOTSTRAP STYLING */
 
 .pagination {
@@ -344,4 +348,26 @@ ngb-modal-backdrop {
 
 .button-modal-cancel {
   background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.table-image img {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  height: 40px;
+  background-color: white;
+  z-index: 1;
+  transition: height, z-index, box-shadow, -moz-box-shadow, -webkit-box-shadow;
+  transition-duration: 1s, 1.5s, 1s, 1s, 1s;
+  border: 1px solid #dfdcdb;
+
+  &:hover {
+    height: 100px;
+    z-index: 2;
+    transition-duration: 1s, 0s, 1s, 1s, 1s;
+    -webkit-box-shadow: 0px 5px 7px -5px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 0px 5px 7px -5px rgba(66, 68, 90, 1);
+    box-shadow: 0px 5px 7px -5px rgba(66, 68, 90, 1);
+  }
 }

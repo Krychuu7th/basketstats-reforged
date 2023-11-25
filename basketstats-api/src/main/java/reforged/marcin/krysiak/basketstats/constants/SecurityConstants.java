@@ -1,6 +1,6 @@
 package reforged.marcin.krysiak.basketstats.constants;
 
-public class SecurityConstants {
+public final class SecurityConstants {
 
     public static final String AUTH_LOGIN_URL = "/api/auth/login";
     public static final String AUTH_REFRESH_URL = "/api/auth/refresh-token";

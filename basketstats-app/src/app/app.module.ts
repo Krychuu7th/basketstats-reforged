@@ -21,6 +21,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule, AuthService } from "@auth0/auth0-angular";
+import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -37,9 +38,10 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
 import { NavHeaderComponent } from "./components/header/nav-header/nav-header.component";
 import { SidebarHeaderComponent } from './components/header/sidebar-header/sidebar-header.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { LeagueComponent } from './components/league/league.component';
+import { LeagueEffects } from "./components/league/state/league.effects";
 import { MatchComponent } from './components/match/match.component';
 import { MatchModule } from "./components/match/match.module";
+import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { MatchInfoRowComponent } from './components/schedule/match-info-row/match-info-row.component';
 import { MatchScheduleListComponent } from './components/schedule/match-schedule-list/match-schedule-list.component';
 import { MatchStatsForPlayersComponent } from './components/schedule/match-stats/match-stats-for-players/match-stats-for-players.component';
@@ -49,19 +51,17 @@ import { QuarterStatsForPlayersByTeamComponent } from './components/schedule/mat
 import { QuarterStatsForPlayersComponent } from './components/schedule/match-stats/match-stats-for-players/quarter-stats-for-players/quarter-stats-for-players.component';
 import { MatchStatsComponent } from './components/schedule/match-stats/match-stats.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { TeamEffects } from "./components/team/state/team.effects";
 import { TeamPlayersAvgStatsListComponent } from './components/team/team-players-avg-stats-list/team-players-avg-stats-list.component';
 import { TeamPlayersListComponent } from './components/team/team-players-list/team-players-list.component';
-import { TeamPlayersComponent } from './components/team/team-players/team-players.component';
-import { TeamComponent } from './components/team/team.component';
 import { UserComponent } from './components/user/user.component';
 import { UserModule } from "./components/user/user.module";
 import { HttpAuthInterceptor } from "./helpers/interceptors/http-auth.interceptor";
 import { HttpErrorInterceptor } from "./helpers/interceptors/http-error.interceptor";
 import { SharedModule } from "./shared/shared.module";
+import { LoaderEffects } from './shared/state/effect/loader.effects';
 import { metaReducers, reducers } from './store';
 import { getPolishPaginatorIntl } from "./translations/polish-paginator-intl";
-import { EffectsModule } from '@ngrx/effects';
-import { LoaderEffects } from './shared/state/effect/loader.effects';
 
 registerLocaleData(localePl);
 
@@ -75,8 +75,6 @@ registerLocaleData(localePl);
     LoginComponent,
     HomepageComponent,
     AuthComponent,
-    TeamComponent,
-    TeamPlayersComponent,
     ScheduleComponent,
     LogoutComponent,
     MatchScheduleListComponent,
@@ -92,7 +90,7 @@ registerLocaleData(localePl);
     UserComponent,
     MatchComponent,
     AuthButtonComponent,
-    LeagueComponent
+    NotFoundPageComponent
   ],
   imports: [
     SharedModule,
@@ -136,7 +134,7 @@ registerLocaleData(localePl);
           strictStateImmutability: true,
           strictActionImmutability: true,
           strictStateSerializability: true,
-          strictActionSerializability: true,
+          strictActionSerializability: false,
           strictActionWithinNgZone: true,
           strictActionTypeUniqueness: true
         }
@@ -144,7 +142,11 @@ registerLocaleData(localePl);
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
-    EffectsModule.forRoot([LoaderEffects])
+    EffectsModule.forRoot([
+      LoaderEffects,
+      LeagueEffects,
+      TeamEffects
+    ])
   ],
   providers: [
     AuthGuard,
